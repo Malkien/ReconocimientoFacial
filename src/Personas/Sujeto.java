@@ -1,3 +1,4 @@
+package Personas;
 
 public class Sujeto extends Persona{
 	byte nivelConfidencialidad;//nivel de confidencialidad que hay que tener para que se pueda saber su identidad despues del un escaner coincidente
