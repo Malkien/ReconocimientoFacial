@@ -1,12 +1,11 @@
 package Personas;
-import java.io.File;
 
-public class Usuario extends Persona{
+public class Usuario{
 	private byte nivelSeguridad;
 	private byte numeroPuesto;
 	private String nombreUsuario;
 	private String contraseña;
-	private File imagenCara;
+	private Persona identidad;
 	/**
 	 * Constructor de la Clase usuario
 	 * @param nombre El nombre
@@ -18,16 +17,14 @@ public class Usuario extends Persona{
 	 * @param numeroPuesto El numero del puesto de trabajo
 	 * @param nombreUsuario El nombre de Usuario para loguearse
 	 * @param contraseña La contraseña
-	 * @param imagenCara Una imagen de su cara
+	 * @param identidad La persona con la que se corresponde en la BBDD
 	 */
-	public Usuario(String nombre, String apellidos, String dni, int telefono, String email, byte nivelSeguridad,
-			byte numeroPuesto, String nombreUsuario, String contraseña, File imagenCara) {
-		super(nombre, apellidos, dni, telefono, email);
+	public Usuario(byte nivelSeguridad, byte numeroPuesto, String nombreUsuario, String contraseña, Persona identidad) {
 		setNivelSeguridad(nivelSeguridad);
 		this.numeroPuesto = numeroPuesto;
 		this.nombreUsuario = nombreUsuario;
 		this.contraseña = contraseña;
-		this.imagenCara = imagenCara;
+		this.identidad = identidad;
 	}
 	/**
 	 * Getter de nivelSeguridad
@@ -91,17 +88,17 @@ public class Usuario extends Persona{
 		this.contraseña = contraseña;
 	}
 	/**
-	 * Getter de imagenCara
-	 * @return devuelve imagenCara
+	 * Getter de identidad
+	 * @return devuelve identidad
 	 */
-	public File getImagenCara() {
-		return imagenCara;
+	public Persona getIdentidad() {
+		return identidad;
 	}
 	/**
-	 * Setter de imagenCara
+	 * Setter de identidad
 	 * @param imagenCara
 	 */
-	public void setImagenCara(File imagenCara) {
-		this.imagenCara = imagenCara;
+	public void setIdentidad(Persona identidad) {
+		this.identidad = identidad;
 	}
 }

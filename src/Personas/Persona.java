@@ -1,11 +1,13 @@
 package Personas;
 
-abstract class Persona {
+public abstract class Persona {
 	private String nombre;
 	private String apellidos;
 	private String dni;
 	private int telefono;
 	private String email;
+	private Cara cara;//implementar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	private byte nivelConfidencialidad;//nivel de confidencialidad que hay que tener para que se pueda saber su identidad despues del un escaner coincidente
 	/**
 	 * Constructor de Persona
 	 * @param nombre El nombre
@@ -14,7 +16,7 @@ abstract class Persona {
 	 * @param telefono El teléfono
 	 * @param email El email
 	 */
-	public Persona(String nombre, String apellidos, String dni, int telefono, String email) {
+	public Persona(String nombre, String apellidos, String dni, int telefono, String email, byte nivelConfidencialidad) {
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		setDni(dni);
@@ -121,6 +123,24 @@ abstract class Persona {
 			this.email = email;
 		}else {
 			this.email="";
+		}
+	}
+	/**
+	 * Getter de nivelConfidencialidad
+	 * @return devuelve nuvelConfidencialidad
+	 */
+	public byte getNivelConfidencialidad() {
+		return nivelConfidencialidad;
+	}
+	/**
+	 * Setter de nivelConfidencialidad
+	 * @param nivelConfidencialidad
+	 */
+	public void setNivelConfidencialidad(byte nivelConfidencialidad) {
+		if(nivelConfidencialidad>0&&nivelConfidencialidad<=5) {
+			this.nivelConfidencialidad = nivelConfidencialidad;
+		}else {
+			this.nivelConfidencialidad=0;
 		}
 	}
 	
