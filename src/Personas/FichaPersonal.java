@@ -1,12 +1,14 @@
 package Personas;
 
-public abstract class Persona {
+import BBDD.Imagen;
+
+public class FichaPersonal{
 	private String nombre;
 	private String apellidos;
 	private String dni;
 	private int telefono;
 	private String email;
-	private Cara cara;//implementar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	private Imagen imagen;
 	private byte nivelConfidencialidad;//nivel de confidencialidad que hay que tener para que se pueda saber su identidad despues del un escaner coincidente
 	/**
 	 * Constructor de Persona
@@ -15,13 +17,16 @@ public abstract class Persona {
 	 * @param dni El DNI
 	 * @param telefono El teléfono
 	 * @param email El email
+         * @param imagen La imagen
+         * @param nivelConfidencialidad El nivel de confidencialidad
 	 */
-	public Persona(String nombre, String apellidos, String dni, int telefono, String email, byte nivelConfidencialidad) {
+	public FichaPersonal(String nombre, String apellidos, String dni, int telefono, String email,Imagen imagen, byte nivelConfidencialidad) {
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		setDni(dni);
 		this.telefono = telefono;
 		setEmail(email);
+                this.imagen=imagen;
 	}
 	/**
 	 * Getter de nombre
@@ -63,19 +68,23 @@ public abstract class Persona {
 	 * @param dni Ten en cuenta que tiene que tener 8 numeros y 1 letra.
 	 */
 	public void setDni(String dni) {
+            try{
 		if(dni.length()!=9) {
-			//Poner excepcion
+                    throw new Exception();
 		}else {
-			this.dni=compruebaDni(dni);
+                    this.dni=compruebaDni(dni);
 		}
+            }catch(Exception e){
+                System.err.println("Error al introducir el DNI");
+            }
 	}
 	/**
 	 * Comprueba si el dni introducido es valido, comprobando la coerencia con la letra.
 	 * Ten en cuenta de que todas las posiciones excepto la última son números.
 	 * @param dni El DNI
-	 * @return devuelve el dni comprobado
+	 * @return devuelve el dni comprobado o una excepción
 	 */
-	private String compruebaDni(String dni) {
+	private String compruebaDni(String dni) throws Exception {
 		String letras="TRWAGMYFPDXBNJZSQVHLCKET";
 		String numeros="";
 		for (int i = 0; i < dni.length()-1; i++) {
@@ -84,7 +93,7 @@ public abstract class Persona {
 		if((dni.charAt(8)+"").equalsIgnoreCase(letras.charAt(Integer.parseInt(numeros)%23)+"")) {
 			return dni;
 		}
-		return "ErrorAlPonerDNI";
+                throw new Exception();
 	}
 	/**
 	 * Getter de teléfono
@@ -109,21 +118,28 @@ public abstract class Persona {
 	}
 	/**
 	 * Setter de Email.
-	 * Comprueba que el email contenga un arroba.
+	 * Comprueba que el email contenga un arroba y un punto.
 	 * @param email
 	 */
-	public void setEmail(String email) {
+	public void setEmail(String email){
 		boolean tieneArroba=false;
+		boolean tienePunto=false;
 		for (int i = 0; i < email.length(); i++) {
-			if(email.charAt(i)=='@') {
-				tieneArroba=true;
-			}
+                    if(email.charAt(i)=='@') {
+                        tieneArroba=true;
+                    }else if(email.charAt(i)=='.'){
+                        tienePunto=true;
+                    }
 		}
-		if(tieneArroba==true) {
-			this.email = email;
-		}else {
-			this.email="";
-		}
+                try{
+                    if(tieneArroba&&tienePunto) {
+                        this.email = email;
+                    }else {
+                        throw new Exception();
+                    }
+                }catch(Exception e){
+                    System.err.println("Error al introducir email");
+                }
 	}
 	/**
 	 * Getter de nivelConfidencialidad
@@ -143,5 +159,18 @@ public abstract class Persona {
 			this.nivelConfidencialidad=0;
 		}
 	}
-	
+	/**
+	 * Setter de imagen
+	 * @param imagen 
+	 */
+	public void setImagen(Imagen imagen) {
+		this.imagen = imagen;
+	}
+	/**
+	 * Getter de imagen
+	 * @return devuelve la imagen
+	 */
+	public Imagen getImagen() {
+		return imagen;
+	}
 }

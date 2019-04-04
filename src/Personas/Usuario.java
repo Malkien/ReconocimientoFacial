@@ -5,21 +5,16 @@ public class Usuario{
 	private byte numeroPuesto;
 	private String nombreUsuario;
 	private String contraseña;
-	private Persona identidad;
+	private FichaPersonal identidad;
 	/**
 	 * Constructor de la Clase usuario
-	 * @param nombre El nombre
-	 * @param apellidos Los apellidos
-	 * @param dni El DNI
-	 * @param telefono El telefono
-	 * @param email El email
 	 * @param nivelSeguridad Hasta el nivel de seguridad al que puede acceder
 	 * @param numeroPuesto El numero del puesto de trabajo
 	 * @param nombreUsuario El nombre de Usuario para loguearse
 	 * @param contraseña La contraseña
 	 * @param identidad La persona con la que se corresponde en la BBDD
 	 */
-	public Usuario(byte nivelSeguridad, byte numeroPuesto, String nombreUsuario, String contraseña, Persona identidad) {
+	public Usuario(byte nivelSeguridad, byte numeroPuesto, String nombreUsuario, String contraseña, FichaPersonal identidad) {
 		setNivelSeguridad(nivelSeguridad);
 		this.numeroPuesto = numeroPuesto;
 		this.nombreUsuario = nombreUsuario;
@@ -91,14 +86,14 @@ public class Usuario{
 	 * Getter de identidad
 	 * @return devuelve identidad
 	 */
-	public Persona getIdentidad() {
+	public FichaPersonal getIdentidad() {
 		return identidad;
 	}
 	/**
 	 * Setter de identidad
-	 * @param imagenCara
+	 * @param identidad
 	 */
-	public void setIdentidad(Persona identidad) {
+	public void setIdentidad(FichaPersonal identidad) {
 		this.identidad = identidad;
 	}
 }
