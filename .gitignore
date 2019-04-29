@@ -6,3 +6,4 @@ dist/*
 *.orig
 build/built-jar.properties
 *.jar
+/bin/

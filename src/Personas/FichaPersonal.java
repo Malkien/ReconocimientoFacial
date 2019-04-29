@@ -1,33 +1,38 @@
 package Personas;
 
-import BBDD.Imagen;
+import java.awt.image.BufferedImage;
+
 
 public class FichaPersonal{
 	private String nombre;
 	private String apellidos;
 	private String dni;
+	private String direccion;
 	private int telefono;
 	private String email;
-	private Imagen imagen;
+	private BufferedImage imagen;
 	private byte nivelConfidencialidad;//nivel de confidencialidad que hay que tener para que se pueda saber su identidad despues del un escaner coincidente
 	/**
 	 * Constructor de Persona
 	 * @param nombre El nombre
 	 * @param apellidos Los apellidos
 	 * @param dni El DNI
-	 * @param telefono El teléfono
+	 * @param telefono El telefono
 	 * @param email El email
-         * @param imagen La imagen
-         * @param nivelConfidencialidad El nivel de confidencialidad
+     * @param imagen La imagen
+     * @param nivelConfidencialidad El nivel de confidencialidad
+     * @param direccion La direccion
 	 */
-	public FichaPersonal(String nombre, String apellidos, String dni, int telefono, String email,Imagen imagen, byte nivelConfidencialidad) {
+	public FichaPersonal(String nombre, String apellidos, String dni, int telefono, String email,BufferedImage imagen, byte nivelConfidencialidad, String direccion) {
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		setDni(dni);
 		this.telefono = telefono;
 		setEmail(email);
-                this.imagen=imagen;
+        this.imagen=imagen;
+        this.direccion=direccion;
 	}
+	
 	/**
 	 * Getter de nombre
 	 * @return devuelve el nombre
@@ -80,9 +85,9 @@ public class FichaPersonal{
 	}
 	/**
 	 * Comprueba si el dni introducido es valido, comprobando la coerencia con la letra.
-	 * Ten en cuenta de que todas las posiciones excepto la última son números.
+	 * Ten en cuenta de que todas las posiciones excepto la ultima son numeros.
 	 * @param dni El DNI
-	 * @return devuelve el dni comprobado o una excepción
+	 * @return devuelve el dni comprobado o una excepcion
 	 */
 	private String compruebaDni(String dni) throws Exception {
 		String letras="TRWAGMYFPDXBNJZSQVHLCKET";
@@ -96,14 +101,14 @@ public class FichaPersonal{
                 throw new Exception();
 	}
 	/**
-	 * Getter de teléfono
-	 * @return devuelve el teléfono
+	 * Getter de telefono
+	 * @return devuelve el telefono
 	 */
 	public int getTelefono() {
 		return telefono;
 	}
 	/**
-	 * Setter de teléfono
+	 * Setter de telefono
 	 * @param telefono 
 	 */
 	public void setTelefono(int telefono) {
@@ -163,14 +168,28 @@ public class FichaPersonal{
 	 * Setter de imagen
 	 * @param imagen 
 	 */
-	public void setImagen(Imagen imagen) {
+	public void setImagen(BufferedImage imagen) {
 		this.imagen = imagen;
 	}
 	/**
 	 * Getter de imagen
 	 * @return devuelve la imagen
 	 */
-	public Imagen getImagen() {
+	public BufferedImage getImagen() {
 		return imagen;
+	}
+	/**
+	 * Setter de direccion
+	 * @param direccion
+	 */
+	public void setDireccion(String direccion) {
+		this.direccion=direccion;
+	}
+	/**
+	 * Getter de direccion
+	 * @return devuelve la direccion
+	 */
+	public String getDireccion() {
+		return direccion;
 	}
 }

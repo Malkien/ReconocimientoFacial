@@ -4,7 +4,7 @@ public class Usuario{
 	private byte nivelSeguridad;
 	private byte numeroPuesto;
 	private String nombreUsuario;
-	private String contraseña;
+	private String contrasena;
 	private FichaPersonal identidad;
 	/**
 	 * Constructor de la Clase usuario
@@ -14,11 +14,11 @@ public class Usuario{
 	 * @param contraseña La contraseña
 	 * @param identidad La persona con la que se corresponde en la BBDD
 	 */
-	public Usuario(byte nivelSeguridad, byte numeroPuesto, String nombreUsuario, String contraseña, FichaPersonal identidad) {
+	public Usuario(byte nivelSeguridad, byte numeroPuesto, String nombreUsuario, String contrasena, FichaPersonal identidad) {
 		setNivelSeguridad(nivelSeguridad);
 		this.numeroPuesto = numeroPuesto;
 		this.nombreUsuario = nombreUsuario;
-		this.contraseña = contraseña;
+		this.contrasena = contrasena;
 		this.identidad = identidad;
 	}
 	/**
@@ -30,7 +30,7 @@ public class Usuario{
 	}
 	/**
 	 * Setter de nivelSeguridad
-	 * Comprueba que el numero esté entre 0 o 5, si no te coge como default el nivel 0. 
+	 * Comprueba que el numero este entre 0 o 5, si no te coge como default el nivel 0. 
 	 * @param nivelSeguridad
 	 */
 	public void setNivelSeguridad(byte nivelSeguridad) {
@@ -69,18 +69,18 @@ public class Usuario{
 		this.nombreUsuario = nombreUsuario;//Agregar comprobacion cuando halla bbdd para que no se pueda repetir los nombres
 	}
 	/**
-	 * Getter de contraseña
-	 * @return devuelve la contraseña
+	 * Getter de contrasena
+	 * @return devuelve la contrasena
 	 */
-	public String getContraseña() {
-		return contraseña;
+	public String getContrasena() {
+		return contrasena;
 	}
 	/**
 	 * Setter de contraseña
 	 * @param contraseña
 	 */
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setContrasena(String contrasena) {
+		this.contrasena = contrasena;
 	}
 	/**
 	 * Getter de identidad
