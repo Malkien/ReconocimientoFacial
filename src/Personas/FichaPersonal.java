@@ -22,8 +22,9 @@ public class FichaPersonal{
      * @param imagen La imagen
      * @param nivelConfidencialidad El nivel de confidencialidad
      * @param direccion La direccion
+	 * @throws Exception 
 	 */
-	public FichaPersonal(String nombre, String apellidos, String dni, int telefono, String email,BufferedImage imagen, byte nivelConfidencialidad, String direccion) {
+	public FichaPersonal(String nombre, String apellidos, String dni, int telefono, String email,BufferedImage imagen, byte nivelConfidencialidad, String direccion) throws Exception {
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		setDni(dni);
@@ -72,16 +73,14 @@ public class FichaPersonal{
 	 * Setter de dni. Si la longitud del dni no es igual a 9 le da valor nulo
 	 * @param dni Ten en cuenta que tiene que tener 8 numeros y 1 letra.
 	 */
-	public void setDni(String dni) {
-            try{
-		if(dni.length()!=9) {
-                    throw new Exception();
-		}else {
-                    this.dni=compruebaDni(dni);
-		}
-            }catch(Exception e){
-                System.err.println("Error al introducir el DNI");
-            }
+	public void setDni(String dni) throws Exception {
+        
+    	if(dni.length()!=9) {
+            throw new Exception();
+    	}else {
+            this.dni=compruebaDni(dni);
+    	}
+        System.err.println("Error al introducir el DNI");
 	}
 	/**
 	 * Comprueba si el dni introducido es valido, comprobando la coerencia con la letra.
@@ -98,7 +97,7 @@ public class FichaPersonal{
 		if((dni.charAt(8)+"").equalsIgnoreCase(letras.charAt(Integer.parseInt(numeros)%23)+"")) {
 			return dni;
 		}
-                throw new Exception();
+            throw new Exception();
 	}
 	/**
 	 * Getter de telefono
@@ -125,26 +124,23 @@ public class FichaPersonal{
 	 * Setter de Email.
 	 * Comprueba que el email contenga un arroba y un punto.
 	 * @param email
+	 * @throws Exception 
 	 */
-	public void setEmail(String email){
+	public void setEmail(String email) throws Exception{
 		boolean tieneArroba=false;
 		boolean tienePunto=false;
 		for (int i = 0; i < email.length(); i++) {
-                    if(email.charAt(i)=='@') {
-                        tieneArroba=true;
-                    }else if(email.charAt(i)=='.'){
-                        tienePunto=true;
-                    }
+            if(email.charAt(i)=='@') {
+                tieneArroba=true;
+            }else if(email.charAt(i)=='.'){
+                tienePunto=true;
+            }
 		}
-                try{
-                    if(tieneArroba&&tienePunto) {
-                        this.email = email;
-                    }else {
-                        throw new Exception();
-                    }
-                }catch(Exception e){
-                    System.err.println("Error al introducir email");
-                }
+        if(tieneArroba&&tienePunto) {
+            this.email = email;
+        }else {
+            throw new Exception();
+        }
 	}
 	/**
 	 * Getter de nivelConfidencialidad
