@@ -1,29 +1,34 @@
 package Principal;
-import java.awt.image.BufferedImage;
-import java.io.File;
 
-import javax.imageio.ImageIO;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Scanner;
 
-import Personas.*;
+import Visual.Login;
 
 public class Main {
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-            BufferedImage c1 = null;
-            try {
-            	File rutaImagen=new File("./koala.jpg");
-            	c1=ImageIO.read(rutaImagen);
-            }catch(Exception ex) {
-            	System.err.println("Error al leer la imagen");
-            }
-            FichaPersonal p1=new FichaPersonal("asd", "asds", "77154258f",658741587,"asdad",c1,(byte)8,"av.PPP");
-            Usuario usu1=new Usuario((byte)2, (byte)123, "sdfas", "asda", p1);
-            System.out.println(usu1.getNivelSeguridad()+" "+p1.getDni()+" "+p1.getEmail()+" "+p1.getNivelConfidencialidad());
-	}
-        public static void CrearPersona(){
-            
-        }
 
+	public static void main(String[] args) {
+            Connection conexion=null;
+            try {
+            	conexion=DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3306/reconocimientobbdd","root", "");
+            	
+            }catch(SQLException ex) {
+            	ex.printStackTrace();
+            	System.err.println("SQL ERROR");
+            }
+
+    		Login login=new Login();
+    		login.setVisible(true);
+            
+            
+	}
+        
+        
+	public static void guardarImagen(String ruta, Connection conexion) throws Exception{
+		 
+		
+	}
 }
