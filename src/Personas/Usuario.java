@@ -1,5 +1,17 @@
 package Personas;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
+
+import javax.imageio.ImageIO;
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
+
 public class Usuario{
 	private byte nivelSeguridad;
 	private byte numeroPuesto;
@@ -96,4 +108,6 @@ public class Usuario{
 	public void setIdentidad(FichaPersonal identidad) {
 		this.identidad = identidad;
 	}
+	
+	
 }
