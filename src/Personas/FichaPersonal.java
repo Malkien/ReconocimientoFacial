@@ -80,6 +80,7 @@ public class FichaPersonal{
     	}else {
             this.dni=compruebaDni(dni);
     	}
+        System.err.println("Error al introducir el DNI");
 	}
 	/**
 	 * Comprueba si el dni introducido es valido, comprobando la coerencia con la letra.
@@ -95,9 +96,8 @@ public class FichaPersonal{
 		}
 		if((dni.charAt(8)+"").equalsIgnoreCase(letras.charAt(Integer.parseInt(numeros)%23)+"")) {
 			return dni;
-		}else {
-            throw new Exception();
 		}
+            throw new Exception();
 	}
 	/**
 	 * Getter de telefono
