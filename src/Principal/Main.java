@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import Visual.Login;
+import Visual.Ventana;
 
 public class Main {
 
@@ -19,9 +20,8 @@ public class Main {
             	ex.printStackTrace();
             	System.err.println("SQL ERROR");
             }
-
-    		Login login=new Login();
-    		login.setVisible(true);
+            Ventana ventana=new Ventana();
+    		ventana.setVisible(true);
             
             
 	}
