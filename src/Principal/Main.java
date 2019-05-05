@@ -14,7 +14,7 @@ public class Main {
             Connection conexion=null;
             try {
             	conexion=DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/reconocimientobbdd","root", "");
+                        "jdbc:mysql://localhost:3306/reconocimientobbdd","root", "root");
             	
             }catch(SQLException ex) {
             	ex.printStackTrace();

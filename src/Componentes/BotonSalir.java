@@ -32,7 +32,7 @@ public class BotonSalir extends JButton{
         setBorderPainted(true);
 		setForeground(new Color(0, 0, 0));
 		setText(txt);
-		setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 15));
+		setFont(new Font("Tahoma", Font.PLAIN, 12));
 	}
 	
 }

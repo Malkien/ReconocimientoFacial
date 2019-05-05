@@ -19,6 +19,8 @@ import java.awt.Graphics;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Login extends JPanel{
 	private JTextField textoUsuario;
@@ -91,12 +93,19 @@ public class Login extends JPanel{
 		gbc_textoPassword.gridy = 2;
 		add(textoPassword, gbc_textoPassword);
 		
-		JButton btnNewButton = new JButton("Entrar");
+		JButton botonEntrar = new JButton("Entrar");
+		botonEntrar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
+		botonEntrar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
 		gbc_btnNewButton.gridx = 2;
 		gbc_btnNewButton.gridy = 3;
-		add(btnNewButton, gbc_btnNewButton);
+		add(botonEntrar, gbc_btnNewButton);
 		
 		BotonSalir botonSalir = new BotonSalir("Salir");
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();

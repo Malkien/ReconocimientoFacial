@@ -5,5 +5,4 @@ dist/*
 *.class
 *.orig
 build/built-jar.properties
-*.jar
 /bin/
