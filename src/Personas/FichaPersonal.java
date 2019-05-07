@@ -1,6 +1,7 @@
 package Personas;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 
 public class FichaPersonal{
@@ -10,7 +11,7 @@ public class FichaPersonal{
 	private String direccion;
 	private int telefono;
 	private String email;
-	private BufferedImage imagen;
+	private ArrayList<BufferedImage> imagenes;
 	private byte nivelConfidencialidad;//nivel de confidencialidad que hay que tener para que se pueda saber su identidad despues del un escaner coincidente
 	/**
 	 * Constructor de Persona
@@ -24,13 +25,13 @@ public class FichaPersonal{
      * @param direccion La direccion
 	 * @throws Exception 
 	 */
-	public FichaPersonal(String nombre, String apellidos, String dni, int telefono, String email,BufferedImage imagen, byte nivelConfidencialidad, String direccion) throws Exception {
+	public FichaPersonal(String nombre, String apellidos, String dni, int telefono, String email,ArrayList<BufferedImage> imagenes, byte nivelConfidencialidad, String direccion) throws Exception {
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		setDni(dni);
 		this.telefono = telefono;
 		setEmail(email);
-        this.imagen=imagen;
+        this.imagenes=imagenes;
         this.direccion=direccion;
 	}
 	
@@ -161,18 +162,18 @@ public class FichaPersonal{
 		}
 	}
 	/**
-	 * Setter de imagen
-	 * @param imagen 
+	 * Setter de imagenes
+	 * @param imagenes
 	 */
-	public void setImagen(BufferedImage imagen) {
-		this.imagen = imagen;
+	public void setImagen(ArrayList<BufferedImage> imagenes) {
+		this.imagenes = imagenes;
 	}
 	/**
 	 * Getter de imagen
 	 * @return devuelve la imagen
 	 */
-	public BufferedImage getImagen() {
-		return imagen;
+	public ArrayList<BufferedImage> getImagenes() {
+		return imagenes;
 	}
 	/**
 	 * Setter de direccion

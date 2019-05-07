@@ -26,30 +26,11 @@ CREATE TABLE IF NOT EXISTS `reconocimientobbdd`.`FichaPersonal` (
   `dni` VARCHAR(9) NOT NULL,
   `telefono` INT(9) NOT NULL,
   `direccion` VARCHAR(50),
-  `imagen` BLOB NOT NULL,
+  `imagen` BLOB,
   `nivelConfidencialidad` INT NOT NULL,
   `email` VARCHAR(50) UNIQUE,
   PRIMARY KEY (`dni`))
 ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`Imagen`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `reconocimientobbdd`.`Imagen` (
-  `id` INT NOT NULL,
-  `Imagen` BLOB NULL,
-  `cara` TINYINT NULL,
-  `FichaPersonal` VARCHAR(9) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_Imagen_FichaPersonal_idx` (`FichaPersonal` ASC),
-  CONSTRAINT `fk_Imagen_FichaPersonal`
-    FOREIGN KEY (`FichaPersonal`)
-    REFERENCES `mydb`.`FichaPersonal` (`dni`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `mydb`.`Usuario`
@@ -58,13 +39,13 @@ CREATE TABLE IF NOT EXISTS `reconocimientobbdd`.`Usuario` (
   `nivelseguridad` INT NOT NULL,
   `nombreUsuario` VARCHAR(50) NOT NULL,
   `password` VARCHAR(50) NOT NULL,
-  `numeroPuesto` INT NOT NULL,
-  `FichaPersonal` VARCHAR(9) NOT NULL,
+  `puesto` VARCHAR(20),
+  `FichaPersonal` VARCHAR(9),
   PRIMARY KEY (`nombreUsuario`),
   INDEX `fk_Usuario_FichaPersonal1_idx` (`FichaPersonal` ASC),
   CONSTRAINT `fk_Usuario_FichaPersonal1`
     FOREIGN KEY (`FichaPersonal`)
-    REFERENCES `mydb`.`FichaPersonal` (`dni`)
+    REFERENCES `reconocimientobbdd`.`FichaPersonal` (`dni`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

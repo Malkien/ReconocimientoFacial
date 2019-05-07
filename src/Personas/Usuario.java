@@ -13,11 +13,18 @@ import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 
 public class Usuario{
-	private byte nivelSeguridad;
-	private byte numeroPuesto;
+	
+	private Seguridad puesto;
 	private String nombreUsuario;
 	private String contrasena;
 	private FichaPersonal identidad;
+	private byte nivelSeguridad;
+	public enum Seguridad{
+		ADMINISTRAR,
+		RECONOCER,
+		ENTRENAR
+	};
+	
 	/**
 	 * Constructor de la Clase usuario
 	 * @param nivelSeguridad Hasta el nivel de seguridad al que puede acceder
@@ -26,9 +33,9 @@ public class Usuario{
 	 * @param contraseña La contraseña
 	 * @param identidad La persona con la que se corresponde en la BBDD
 	 */
-	public Usuario(byte nivelSeguridad, byte numeroPuesto, String nombreUsuario, String contrasena, FichaPersonal identidad) {
+	public Usuario(byte nivelSeguridad, Seguridad puesto, String nombreUsuario, String contrasena, FichaPersonal identidad) {
 		setNivelSeguridad(nivelSeguridad);
-		this.numeroPuesto = numeroPuesto;
+		this.puesto = puesto;
 		this.nombreUsuario = nombreUsuario;
 		this.contrasena = contrasena;
 		this.identidad = identidad;
@@ -53,18 +60,18 @@ public class Usuario{
 		}
 	}
 	/**
-	 * Getter de numeroPuesto
-	 * @return devuelve numeroPuesto
+	 * Getter de Puesto
+	 * @return devuelve Puesto
 	 */
-	public byte getNumeroPuesto() {
-		return numeroPuesto;
+	public Seguridad getPuesto() {
+		return puesto;
 	}
 	/**
-	 * Setter de numeroPuesto
-	 * @param numeroPuesto
+	 * Setter de Puesto
+	 * @param Puesto
 	 */
-	public void setNumeroPuesto(byte numeroPuesto) {
-		this.numeroPuesto = numeroPuesto;
+	public void setPuesto(Seguridad puesto) {
+		this.puesto = puesto;
 	}
 	/**
 	 * Getter de nombreUsuario

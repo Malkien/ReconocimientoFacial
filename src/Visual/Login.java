@@ -12,6 +12,7 @@ import java.io.IOException;
 
 import javax.swing.JTextField;
 
+import Componentes.BotonLoguear;
 import Componentes.BotonSalir;
 import Componentes.Etiqueta;
 import java.awt.Font;
@@ -93,7 +94,7 @@ public class Login extends JPanel{
 		gbc_textoPassword.gridy = 2;
 		add(textoPassword, gbc_textoPassword);
 		
-		JButton botonEntrar = new JButton("Entrar");
+		BotonLoguear botonEntrar = new BotonLoguear("Entrar",textoUsuario.getText(),textoPassword.getText());
 		botonEntrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -113,5 +114,7 @@ public class Login extends JPanel{
 		gbc_btnNewButton_1.gridy = 3;
 		add(botonSalir, gbc_btnNewButton_1);
 	}
+	
+	
 
 }
