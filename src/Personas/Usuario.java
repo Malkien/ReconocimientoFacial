@@ -12,6 +12,9 @@ import javax.imageio.ImageIO;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 
+import Excepciones.PuestoException;
+import Personas.Usuario.Seguridad;
+
 public class Usuario{
 	
 	private Seguridad puesto;
@@ -30,12 +33,13 @@ public class Usuario{
 	 * @param nivelSeguridad Hasta el nivel de seguridad al que puede acceder
 	 * @param numeroPuesto El numero del puesto de trabajo
 	 * @param nombreUsuario El nombre de Usuario para loguearse
-	 * @param contraseña La contraseña
+	 * @param contrasena La contrasena
 	 * @param identidad La persona con la que se corresponde en la BBDD
+	 * @throws PuestoException 
 	 */
-	public Usuario(byte nivelSeguridad, Seguridad puesto, String nombreUsuario, String contrasena, FichaPersonal identidad) {
+	public Usuario(byte nivelSeguridad, String puesto, String nombreUsuario, String contrasena, FichaPersonal identidad) throws PuestoException {
 		setNivelSeguridad(nivelSeguridad);
-		this.puesto = puesto;
+		setPuesto(puesto);
 		this.nombreUsuario = nombreUsuario;
 		this.contrasena = contrasena;
 		this.identidad = identidad;
@@ -69,9 +73,22 @@ public class Usuario{
 	/**
 	 * Setter de Puesto
 	 * @param Puesto
+	 * @throws PuestoException 
 	 */
-	public void setPuesto(Seguridad puesto) {
-		this.puesto = puesto;
+	public void setPuesto(String puesto) throws PuestoException {
+		switch(puesto) {
+	    	case "ADMINISTRAR":
+	    		this.puesto=Seguridad.ADMINISTRAR;
+	    	break;	
+	    	case "RECONOCER":
+	    		this.puesto=Seguridad.RECONOCER;
+	    	break;
+	    	case "ENTRENAR":
+	    		this.puesto=Seguridad.ENTRENAR;
+			break;
+			default:
+				throw new PuestoException();
+		}
 	}
 	/**
 	 * Getter de nombreUsuario

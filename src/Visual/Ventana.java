@@ -3,6 +3,7 @@ package Visual;
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.Toolkit;
+import java.sql.Connection;
 
 import javax.swing.JFrame;
 
@@ -11,11 +12,13 @@ import Personas.Usuario;
 public class Ventana extends JFrame{
 	private Usuario usuario;
 	private Login panel;
+	private Connection conexion;
 	
 
 	
-	public Ventana() {
-		Login login=new Login(this);
+	public Ventana(Connection conexion) {
+		this.conexion=conexion;
+		Login login=new Login(this,conexion);
 		getContentPane().add(login,BorderLayout.CENTER);
 		setSize(500,350);
 		setVisible(true);

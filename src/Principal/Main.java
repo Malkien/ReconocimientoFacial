@@ -17,33 +17,14 @@ public class Main {
             Connection conexion=null;
             try {
             	conexion=DriverManager.getConnection(
-                        "jdbc:mysql://localhost:3306/reconocimientobbdd","root", "");
-            	
-            	/*
-            	ArrayList<BufferedImage> imagenes=new ArrayList<BufferedImage>();
-            	imagenes.add(new BufferedImage(20,20,BufferedImage.TYPE_INT_RGB));
-            	
-            	try {
-					FichaPersonal fichaUsuario=new FichaPersonal("nombre",
-							"apellidos",
-							"dni",
-							123123,
-							"emai@.l",
-							imagenes,
-							(byte)1,
-							"asdasd");
-					
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				*/
+                        "jdbc:mysql://localhost:3306/reconocimientobbdd","root", "root");
             	
             }catch(SQLException ex) {
             	ex.printStackTrace();
             	System.err.println("SQL ERROR");
             }
-            Ventana ventana=new Ventana();
+            
+            Ventana ventana=new Ventana(conexion);
     		ventana.setVisible(true);
             
             

@@ -9,12 +9,23 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JTextField;
 
 import Componentes.BotonLoguear;
 import Componentes.BotonSalir;
 import Componentes.Etiqueta;
+import Excepciones.EncontrarFichaPersonalException;
+import Excepciones.EncontrarUsuarioException;
+import Excepciones.PuestoException;
+import Personas.FichaPersonal;
+import Personas.Usuario;
+
 import java.awt.Font;
 import java.awt.Graphics;
 
@@ -22,10 +33,12 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JPasswordField;
 
 public class Login extends JPanel{
+	private Connection conexion;
 	private JTextField textoUsuario;
-	private JTextField textoPassword;
+	private JPasswordField textoPassword;
 	
 
 	public void paintComponent(Graphics g) {
@@ -41,7 +54,8 @@ public class Login extends JPanel{
 	}
 	
 	
-	public Login(Ventana ventana) {
+	public Login(Ventana ventana, Connection conexion) {
+		this.conexion=conexion;
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
@@ -84,37 +98,79 @@ public class Login extends JPanel{
 		gbc_lblPassword.gridy = 2;
 		add(lblPassword, gbc_lblPassword);
 		
-		textoPassword = new JTextField();
-		textoPassword.setColumns(10);
-		GridBagConstraints gbc_textoPassword = new GridBagConstraints();
-		gbc_textoPassword.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textoPassword.gridwidth = 2;
-		gbc_textoPassword.insets = new Insets(0, 0, 5, 5);
-		gbc_textoPassword.gridx = 2;
-		gbc_textoPassword.gridy = 2;
-		add(textoPassword, gbc_textoPassword);
+		textoPassword = new JPasswordField();
+		GridBagConstraints gbc_passwordField = new GridBagConstraints();
+		gbc_passwordField.gridwidth = 2;
+		gbc_passwordField.insets = new Insets(0, 0, 5, 5);
+		gbc_passwordField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_passwordField.gridx = 2;
+		gbc_passwordField.gridy = 2;
+		add(textoPassword, gbc_passwordField);
 		
-		BotonLoguear botonEntrar = new BotonLoguear("Entrar",textoUsuario.getText(),textoPassword.getText());
-		botonEntrar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-			}
-		});
-		botonEntrar.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton.gridx = 2;
-		gbc_btnNewButton.gridy = 3;
-		add(botonEntrar, gbc_btnNewButton);
+		BotonLoguear botonLoguear = new BotonLoguear("Entrar",conexion,this);
+		GridBagConstraints gbc_botonLoguear = new GridBagConstraints();
+		gbc_botonLoguear.insets = new Insets(0, 0, 0, 5);
+		gbc_botonLoguear.gridx = 2;
+		gbc_botonLoguear.gridy = 3;
+		add(botonLoguear, gbc_botonLoguear);
 		
 		BotonSalir botonSalir = new BotonSalir("Salir");
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.gridx = 4;
-		gbc_btnNewButton_1.gridy = 3;
-		add(botonSalir, gbc_btnNewButton_1);
+		GridBagConstraints gbc_botonSalir = new GridBagConstraints();
+		gbc_botonSalir.gridx = 4;
+		gbc_botonSalir.gridy = 3;
+		add(botonSalir, gbc_botonSalir);
+		
+		
 	}
 	
+	public Usuario loguear() throws SQLException, PuestoException, EncontrarUsuarioException, EncontrarFichaPersonalException {
+		Usuario userLogueado=null;            	
+        PreparedStatement comprobar=
+                conexion.prepareStatement("select * from USUARIO "
+                        + "where nombreUsuario=? and password=? ");
+        comprobar.setString(1, this.textoUsuario.getText());
+        comprobar.setString(2, String.copyValueOf(textoPassword.getPassword()));
+        ResultSet encontrado=comprobar.executeQuery();
+        
+        if(encontrado.next()) {
+    	userLogueado=new Usuario(encontrado.getByte("nivelseguridad"),
+    			encontrado.getString("puesto"),
+    			encontrado.getString("nombreusuario"),
+    			encontrado.getString("password"),
+    			null);
+        	
+        }else {
+        	throw new EncontrarUsuarioException();
+        }
+        
+        PreparedStatement comprobarFicha=
+                conexion.prepareStatement("select * from FichaPersonal "
+                        + "where dni=? ");
+    	comprobarFicha.setString(1,encontrado.getString("fichapersonal"));
+    	
+    	ResultSet encontrarFicha=comprobarFicha.executeQuery();
+    	encontrarFicha.next();
+		
+		try {
+			userLogueado.setIdentidad(new FichaPersonal(encontrarFicha.getString("nombre"),
+						encontrarFicha.getString("apellidos"),
+						encontrarFicha.getString("dni"),
+						encontrarFicha.getInt("telefono"),
+						encontrarFicha.getString("email"),
+						null,
+						encontrarFicha.getByte("nivelConfidencialidad"),
+						encontrarFicha.getString("direccion")));
+		} catch (Exception e) {
+			throw new EncontrarFichaPersonalException();
+		}finally {
+			comprobar.close();
+			encontrado.close();
+			comprobarFicha.close();
+			encontrarFicha.close();
+		}
+        return userLogueado;
+        
+		
+	}
 	
-
 }
