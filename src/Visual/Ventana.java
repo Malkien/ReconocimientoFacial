@@ -12,13 +12,11 @@ import Personas.Usuario;
 public class Ventana extends JFrame{
 	private Usuario usuario;
 	private Login panel;
-	private Connection conexion;
 	
 
 	
-	public Ventana(Connection conexion) {
-		this.conexion=conexion;
-		Login login=new Login(this,conexion);
+	public Ventana() {
+		Login login=new Login(this);
 		getContentPane().add(login,BorderLayout.CENTER);
 		setSize(500,350);
 		setVisible(true);

@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,7 +37,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPasswordField;
 
 public class Login extends JPanel{
-	private Connection conexion;
 	public Ventana ventana;
 	private JTextField textoUsuario;
 	private JPasswordField textoPassword;
@@ -56,8 +56,7 @@ public class Login extends JPanel{
 	}
 	
 	
-	public Login(Ventana ventana, Connection conexion) {
-		this.conexion=conexion;
+	public Login(Ventana ventana) {
 		this.ventana=ventana;
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
@@ -110,7 +109,7 @@ public class Login extends JPanel{
 		gbc_passwordField.gridy = 2;
 		add(textoPassword, gbc_passwordField);
 		
-		BotonLoguear botonLoguear = new BotonLoguear("Entrar",conexion,this);
+		BotonLoguear botonLoguear = new BotonLoguear("Entrar",this);
 		GridBagConstraints gbc_botonLoguear = new GridBagConstraints();
 		gbc_botonLoguear.insets = new Insets(0, 0, 0, 5);
 		gbc_botonLoguear.gridx = 2;
@@ -127,6 +126,14 @@ public class Login extends JPanel{
 	}
 	
 	public Usuario loguear() throws SQLException, PuestoException, EncontrarUsuarioException, EncontrarFichaPersonalException {
+		Connection conexion=null;
+		try {
+        	conexion=DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/reconocimientobbdd","root", "root");
+        	
+        }catch(SQLException ex) {
+        	ex.printStackTrace();
+        }
 		Usuario userLogueado=null;            	
         PreparedStatement comprobar=
                 conexion.prepareStatement("select * from USUARIO "
@@ -166,11 +173,15 @@ public class Login extends JPanel{
 		} catch (Exception e) {
 			throw new EncontrarFichaPersonalException();
 		}finally {
-			conexion.close();
+			try {
 			comprobar.close();
 			encontrado.close();
 			comprobarFicha.close();
 			encontrarFicha.close();
+			conexion.close();
+			}catch(Exception e) {
+				System.out.println("FALLO AL CERRAR");
+			}
 		}
         return userLogueado;
         

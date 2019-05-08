@@ -6,7 +6,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
@@ -20,12 +19,10 @@ import Visual.EleccionPantalla;
 import Visual.Login;
 
 public class BotonLoguear extends JButton{
-	private Connection conexion;
 	private Login login;
-	public BotonLoguear(String txt,Connection conexion, Login login) {
+	public BotonLoguear(String txt, Login login) {
 		super(txt);
 		this.login=login;
-		this.conexion=conexion;
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
