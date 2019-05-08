@@ -37,8 +37,10 @@ import javax.swing.JPasswordField;
 
 public class Login extends JPanel{
 	private Connection conexion;
+	public Ventana ventana;
 	private JTextField textoUsuario;
 	private JPasswordField textoPassword;
+	
 	
 
 	public void paintComponent(Graphics g) {
@@ -56,6 +58,7 @@ public class Login extends JPanel{
 	
 	public Login(Ventana ventana, Connection conexion) {
 		this.conexion=conexion;
+		this.ventana=ventana;
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
@@ -163,6 +166,7 @@ public class Login extends JPanel{
 		} catch (Exception e) {
 			throw new EncontrarFichaPersonalException();
 		}finally {
+			conexion.close();
 			comprobar.close();
 			encontrado.close();
 			comprobarFicha.close();

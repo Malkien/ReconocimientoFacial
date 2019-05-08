@@ -6,23 +6,17 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import Excepciones.EncontrarFichaPersonalException;
 import Excepciones.EncontrarUsuarioException;
 import Excepciones.PuestoException;
-import Personas.FichaPersonal;
 import Personas.Usuario;
+import Visual.EleccionPantalla;
 import Visual.Login;
 
 public class BotonLoguear extends JButton{
@@ -73,7 +67,8 @@ public class BotonLoguear extends JButton{
 		}
 		if(usuarioLogueado!=null) {
 			login.setVisible(false);
-			
+			EleccionPantalla elegir=new EleccionPantalla(login,usuarioLogueado);
+			login.ventana.getContentPane().add(elegir);
 		}
 		
 	}
