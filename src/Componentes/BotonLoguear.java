@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import Excepciones.EncontrarFichaPersonalException;
 import Excepciones.EncontrarUsuarioException;
+import Excepciones.PreparedStatementException;
 import Excepciones.PuestoException;
 import Personas.Usuario;
 import Visual.EleccionPantalla;
@@ -49,11 +50,13 @@ public class BotonLoguear extends JButton{
 		Usuario usuarioLogueado=null;
 		try {
 			usuarioLogueado=login.loguear();
+		}catch(PreparedStatementException e) {
+			JOptionPane.showMessageDialog(login, "Adios!!! Fallo en la conexion","Error al conectar a la Base de datos(Error en el PreparedStatement)",JOptionPane.ERROR_MESSAGE);
 		}catch(SQLException ex) {
         	ex.printStackTrace();
         	System.err.println("SQL ERROR");
         } catch (PuestoException e) {
-			
+
         	JOptionPane.showMessageDialog(login, "Alguno de la BBDD la ha cagado al poner el Puesto","Esto no deberia de pasar..",JOptionPane.ERROR_MESSAGE);
 		} catch (EncontrarUsuarioException e) {
 			

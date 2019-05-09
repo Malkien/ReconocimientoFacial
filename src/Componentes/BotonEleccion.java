@@ -15,7 +15,6 @@ import Personas.Usuario.Seguridad;
 import Visual.Administrar;
 import Visual.EleccionPantalla;
 import Visual.Entrenamiento;
-import Visual.Login;
 import Visual.Reconocimiento;
 
 public class BotonEleccion extends JButton{

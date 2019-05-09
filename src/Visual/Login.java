@@ -6,15 +6,11 @@ import java.awt.Image;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.swing.JTextField;
 
@@ -23,6 +19,7 @@ import Componentes.BotonSalir;
 import Componentes.Etiqueta;
 import Excepciones.EncontrarFichaPersonalException;
 import Excepciones.EncontrarUsuarioException;
+import Excepciones.PreparedStatementException;
 import Excepciones.PuestoException;
 import Personas.FichaPersonal;
 import Personas.Usuario;
@@ -32,11 +29,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.JPasswordField;
 
 public class Login extends JPanel{
@@ -128,7 +122,7 @@ public class Login extends JPanel{
 		
 	}
 	
-	public Usuario loguear() throws SQLException, PuestoException, EncontrarUsuarioException, EncontrarFichaPersonalException {
+	public Usuario loguear() throws PuestoException, EncontrarUsuarioException, EncontrarFichaPersonalException, SQLException {
 		Usuario userLogueado=null;            	
         PreparedStatement comprobar=Conexion.creaPreparedStatement("select * from USUARIO "
                         + "where nombreUsuario=? and password=? ");
@@ -137,11 +131,11 @@ public class Login extends JPanel{
         ResultSet encontrado=comprobar.executeQuery();
         
         if(encontrado.next()) {
-    	userLogueado=new Usuario(encontrado.getByte("nivelseguridad"),
-    			encontrado.getString("puesto"),
-    			encontrado.getString("nombreusuario"),
-    			encontrado.getString("password"),
-    			null);
+	    	userLogueado=new Usuario(encontrado.getByte("nivelseguridad"),
+	    			encontrado.getString("puesto"),
+	    			encontrado.getString("nombreusuario"),
+	    			encontrado.getString("password"),
+	    			null);
         	
         }else {
         	throw new EncontrarUsuarioException();
@@ -166,14 +160,10 @@ public class Login extends JPanel{
 		} catch (Exception e) {
 			throw new EncontrarFichaPersonalException();
 		}finally {
-			try {
-				comprobar.close();
-				encontrado.close();
-				comprobarFicha.close();
-				encontrarFicha.close();
-			}catch(Exception e) {
-				JOptionPane.showMessageDialog(this,"Me has tirado la BBDD!!!!!!!", "Ya te lo has cargado...",JOptionPane.ERROR_MESSAGE);
-			}
+			comprobar.close();
+			encontrado.close();
+			comprobarFicha.close();
+			encontrarFicha.close();
 		}
         return userLogueado;
         
