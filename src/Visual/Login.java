@@ -26,12 +26,15 @@ import Excepciones.EncontrarUsuarioException;
 import Excepciones.PuestoException;
 import Personas.FichaPersonal;
 import Personas.Usuario;
+import Principal.Conexion;
 
 import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JPasswordField;
@@ -126,17 +129,8 @@ public class Login extends JPanel{
 	}
 	
 	public Usuario loguear() throws SQLException, PuestoException, EncontrarUsuarioException, EncontrarFichaPersonalException {
-		Connection conexion=null;
-		try {
-        	conexion=DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/reconocimientobbdd","root", "root");
-        	
-        }catch(SQLException ex) {
-        	ex.printStackTrace();
-        }
 		Usuario userLogueado=null;            	
-        PreparedStatement comprobar=
-                conexion.prepareStatement("select * from USUARIO "
+        PreparedStatement comprobar=Conexion.creaPreparedStatement("select * from USUARIO "
                         + "where nombreUsuario=? and password=? ");
         comprobar.setString(1, this.textoUsuario.getText());
         comprobar.setString(2, String.copyValueOf(textoPassword.getPassword()));
@@ -153,8 +147,7 @@ public class Login extends JPanel{
         	throw new EncontrarUsuarioException();
         }
         
-        PreparedStatement comprobarFicha=
-                conexion.prepareStatement("select * from FichaPersonal "
+        PreparedStatement comprobarFicha=Conexion.creaPreparedStatement("select * from FichaPersonal "
                         + "where dni=? ");
     	comprobarFicha.setString(1,encontrado.getString("fichapersonal"));
     	
@@ -174,13 +167,12 @@ public class Login extends JPanel{
 			throw new EncontrarFichaPersonalException();
 		}finally {
 			try {
-			comprobar.close();
-			encontrado.close();
-			comprobarFicha.close();
-			encontrarFicha.close();
-			conexion.close();
+				comprobar.close();
+				encontrado.close();
+				comprobarFicha.close();
+				encontrarFicha.close();
 			}catch(Exception e) {
-				System.out.println("FALLO AL CERRAR");
+				JOptionPane.showMessageDialog(this,"Me has tirado la BBDD!!!!!!!", "Ya te lo has cargado...",JOptionPane.ERROR_MESSAGE);
 			}
 		}
         return userLogueado;

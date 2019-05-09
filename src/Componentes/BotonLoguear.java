@@ -53,13 +53,13 @@ public class BotonLoguear extends JButton{
         	ex.printStackTrace();
         	System.err.println("SQL ERROR");
         } catch (PuestoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+        	JOptionPane.showMessageDialog(login, "Alguno de la BBDD la ha cagado al poner el Puesto","Esto no deberia de pasar..",JOptionPane.ERROR_MESSAGE);
 		} catch (EncontrarUsuarioException e) {
-			// TODO Auto-generated catch block
+			
 			JOptionPane.showMessageDialog(login,"Usuario o contraseña incorrectos", "Usuario o contraseña incorrectos",JOptionPane.ERROR_MESSAGE);
 		} catch (EncontrarFichaPersonalException e) {
-			// TODO Auto-generated catch block
+			
 			JOptionPane.showMessageDialog(login,"Fallo en la BBDD del sistema", "BBDD caida",JOptionPane.ERROR_MESSAGE);
 		}
 		if(usuarioLogueado!=null) {

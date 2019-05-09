@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 import Personas.Usuario;
 import Personas.Usuario.Seguridad;
@@ -65,11 +66,15 @@ public class BotonEleccion extends JButton{
 				cambiarPantalla();
 			}else if(seguridad==Seguridad.ENTRENAR) {
 				cambiarPantalla();
+			}else {
+				JOptionPane.showMessageDialog(eleccion,"No tienes permisos", "Permisos Insuficientes",JOptionPane.ERROR_MESSAGE);
 			}
 		break;
 		case ENTRENAR:
 			if(seguridad==Seguridad.ENTRENAR) {
 				cambiarPantalla();
+			}else {
+				JOptionPane.showMessageDialog(eleccion,"No tienes permisos", "Permisos Insuficientes",JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
