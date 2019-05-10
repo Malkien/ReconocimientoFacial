@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 
-public class FichaPersonal{
+public final class FichaPersonal{
 	private String nombre;
 	private String apellidos;
 	private String dni;
@@ -74,7 +74,7 @@ public class FichaPersonal{
 	 * Setter de dni. Si la longitud del dni no es igual a 9 le da valor nulo
 	 * @param dni Ten en cuenta que tiene que tener 8 numeros y 1 letra.
 	 */
-	public void setDni(String dni) throws Exception {
+	public final void setDni(String dni) throws Exception {
         
     	if(dni.length()!=9) {
             throw new Exception();
@@ -127,7 +127,7 @@ public class FichaPersonal{
 	 * @param email
 	 * @throws Exception 
 	 */
-	public void setEmail(String email) throws Exception{
+	public final void setEmail(String email) throws Exception{
 		boolean tieneArroba=false;
 		boolean tienePunto=false;
 		for (int i = 0; i < email.length(); i++) {

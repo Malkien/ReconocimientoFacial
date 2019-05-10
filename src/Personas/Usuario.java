@@ -15,7 +15,7 @@ import javax.sql.rowset.serial.SerialException;
 import Excepciones.PuestoException;
 import Personas.Usuario.Seguridad;
 
-public class Usuario{
+public final class Usuario{
 	
 	private Seguridad puesto;
 	private String nombreUsuario;
@@ -56,7 +56,9 @@ public class Usuario{
 	 * Comprueba que el numero este entre 0 o 5, si no te coge como default el nivel 0. 
 	 * @param nivelSeguridad
 	 */
-	public void setNivelSeguridad(byte nivelSeguridad) {
+	public final void setNivelSeguridad(byte nivelSeguridad) {
+		char a='s';
+		
 		if(nivelSeguridad>0&&nivelSeguridad<=5) {
 			this.nivelSeguridad = nivelSeguridad;
 		}else {
@@ -75,7 +77,7 @@ public class Usuario{
 	 * @param Puesto
 	 * @throws PuestoException 
 	 */
-	public void setPuesto(String puesto) throws PuestoException {
+	public final void setPuesto(String puesto) throws PuestoException {
 		switch(puesto) {
 	    	case "ADMINISTRAR":
 	    		this.puesto=Seguridad.ADMINISTRAR;

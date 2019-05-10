@@ -12,6 +12,7 @@ public class Conexion {
 			return DriverManager.getConnection(
 					Constantes.conexionCadena,Constantes.usuarioConexion, Constantes.passwordConexion).prepareStatement(txt);
 		}catch(SQLException e) {
+			e.printStackTrace();
 			throw new PreparedStatementException();
 		}
 	}

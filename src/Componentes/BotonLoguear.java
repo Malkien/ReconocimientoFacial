@@ -51,7 +51,7 @@ public class BotonLoguear extends JButton{
 		try {
 			usuarioLogueado=login.loguear();
 		}catch(PreparedStatementException e) {
-			JOptionPane.showMessageDialog(login, "Adios!!! Fallo en la conexion","Error al conectar a la Base de datos(Error en el PreparedStatement)",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(login,"Error al conectar a la Base de datos(Error en el PreparedStatement)\nComprueba la hora romance!!!", "Adios!!! Fallo en la conexion",JOptionPane.ERROR_MESSAGE);
 		}catch(SQLException ex) {
         	ex.printStackTrace();
         	System.err.println("SQL ERROR");
