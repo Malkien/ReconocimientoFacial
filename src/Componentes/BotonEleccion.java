@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import Personas.Usuario;
@@ -16,6 +17,7 @@ import Visual.Administrar;
 import Visual.EleccionPantalla;
 import Visual.Entrenamiento;
 import Visual.Reconocimiento;
+import Visual.VentanaEntrar;
 
 public class BotonEleccion extends JButton{
 	private EleccionPantalla eleccion;
@@ -80,7 +82,7 @@ public class BotonEleccion extends JButton{
 	private void cambiarPantalla() {
 		eleccion.setVisible(false);
 		if(seguridad==Seguridad.ADMINISTRAR) {
-			Administrar administrar=new Administrar();
+			Administrar administrar=new Administrar(eleccion);
 			eleccion.login.ventana.getContentPane().add(administrar);
 		}else if(seguridad==Seguridad.RECONOCER) {
 			Reconocimiento reconocer=new Reconocimiento();

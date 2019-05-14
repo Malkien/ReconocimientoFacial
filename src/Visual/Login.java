@@ -34,7 +34,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
 public class Login extends JPanel{
-	public Ventana ventana;
+	public VentanaEntrar ventana;
 	private JTextField textoUsuario;
 	private JPasswordField textoPassword;
 	
@@ -43,7 +43,7 @@ public class Login extends JPanel{
 	public void paintComponent(Graphics g) {
 		Image img=null;
 		try {
-			img = ImageIO.read(new File("src/fondo/fondoLogin.jpg"));
+			img = ImageIO.read(new File("src/imagenesPrograma/fondoLogin.jpg"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -53,7 +53,7 @@ public class Login extends JPanel{
 	}
 	
 	
-	public Login(Ventana ventana) {
+	public Login(VentanaEntrar ventana) {
 		this.ventana=ventana;
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};

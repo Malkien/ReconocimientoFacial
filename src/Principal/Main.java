@@ -9,13 +9,13 @@ import java.util.Scanner;
 
 import Personas.FichaPersonal;
 import Visual.Login;
-import Visual.Ventana;
+import Visual.VentanaEntrar;
 
 public class Main {
 
 	public static void main(String[] args) {
             
-            Ventana ventana=new Ventana();
+            VentanaEntrar ventana=new VentanaEntrar();
     		ventana.setVisible(true);
             
             
