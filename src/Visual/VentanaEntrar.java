@@ -10,6 +10,8 @@ import Componentes.BotonAtras;
 
 import javax.swing.JButton;
 import java.awt.Cursor;
+import javax.swing.SwingConstants;
+import javax.swing.JMenuItem;
 
 public class VentanaEntrar extends JFrame{
 	
@@ -23,12 +25,10 @@ public class VentanaEntrar extends JFrame{
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		menuBar.setVisible(false);
-		JButton btnNewButton = new JButton("New button");
-		menuBar.add(btnNewButton);
-		
-		BotonAtras btnNewButton_1 = new BotonAtras();
-		btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		menuBar.add(btnNewButton_1);
+		BotonAtras botonBarAtras = new BotonAtras();
+		botonBarAtras.setHorizontalTextPosition(SwingConstants.CENTER);
+		botonBarAtras.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		menuBar.add(botonBarAtras);
 
 	}
 }

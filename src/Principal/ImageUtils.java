@@ -1,9 +1,10 @@
 package Principal;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 public class ImageUtils {
-	public static String imageToText(BufferedImage im) {
+	public static String imagenAtexto(BufferedImage im) {
 		String ret="";
 		for (int i = 0; i < im.getWidth(); i++) {
 			for (int j = 0; j < im.getHeight(); j++) {
@@ -14,7 +15,7 @@ public class ImageUtils {
 		return ret;
 	}
 	
-	public static BufferedImage textToImage(String image) {
+	public static BufferedImage textoAImagen(String image) {
 		String[] filas=image.split("-");
 		String[][] imagen =new String[filas.length][];
 		for (int i = 0; i < filas.length; i++) {
@@ -23,5 +24,8 @@ public class ImageUtils {
 		BufferedImage ret=new BufferedImage(imagen.length,imagen[0].length,BufferedImage.TYPE_INT_RGB);
 		
 		return ret;
+	}
+	public static String metodoHarris(Image imagen) {
+		return "";
 	}
 }
