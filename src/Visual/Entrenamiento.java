@@ -9,6 +9,7 @@ import Componentes.Etiqueta;
 import Principal.ImageUtils;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -44,8 +45,10 @@ import javax.swing.JTextPane;
 public class Entrenamiento extends JPanel{
 	private File archivoCogido;
 	private JTextArea areaTexto;
-	private Image imagen;
+	private Entrenamiento thisRef;
+	private BufferedImage imagen;
 	public Entrenamiento(EleccionPantalla eleccion) {
+		thisRef=this;
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
@@ -70,6 +73,7 @@ public class Entrenamiento extends JPanel{
 		add(botonAbrirImagen, gbc_botonAbrirImagen);
 		
 		JButton botonConvertir = new JButton("Convertir");
+		
 		GridBagConstraints gbc_botonConvertir = new GridBagConstraints();
 		gbc_botonConvertir.gridwidth = 2;
 		gbc_botonConvertir.insets = new Insets(0, 0, 5, 5);
@@ -77,27 +81,27 @@ public class Entrenamiento extends JPanel{
 		gbc_botonConvertir.gridy = 1;
 		add(botonConvertir, gbc_botonConvertir);
 		
-		JPanel lienzo = new JPanel();
-		GridBagConstraints gbc_lienzo = new GridBagConstraints();
-		gbc_lienzo.gridheight = 2;
-		gbc_lienzo.gridwidth = 2;
-		gbc_lienzo.insets = new Insets(0, 0, 0, 5);
-		gbc_lienzo.fill = GridBagConstraints.BOTH;
-		gbc_lienzo.gridx = 1;
-		gbc_lienzo.gridy = 2;
-		add(lienzo, gbc_lienzo);
+		JLabel imagenOriginal = new JLabel();
+		GridBagConstraints gbc_imagenOriginal = new GridBagConstraints();
+		gbc_imagenOriginal.gridheight = 2;
+		gbc_imagenOriginal.gridwidth = 2;
+		gbc_imagenOriginal.insets = new Insets(0, 0, 0, 5);
+		gbc_imagenOriginal.fill = GridBagConstraints.BOTH;
+		gbc_imagenOriginal.gridx = 1;
+		gbc_imagenOriginal.gridy = 2;
+		add(imagenOriginal, gbc_imagenOriginal);
 		
 		
 		
-		JPanel panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.gridheight = 2;
-		gbc_panel.gridwidth = 2;
-		gbc_panel.insets = new Insets(0, 0, 0, 5);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 3;
-		gbc_panel.gridy = 2;
-		add(panel, gbc_panel);
+		JLabel imagenResultado = new JLabel();
+		GridBagConstraints gbc_imagenResultado = new GridBagConstraints();
+		gbc_imagenResultado.gridheight = 2;
+		gbc_imagenResultado.gridwidth = 2;
+		gbc_imagenResultado.insets = new Insets(0, 0, 0, 5);
+		gbc_imagenResultado.fill = GridBagConstraints.BOTH;
+		gbc_imagenResultado.gridx = 3;
+		gbc_imagenResultado.gridy = 2;
+		add(imagenResultado, gbc_imagenResultado);
 		
 		eleccion.login.ventana.getJMenuBar().setVisible(true);
 		eleccion.login.ventana.getJMenuBar().getComponents()[0].setVisible(false);
@@ -105,6 +109,7 @@ public class Entrenamiento extends JPanel{
 		
 		botonAbrirImagen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 				JFileChooser elegir=new JFileChooser();
 				FileNameExtensionFilter filter=
 				new FileNameExtensionFilter("JPEG,GIF,PNG and TXT","jpg", "gif","png","txt");
@@ -139,25 +144,46 @@ public class Entrenamiento extends JPanel{
 						}
 					}
 					//El fichero es una imagen.
-					JLabel labelImagen=new JLabel();
 					try {
 						imagen=ImageIO.read(archivoCogido);
-						imagen=imagen.getScaledInstance(lienzo.getWidth(), lienzo.getHeight(), Image.SCALE_SMOOTH);
+						Image image=imagen.getScaledInstance(imagenOriginal.getWidth(), imagenOriginal.getHeight(), Image.SCALE_SMOOTH);
+						imagen.getGraphics().drawImage(image, imagenOriginal.getWidth(), imagenOriginal.getHeight() , null);
+						
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(eleccion.login.ventana, "No es una imagen", "No es una imagen", JOptionPane.ERROR_MESSAGE);
+						e.printStackTrace();
 					}
-					labelImagen.setIcon(new ImageIcon(imagen));
-					lienzo.add(labelImagen);
-					labelImagen.addMouseListener(new MouseAdapter() {
-						@Override
-						public void mouseClicked(MouseEvent e) {
-							labelImagen.setIcon(new ImageIcon(imagen));
-					}});
+					imagenOriginal.setIcon(new ImageIcon(imagen));
+					imagenOriginal.setVisible(false);
+					imagenOriginal.setVisible(true);
+					
 		}}});
-		
+		botonConvertir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				try {
+					imagenResultado.setIcon(new ImageIcon(ImageUtils.sobel(imagen)));
+					Image image=imagen.getScaledInstance(imagenOriginal.getWidth(), imagenOriginal.getHeight(), Image.SCALE_SMOOTH);
+					imagenResultado.getGraphics().drawImage(image, 0, 0 , null);
+					//Asegurate de que todas las imagenes en bd se han reescalado al mismo tamaño
+					//coger de base de datos todas las imagenes de caras y meterlas en un array (todas sobel)
+					//Para cada imagen del array: Convertirla en bufferedImage
+					//Comparas pixel a pixel con la actual y miras el porcentaje de pixels que son blancos o gris claro en las dos imágenes (el mismo px en las dos imagenes) 
+					//De eso, te sale un porcentaje de pixels que son blancos en las dos.
+					//Guardas la imagen con el porcentaje mayor que encuentras y estimas que la imagen que tu le has pasaado
+					//es lo mismo (cara o no) que la imagen a la que más se parece
+					//Se lo preguntas al usuario : Creo que es una cara ¿Acierto? Tu le dices si o no , y guardas eso en base de datos con el es cara o no es cara.
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
 	}
 	
 }

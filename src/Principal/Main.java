@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.opencv.core.Mat;
+
 import Personas.FichaPersonal;
 import Visual.Login;
 import Visual.VentanaEntrar;
@@ -17,13 +19,8 @@ public class Main {
             
             VentanaEntrar ventana=new VentanaEntrar();
     		ventana.setVisible(true);
-            
-            
+            	
 	}
         
         
-	public static void guardarImagen(String ruta, Connection conexion) throws Exception{
-		 
-		
-	}
 }
