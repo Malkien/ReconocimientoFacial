@@ -6,7 +6,6 @@ import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Componentes.Etiqueta;
-import Excepciones.PreparedStatementException;
 import Principal.Conexion;
 import Principal.ImageUtils;
 
@@ -161,11 +160,10 @@ public class Entrenamiento extends JPanel{
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(eleccion.login.ventana, "No es una imagen", "No es una imagen", JOptionPane.ERROR_MESSAGE);
 						e.printStackTrace();
-					}finally {
-						imagenOriginal.setIcon(new ImageIcon(imagen));
-						imagenOriginal.setVisible(false);
-						imagenOriginal.setVisible(true);
 					}
+					imagenOriginal.setIcon(new ImageIcon(imagen));
+					imagenOriginal.setVisible(false);
+					imagenOriginal.setVisible(true);
 					
 		}}});
 		botonConvertir.addMouseListener(new MouseAdapter() {
@@ -176,7 +174,7 @@ public class Entrenamiento extends JPanel{
 					Image image=imagen.getScaledInstance(imagenOriginal.getWidth(), imagenOriginal.getHeight(), Image.SCALE_SMOOTH);
 					imagenResultado.getGraphics().drawImage(image, 0, 0 , null);
 					//Asegurate de que todas las imagenes en bd se han reescalado al mismo tamaño
-					//coger de base de datos todas las imagenes de caras y meterlas en un array (todas sobel)PreparedStatement selectImagen=Conexion.creaPreparedStatement("SELECT imagen FROM imagen;");
+					//coger de base de datos todas las imagenes de caras y meterlas en un array (todas sobel)
 					PreparedStatement selectImagen=Conexion.creaPreparedStatement("SELECT image FROM imagen");
 					ResultSet selectResultados=selectImagen.executeQuery();
 					List<BufferedImage> listadoImagenes=new ArrayList<>();
@@ -184,6 +182,7 @@ public class Entrenamiento extends JPanel{
 						//Para cada imagen del array: Convertirla en bufferedImage
 						listadoImagenes.add(ImageUtils.textoAImagen(selectResultados.getString("imagen")));
 					}
+					//Para cada imagen del array: Convertirla en bufferedImage
 					//Comparas pixel a pixel con la actual y miras el porcentaje de pixels que son blancos o gris claro en las dos imágenes (el mismo px en las dos imagenes) 
 					//De eso, te sale un porcentaje de pixels que son blancos en las dos.
 					//Guardas la imagen con el porcentaje mayor que encuentras y estimas que la imagen que tu le has pasaado
@@ -191,9 +190,6 @@ public class Entrenamiento extends JPanel{
 					//Se lo preguntas al usuario : Creo que es una cara ¿Acierto? Tu le dices si o no , y guardas eso en base de datos con el es cara o no es cara.
 					
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (PreparedStatementException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (SQLException e) {
