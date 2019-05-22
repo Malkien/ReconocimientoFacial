@@ -50,6 +50,23 @@ CREATE TABLE IF NOT EXISTS `reconocimientobbdd`.`Usuario` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `mydb`.`imagen`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `reconocimientobbdd`.`imagen` (
+  `id` int,
+  `imagen` BLOB NOT NULL,
+  `cara` tinyint NOT NULL,
+  `FichaPersonal` VARCHAR(9),
+  PRIMARY KEY (`id`),
+  INDEX `fk_imagen_FichaPersonal1_idx` (`FichaPersonal` ASC),
+  CONSTRAINT `fk_imagen_FichaPersonal1`
+    FOREIGN KEY (`FichaPersonal`)
+    REFERENCES `reconocimientobbdd`.`FichaPersonal` (`dni`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
