@@ -43,7 +43,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.swing.JButton;
 import javax.swing.JTextPane;
 
@@ -177,12 +180,11 @@ public class Entrenamiento extends JPanel{
 					//coger de base de datos todas las imagenes de caras y meterlas en un array (todas sobel)
 					PreparedStatement selectImagen=Conexion.creaPreparedStatement("SELECT image FROM imagen");
 					ResultSet selectResultados=selectImagen.executeQuery();
-					List<BufferedImage> listadoImagenes=new ArrayList<>();
+					Map<Integer,BufferedImage> listadoImagenes=new HashMap<Integer,BufferedImage>();
 					while(selectResultados.next()) {
 						//Para cada imagen del array: Convertirla en bufferedImage
-						listadoImagenes.add(ImageUtils.textoAImagen(selectResultados.getString("imagen")));
+						listadoImagenes.put(selectResultados.getInt("id"),ImageUtils.textoAImagen(selectResultados.getString("imagen")));
 					}
-					//Para cada imagen del array: Convertirla en bufferedImage
 					//Comparas pixel a pixel con la actual y miras el porcentaje de pixels que son blancos o gris claro en las dos imágenes (el mismo px en las dos imagenes) 
 					//De eso, te sale un porcentaje de pixels que son blancos en las dos.
 					//Guardas la imagen con el porcentaje mayor que encuentras y estimas que la imagen que tu le has pasaado
