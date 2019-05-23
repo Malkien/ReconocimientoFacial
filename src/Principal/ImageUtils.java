@@ -1,7 +1,10 @@
 package Principal;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
 import java.io.File;
 import java.io.IOException;
 
@@ -77,6 +80,25 @@ public class ImageUtils {
        return image;
     
 	}
+	
+	public static BufferedImage toBufferedImage(Image img)
+	{
+	    if (img instanceof BufferedImage)
+	    {
+	        return (BufferedImage) img;
+	    }
+
+	    // Create a buffered image with transparency
+	    BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+	    // Draw the image on to the buffered image
+	    Graphics2D bGr = bimage.createGraphics();
+	    bGr.drawImage(img, 0, 0, null);
+	    bGr.dispose();
+
+	    // Return the buffered image
+	    return bimage;
+	}
 
 public static int  getGrayScale(int rgb) {
     int r = (rgb >> 16) & 0xff;
@@ -151,4 +173,52 @@ public static int  getGrayScale(int rgb) {
 	        }
 	    }
 	 }
+	public float compareImage(BufferedImage biA, BufferedImage biB) {
+
+	    float percentage = 0;
+	    try {
+	        //take buffer data from both image files //
+	        DataBuffer dbA = biA.getData().getDataBuffer();
+	        int sizeA = dbA.getSize();
+	        DataBuffer dbB = biB.getData().getDataBuffer();
+	        int sizeB = dbB.getSize();
+	        int count = 0;
+	        //compare data-buffer objects //
+	        if (sizeA == sizeB) {
+
+	            for (int i = 0; i < sizeA; i++) {
+	            	if (dbA.getElem(i) == dbB.getElem(i)) {
+	                    count = count + 1;
+	                }
+
+	            }
+	            percentage = (count * 100) / sizeA;
+	        } else {
+	            System.out.println("Both the images are not of same size");
+	        }
+
+	    } catch (Exception e) {
+	        System.out.println("Failed to compare image files ...");
+	    }
+	    return percentage;
+	}
+	public static float compareImage2(BufferedImage biA, BufferedImage biB) throws Exception {
+		float porcentaje = 0;
+		System.out.println("Comparando imagenes. Tamaño A: "+biA.getWidth()+","+biA.getHeight()+" Tamaño b: "+biB.getWidth()+","+biB.getHeight());
+		if(biA.getWidth()!=biB.getWidth()||biA.getHeight()!=biB.getHeight()) {
+			throw new Exception();
+		}
+		int count = 0;
+		for(int i= 0; biA.getWidth()>i;i++) {
+			for(int y= 0; biA.getHeight()>y;y++) {
+					if(biA.getRGB(i,y) >= new Color(200,200,200).getRGB()&&biB.getRGB(i, y)==new Color(200,200,200).getRGB()) {
+							count = count + 1;
+						}
+					}
+				
+			}
+		porcentaje = (count * 100) / (biA.getWidth()*biA.getHeight());
+		System.out.println("Resultado: "+porcentaje);
+		return porcentaje;
+	}
 }

@@ -24,6 +24,7 @@ import Excepciones.PuestoException;
 import Personas.FichaPersonal;
 import Personas.Usuario;
 import Principal.Conexion;
+import Principal.Constantes;
 
 import java.awt.Font;
 import java.awt.Graphics;
@@ -126,8 +127,14 @@ public class Login extends JPanel{
 		Usuario userLogueado=null;            	
         PreparedStatement comprobar=Conexion.creaPreparedStatement("select * from USUARIO "
                         + "where nombreUsuario=? and password=? ");
+        if(Constantes.debugMode) {
+
+            comprobar.setString(1,"admin");
+            comprobar.setString(2, "admin");
+        }else {
         comprobar.setString(1, this.textoUsuario.getText());
         comprobar.setString(2, String.copyValueOf(textoPassword.getPassword()));
+        }
         ResultSet encontrado=comprobar.executeQuery();
         
         if(encontrado.next()) {
