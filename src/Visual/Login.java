@@ -132,8 +132,8 @@ public class Login extends JPanel{
             comprobar.setString(1,"admin");
             comprobar.setString(2, "admin");
         }else {
-        comprobar.setString(1, this.textoUsuario.getText());
-        comprobar.setString(2, String.copyValueOf(textoPassword.getPassword()));
+	        comprobar.setString(1, this.textoUsuario.getText());
+	        comprobar.setString(2, String.copyValueOf(textoPassword.getPassword()));
         }
         ResultSet encontrado=comprobar.executeQuery();
         
