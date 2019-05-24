@@ -35,7 +35,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
 public class Login extends JPanel{
-	public VentanaEntrar ventana;
+	public Ventana ventana;
 	private JTextField textoUsuario;
 	private JPasswordField textoPassword;
 	
@@ -54,7 +54,7 @@ public class Login extends JPanel{
 	}
 	
 	
-	public Login(VentanaEntrar ventana) {
+	public Login(Ventana ventana) {
 		this.ventana=ventana;
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
@@ -107,7 +107,7 @@ public class Login extends JPanel{
 		gbc_passwordField.gridy = 2;
 		add(textoPassword, gbc_passwordField);
 		
-		BotonLoguear botonLoguear = new BotonLoguear("Entrar",this);
+		BotonLoguear botonLoguear = new BotonLoguear(ventana,"Entrar",this);
 		GridBagConstraints gbc_botonLoguear = new GridBagConstraints();
 		gbc_botonLoguear.insets = new Insets(0, 0, 0, 5);
 		gbc_botonLoguear.gridx = 2;

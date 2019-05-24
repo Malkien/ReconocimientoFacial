@@ -17,17 +17,19 @@ import Visual.Administrar;
 import Visual.EleccionPantalla;
 import Visual.Entrenamiento;
 import Visual.Reconocimiento;
-import Visual.VentanaEntrar;
+import Visual.Ventana;
 
 public class BotonEleccion extends JButton{
 	private EleccionPantalla eleccion;
 	private Usuario usuario;
 	private Usuario.Seguridad seguridad;
-	public BotonEleccion(String txt, EleccionPantalla eleccion,Usuario usuario, Usuario.Seguridad seguridad) {
+	private Ventana ventana;
+	public BotonEleccion(Ventana ventana,String txt, EleccionPantalla eleccion,Usuario usuario, Usuario.Seguridad seguridad) {
 		super(txt);
 		this.eleccion=eleccion;
 		this.usuario=usuario;
 		this.seguridad=seguridad;
+		this.ventana=ventana;
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -82,14 +84,14 @@ public class BotonEleccion extends JButton{
 	private void cambiarPantalla() {
 		eleccion.setVisible(false);
 		if(seguridad==Seguridad.ADMINISTRAR) {
-			Administrar administrar=new Administrar(eleccion);
-			eleccion.login.ventana.getContentPane().add(administrar);
+			Administrar administrar=new Administrar(ventana,eleccion);
+			ventana.getContentPane().add(administrar);
 		}else if(seguridad==Seguridad.RECONOCER) {
-			Reconocimiento reconocer=new Reconocimiento();
-			eleccion.login.ventana.getContentPane().add(reconocer);
+			Reconocimiento reconocer=new Reconocimiento(ventana);
+			ventana.getContentPane().add(reconocer);
 		}else if(seguridad==Seguridad.ENTRENAR) {
-			Entrenamiento entrenar=new Entrenamiento(eleccion);
-			eleccion.login.ventana.getContentPane().add(entrenar);
+			Entrenamiento entrenar=new Entrenamiento(ventana,eleccion);
+			ventana.getContentPane().add(entrenar);
 		}
 	}
 	

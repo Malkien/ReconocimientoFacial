@@ -63,8 +63,9 @@ public class Entrenamiento extends JPanel{
 	private Map<Integer,BufferedImage> listadoImagenes=new HashMap<Integer,BufferedImage>();
 	private BufferedImage imagenSobel;
 	private FichaPersonal personaSimilitud;
-	
-	public Entrenamiento(EleccionPantalla eleccion) {
+	private Ventana ventana;
+	public Entrenamiento(Ventana ventana,EleccionPantalla eleccion) {
+		this.ventana=ventana;
 		thisRef=this;
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0};
@@ -132,9 +133,9 @@ public class Entrenamiento extends JPanel{
 		gbc_imagenResultado.gridy = 2;
 		add(imagenResultado, gbc_imagenResultado);
 		
-		eleccion.login.ventana.getJMenuBar().setVisible(true);
-		eleccion.login.ventana.getJMenuBar().getComponents()[0].setVisible(false);
-		eleccion.login.ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);//Poner en ventana completa
+		ventana.getJMenuBar().setVisible(true);
+		ventana.getJMenuBar().getComponents()[0].setVisible(false);
+		ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);//Poner en ventana completa
 		
 		botonAbrirImagen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -143,7 +144,7 @@ public class Entrenamiento extends JPanel{
 				FileNameExtensionFilter filter=
 				new FileNameExtensionFilter("JPEG,GIF,PNG and TXT","jpg", "gif","png","txt");
 				elegir.setFileFilter(filter);
-				int opcionElegida=elegir.showOpenDialog(eleccion.login.ventana);
+				int opcionElegida=elegir.showOpenDialog(ventana);
 				if(opcionElegida==JFileChooser.APPROVE_OPTION) {
 					//En el caso de que se haya dado a aceptar, abrimos el archivo
 					archivoCogido=elegir.getSelectedFile();
@@ -163,7 +164,7 @@ public class Entrenamiento extends JPanel{
 							imagen=ImageUtils.textoAImagen(contenido);
 						} catch (FileNotFoundException e) {
 							JOptionPane.showMessageDialog
-							(eleccion.login.ventana, "archivo no encontrado",
+							(ventana, "archivo no encontrado",
 									"archivo no encontrado",
 									JOptionPane.ERROR_MESSAGE);
 						} catch (IOException e) {
@@ -182,7 +183,7 @@ public class Entrenamiento extends JPanel{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(eleccion.login.ventana, "No es una imagen", "No es una imagen", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(ventana, "No es una imagen", "No es una imagen", JOptionPane.ERROR_MESSAGE);
 						e.printStackTrace();
 					}
 					imagenOriginal.setIcon(new ImageIcon(imagen));
@@ -243,6 +244,8 @@ public class Entrenamiento extends JPanel{
 						idImagenSimilar=i;
 					}
 				}
+				
+				//Comprobaciones de la imagen
 				if(imagenSimilar!=null) {
 					try {
 						PreparedStatement imagenEncontrada=Conexion.creaPreparedStatement("SELECT * FROM imagen WHERE id = id=?");
@@ -250,11 +253,17 @@ public class Entrenamiento extends JPanel{
 						ResultSet imagenResultado=imagenEncontrada.executeQuery();
 						
 						if(imagenResultado.next()&&imagenResultado.getBoolean("cara")) {
-							int acertado=JOptionPane.showConfirmDialog(eleccion.login.ventana,"Después del analisis hemos deducido que es una persona, ¿He acertado?", "Coincidencia",JOptionPane.YES_NO_OPTION);
+							int acertado=JOptionPane.showConfirmDialog(ventana,"Después del analisis hemos deducido que es una persona, ¿He acertado?"
+									, "Coincidencia",JOptionPane.YES_NO_OPTION);
+							if(acertado==0) {
+								Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), imagenResultado.getBoolean("cara"), imagenResultado.getString("FichaPersonal"));
+							}else if(acertado==1){
+								noEsCara(ventana,imagenSobel);
+							}
 							//TODO si llega aquí cree que es una cara, y te dice quien cree que es. Le das tres opciones: No es una cara, es esta persona, no es esta persona.
 							//en función de eso, metes en bd.
 						}else {
-							int esCara=JOptionPane.showConfirmDialog(eleccion.login.ventana,"Según el registro no es una cara, ¿Acierto?", "Añadir imagen",JOptionPane.YES_NO_OPTION);
+							int esCara=JOptionPane.showConfirmDialog(ventana,"Según el registro no es una cara, ¿Acierto?", "Añadir imagen",JOptionPane.YES_NO_OPTION);
 							if(esCara==1) {
 								
 							}else if(esCara==0) {
@@ -262,12 +271,6 @@ public class Entrenamiento extends JPanel{
 							}
 							//Cree que no es cara, te lanza dialogo diciendo que cree que no es una cara, y te da opcion de decir si es correcto o no. Si en realidad es una cara, lanza dialogo para que lo asocie con una ficha o cree una nueva.
 						}
-						
-						Image image=imagenSimilar.getScaledInstance(imagenComparada.getWidth(), imagenComparada.getHeight(), imagenSimilar.SCALE_SMOOTH);
-						imagenSimilar.getGraphics().drawImage(image, imagenComparada.getWidth(), imagenComparada.getHeight() , null);
-						imagenComparada.setIcon(new ImageIcon(imagenSimilar));
-						imagenComparada.setVisible(false);
-						imagenComparada.setVisible(true);
 					} catch (PreparedStatementException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -282,45 +285,7 @@ public class Entrenamiento extends JPanel{
 					}
 					
 				}else {
-					int respuestaAñadirImagen=JOptionPane.showConfirmDialog(eleccion.login.ventana,"No se encuentra coincidencia\n¿Quieres añadir la imagen al registro?", "Añadir imagen",JOptionPane.YES_NO_OPTION);
-					if(respuestaAñadirImagen==1) {
-						
-					}else if(respuestaAñadirImagen==0) {
-						int esCara=JOptionPane.showConfirmDialog(eleccion.login.ventana, "¿Es una cara?","¿Es una cara?",JOptionPane.YES_NO_OPTION);
-						if(esCara==1) {
-							try {
-								PreparedStatement conectarImagen=Conexion.creaPreparedStatement("INSERT INTO imagen(imagen,cara) VALUES(imagen=?, cara=?);");
-								conectarImagen.setString(1, ImageUtils.imagenAtexto(imagenSobel));
-								conectarImagen.setBoolean(2, false);
-								conectarImagen.executeUpdate();
-							} catch (PreparedStatementException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (SQLException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}else if(esCara==0) {
-							try {
-								PreparedStatement conectarImagen=Conexion.creaPreparedStatement(
-										"INSERT INTO imagen(imagen,cara,FichaPersonal) VALUES(imagen=?, cara=?, FichaPersonal=?);");
-								conectarImagen.setString(1, ImageUtils.imagenAtexto(imagenSobel));
-								conectarImagen.setBoolean(2, true);
-								System.out.println("HJO");
-								conectarImagen.setString(3, JOptionPane.showInputDialog(eleccion.login.ventana, "Introduce el DNI\\ncompruebe que es correcto"));
-								int fichaExiste=JOptionPane.showConfirmDialog(eleccion.login.ventana, "¿La ficha personal está en el sistema?","Añadir o no Persona",JOptionPane.YES_NO_OPTION);
-								conectarImagen.executeUpdate();
-							} catch (PreparedStatementException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (SQLException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-						
-						
-					}
+					noEsCara(ventana,imagenSobel);
 				
 				}
 				//Comparas pixel a pixel con la actual y miras el porcentaje de pixels que son blancos o gris claro en las dos imágenes (el mismo px en las dos imagenes) 
@@ -331,6 +296,25 @@ public class Entrenamiento extends JPanel{
 				
 			}
 		});
+	}
+	public static void noEsCara(Ventana ventana,BufferedImage imagenSobel) {
+		int respuestaAñadirImagen=JOptionPane.showConfirmDialog(ventana,"No se encuentra coincidencia \n ¿Quieres añadir la imagen al registro?", "Añadir imagen",JOptionPane.YES_NO_OPTION);
+		if(respuestaAñadirImagen==1) {
+			
+		}else if(respuestaAñadirImagen==0) {
+			int esCara=JOptionPane.showConfirmDialog(ventana, "¿Es una cara?","¿Es una cara?",JOptionPane.YES_NO_OPTION);
+			if(esCara==1) {
+				
+				Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), false, null);
+				
+			}else if(esCara==0) {
+				
+				Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), true, 
+							JOptionPane.showInputDialog(ventana, "Introduce el DNI\\ncompruebe que es correcto"));
+				
+			}
+			
+		}
 	}
 	
 }

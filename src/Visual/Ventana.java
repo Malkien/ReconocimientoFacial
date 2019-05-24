@@ -13,9 +13,9 @@ import java.awt.Cursor;
 import javax.swing.SwingConstants;
 import javax.swing.JMenuItem;
 
-public class VentanaEntrar extends JFrame{
+public class Ventana extends JFrame{
 	
-	public VentanaEntrar() {
+	public Ventana() {
 		Login login=new Login(this);
 		getContentPane().add(login,BorderLayout.CENTER);
 		setSize(500,350);

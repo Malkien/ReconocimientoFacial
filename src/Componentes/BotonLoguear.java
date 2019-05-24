@@ -18,16 +18,19 @@ import Excepciones.PuestoException;
 import Personas.Usuario;
 import Visual.EleccionPantalla;
 import Visual.Login;
+import Visual.Ventana;
 
 public class BotonLoguear extends JButton{
 	private Login login;
-	public BotonLoguear(String txt, Login login) {
+	private Ventana ventana;
+	public BotonLoguear(Ventana ventana,String txt, Login login) {
 		super(txt);
 		this.login=login;
+		this.ventana=ventana;
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				loguear();
+				loguear(ventana);
 			}
 			
 		});
@@ -36,7 +39,7 @@ public class BotonLoguear extends JButton{
 			public void keyTyped(KeyEvent arg0) {
 				switch (arg0.getKeyChar()) {
 				case KeyEvent.VK_ENTER:
-					loguear();
+					loguear(ventana);
 					break;
 				}
 			}
@@ -46,7 +49,7 @@ public class BotonLoguear extends JButton{
 		setForeground(new Color(0, 0, 0));
 		setFont(new Font("Tahoma", Font.PLAIN, 12));
 	}
-	private void loguear() {
+	private void loguear(Ventana ventana) {
 		Usuario usuarioLogueado=null;
 		try {
 			usuarioLogueado=login.loguear();
@@ -67,7 +70,7 @@ public class BotonLoguear extends JButton{
 		}
 		if(usuarioLogueado!=null) {
 			login.setVisible(false);
-			EleccionPantalla elegir=new EleccionPantalla(login,usuarioLogueado);
+			EleccionPantalla elegir=new EleccionPantalla(ventana,login,usuarioLogueado);
 			login.ventana.getContentPane().add(elegir);
 		}
 		

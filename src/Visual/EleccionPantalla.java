@@ -16,9 +16,11 @@ import javax.swing.JMenuBar;
 public class EleccionPantalla extends JPanel{
 	private Usuario usuario;
 	public Login login;
-	public EleccionPantalla(Login login,Usuario usuario) {
+	public Ventana ventana;
+	public EleccionPantalla(Ventana ventana,Login login,Usuario usuario) {
 		this.usuario=usuario;
 		this.login=login;
+		this.ventana=ventana;
 		setBackground(new Color(173, 169, 183));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{35, 0, 0, 0, 35, 0};
@@ -34,7 +36,7 @@ public class EleccionPantalla extends JPanel{
 		gbc_titulo.gridy = 1;
 		add(titulo, gbc_titulo);
 		
-		BotonEleccion botonEntrenar = new BotonEleccion("Entrenamiento",this, usuario,Usuario.Seguridad.ENTRENAR);
+		BotonEleccion botonEntrenar = new BotonEleccion(ventana,"Entrenamiento",this, usuario,Usuario.Seguridad.ENTRENAR);
 		GridBagConstraints gbc_botonEntrenar = new GridBagConstraints();
 		gbc_botonEntrenar.fill = GridBagConstraints.BOTH;
 		gbc_botonEntrenar.insets = new Insets(0, 0, 5, 5);
@@ -42,7 +44,7 @@ public class EleccionPantalla extends JPanel{
 		gbc_botonEntrenar.gridy = 2;
 		add(botonEntrenar, gbc_botonEntrenar);
 		
-		BotonEleccion botonReconocimiento = new BotonEleccion("Reconocimiento",this, usuario,Usuario.Seguridad.RECONOCER);
+		BotonEleccion botonReconocimiento = new BotonEleccion(ventana,"Reconocimiento",this, usuario,Usuario.Seguridad.RECONOCER);
 		GridBagConstraints gbc_botonReconocimiento = new GridBagConstraints();
 		gbc_botonReconocimiento.fill = GridBagConstraints.BOTH;
 		gbc_botonReconocimiento.insets = new Insets(0, 0, 5, 5);
@@ -50,7 +52,7 @@ public class EleccionPantalla extends JPanel{
 		gbc_botonReconocimiento.gridy = 2;
 		add(botonReconocimiento, gbc_botonReconocimiento);
 		
-		BotonEleccion botonAdministrar = new BotonEleccion("Administrar", this, usuario,Usuario.Seguridad.ADMINISTRAR);
+		BotonEleccion botonAdministrar = new BotonEleccion(ventana,"Administrar", this, usuario,Usuario.Seguridad.ADMINISTRAR);
 		GridBagConstraints gbc_botonAdministrar = new GridBagConstraints();
 		gbc_botonAdministrar.fill = GridBagConstraints.BOTH;
 		gbc_botonAdministrar.insets = new Insets(0, 0, 5, 5);

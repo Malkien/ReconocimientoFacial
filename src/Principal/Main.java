@@ -11,13 +11,13 @@ import org.opencv.core.Mat;
 
 import Personas.FichaPersonal;
 import Visual.Login;
-import Visual.VentanaEntrar;
+import Visual.Ventana;
 
 public class Main {
 
 	public static void main(String[] args) {
             
-            VentanaEntrar ventana=new VentanaEntrar();
+            Ventana ventana=new Ventana();
     		ventana.setVisible(true);
             	
 	}
