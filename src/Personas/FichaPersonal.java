@@ -11,7 +11,6 @@ public final class FichaPersonal{
 	private String direccion;
 	private int telefono;
 	private String email;
-	private ArrayList<BufferedImage> imagenes;
 	private byte nivelConfidencialidad;//nivel de confidencialidad que hay que tener para que se pueda saber su identidad despues del un escaner coincidente
 	/**
 	 * Constructor de Persona
@@ -20,18 +19,16 @@ public final class FichaPersonal{
 	 * @param dni El DNI
 	 * @param telefono El telefono
 	 * @param email El email
-     * @param imagen La imagen
      * @param nivelConfidencialidad El nivel de confidencialidad
      * @param direccion La direccion
 	 * @throws Exception 
 	 */
-	public FichaPersonal(String nombre, String apellidos, String dni, int telefono, String email,ArrayList<BufferedImage> imagenes, byte nivelConfidencialidad, String direccion) throws Exception {
+	public FichaPersonal(String nombre, String apellidos, String dni, int telefono, String email, byte nivelConfidencialidad, String direccion) throws Exception {
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		setDni(dni);
 		this.telefono = telefono;
 		setEmail(email);
-        this.imagenes=imagenes;
         this.direccion=direccion;
 	}
 	
@@ -160,20 +157,6 @@ public final class FichaPersonal{
 		}else {
 			this.nivelConfidencialidad=0;
 		}
-	}
-	/**
-	 * Setter de imagenes
-	 * @param imagenes
-	 */
-	public void setImagen(ArrayList<BufferedImage> imagenes) {
-		this.imagenes = imagenes;
-	}
-	/**
-	 * Getter de imagen
-	 * @return devuelve la imagen
-	 */
-	public ArrayList<BufferedImage> getImagenes() {
-		return imagenes;
 	}
 	/**
 	 * Setter de direccion

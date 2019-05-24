@@ -161,7 +161,6 @@ public class Login extends JPanel{
 						encontrarFicha.getString("dni"),
 						encontrarFicha.getInt("telefono"),
 						encontrarFicha.getString("email"),
-						null,
 						encontrarFicha.getByte("nivelConfidencialidad"),
 						encontrarFicha.getString("direccion")));
 		} catch (Exception e) {

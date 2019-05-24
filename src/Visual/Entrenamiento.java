@@ -5,6 +5,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.mysql.cj.jdbc.Blob;
+
 import Componentes.Etiqueta;
 import Excepciones.PreparedStatementException;
 import Personas.FichaPersonal;
@@ -226,9 +228,9 @@ public class Entrenamiento extends JPanel{
 				float porcentaje=70;
 				BufferedImage imagenSimilar = null;
 				int idImagenSimilar=0;
+				float porcParecido=0;
 				
 				for (int i = 0; i < listadoImagenes.size(); i++) {
-					float porcParecido=0;
 					try {
 						porcParecido = ImageUtils.compareImage2(imagenSobel, listadoImagenes.get(i));
 					} catch (Exception e) {
@@ -248,24 +250,16 @@ public class Entrenamiento extends JPanel{
 						ResultSet imagenResultado=imagenEncontrada.executeQuery();
 						
 						if(imagenResultado.next()&&imagenResultado.getBoolean("cara")) {
-							//aqui poner que es cara
-							//crear la FichaPersonal
-							PreparedStatement imagenFicha=Conexion.creaPreparedStatement("SELECT * FROM FichaPersonal WHERE dni = dni=?");
-							imagenEncontrada.setString(1, imagenResultado.getString("FichaPersonal"));
-							ResultSet FichaEncontrada=imagenFicha.executeQuery();
-							FichaEncontrada.next();
-							personaSimilitud = new FichaPersonal(FichaEncontrada.getString("nombre"),
-									FichaEncontrada.getString("apellidos"),
-									FichaEncontrada.getString("dni"),
-									FichaEncontrada.getInt("telefono"),
-									FichaEncontrada.getString("email"),
-									null,
-									FichaEncontrada.getByte("nivelConfidencialidad"),
-									FichaEncontrada.getString("direccion"));
-							
+							int acertado=JOptionPane.showConfirmDialog(eleccion.login.ventana,"Después del analisis hemos deducido que es una persona, ¿He acertado?", "Coincidencia",JOptionPane.YES_NO_OPTION);
 							//TODO si llega aquí cree que es una cara, y te dice quien cree que es. Le das tres opciones: No es una cara, es esta persona, no es esta persona.
 							//en función de eso, metes en bd.
 						}else {
+							int esCara=JOptionPane.showConfirmDialog(eleccion.login.ventana,"Según el registro no es una cara, ¿Acierto?", "Añadir imagen",JOptionPane.YES_NO_OPTION);
+							if(esCara==1) {
+								
+							}else if(esCara==0) {
+								
+							}
 							//Cree que no es cara, te lanza dialogo diciendo que cree que no es una cara, y te da opcion de decir si es correcto o no. Si en realidad es una cara, lanza dialogo para que lo asocie con una ficha o cree una nueva.
 						}
 						
@@ -283,11 +277,50 @@ public class Entrenamiento extends JPanel{
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					}finally {
+						//cerrar las conexiones
 					}
 					
 				}else {
-					System.err.println("No hay imagen con más del 70% de parecido");
-					JOptionPane.showMessageDialog(eleccion.login.ventana, "¿Es una cara?","¿Es una cara?",JOptionPane.YES_NO_CANCEL_OPTION);
+					int respuestaAñadirImagen=JOptionPane.showConfirmDialog(eleccion.login.ventana,"No se encuentra coincidencia\n¿Quieres añadir la imagen al registro?", "Añadir imagen",JOptionPane.YES_NO_OPTION);
+					if(respuestaAñadirImagen==1) {
+						
+					}else if(respuestaAñadirImagen==0) {
+						int esCara=JOptionPane.showConfirmDialog(eleccion.login.ventana, "¿Es una cara?","¿Es una cara?",JOptionPane.YES_NO_OPTION);
+						if(esCara==1) {
+							try {
+								PreparedStatement conectarImagen=Conexion.creaPreparedStatement("INSERT INTO imagen(imagen,cara) VALUES(imagen=?, cara=?);");
+								conectarImagen.setString(1, ImageUtils.imagenAtexto(imagenSobel));
+								conectarImagen.setBoolean(2, false);
+								conectarImagen.executeUpdate();
+							} catch (PreparedStatementException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}else if(esCara==0) {
+							try {
+								PreparedStatement conectarImagen=Conexion.creaPreparedStatement(
+										"INSERT INTO imagen(imagen,cara,FichaPersonal) VALUES(imagen=?, cara=?, FichaPersonal=?);");
+								conectarImagen.setString(1, ImageUtils.imagenAtexto(imagenSobel));
+								conectarImagen.setBoolean(2, true);
+								System.out.println("HJO");
+								conectarImagen.setString(3, JOptionPane.showInputDialog(eleccion.login.ventana, "Introduce el DNI\\ncompruebe que es correcto"));
+								int fichaExiste=JOptionPane.showConfirmDialog(eleccion.login.ventana, "¿La ficha personal está en el sistema?","Añadir o no Persona",JOptionPane.YES_NO_OPTION);
+								conectarImagen.executeUpdate();
+							} catch (PreparedStatementException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						
+						
+					}
 				
 				}
 				//Comparas pixel a pixel con la actual y miras el porcentaje de pixels que son blancos o gris claro en las dos imágenes (el mismo px en las dos imagenes) 

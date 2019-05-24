@@ -26,7 +26,6 @@ CREATE TABLE IF NOT EXISTS `reconocimientobbdd`.`FichaPersonal` (
   `dni` VARCHAR(9) NOT NULL,
   `telefono` INT(9) NOT NULL,
   `direccion` VARCHAR(50),
-  `imagen` BLOB,
   `nivelConfidencialidad` INT NOT NULL,
   `email` VARCHAR(50) UNIQUE,
   PRIMARY KEY (`dni`))
