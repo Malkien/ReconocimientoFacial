@@ -14,13 +14,13 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema mydb
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `reconocimientobbdd` DEFAULT CHARACTER SET utf8 ;
-USE `reconocimientoBBDD` ;
+CREATE SCHEMA IF NOT EXISTS `reconocimientofacial` DEFAULT CHARACTER SET utf8 ;
+USE `reconocimientofacial` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`FichaPersonal`
+-- Table `mydb`.`fichapersonal`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `reconocimientobbdd`.`FichaPersonal` (
+CREATE TABLE IF NOT EXISTS `reconocimientofacial`.`fichapersonal` (
   `nombre` VARCHAR(50) NOT NULL,
   `apellidos` VARCHAR(50) NOT NULL,
   `dni` VARCHAR(9) NOT NULL,
@@ -32,19 +32,19 @@ CREATE TABLE IF NOT EXISTS `reconocimientobbdd`.`FichaPersonal` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `mydb`.`Usuario`
+-- Table `mydb`.`usuario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `reconocimientobbdd`.`Usuario` (
+CREATE TABLE IF NOT EXISTS `reconocimientofacial`.`usuario` (
   `nivelseguridad` INT NOT NULL,
-  `nombreUsuario` VARCHAR(50) NOT NULL,
+  `nombreusuario` VARCHAR(50) NOT NULL,
   `password` VARCHAR(50) NOT NULL,
   `puesto` VARCHAR(20),
-  `FichaPersonal` VARCHAR(9),
-  PRIMARY KEY (`nombreUsuario`),
-  INDEX `fk_Usuario_FichaPersonal1_idx` (`FichaPersonal` ASC),
-  CONSTRAINT `fk_Usuario_FichaPersonal1`
-    FOREIGN KEY (`FichaPersonal`)
-    REFERENCES `reconocimientobbdd`.`FichaPersonal` (`dni`)
+  `fichapersonal` VARCHAR(9),
+  PRIMARY KEY (`nombreusuario`),
+  INDEX `fk_usuario_fichapersonal1_idx` (`fichapersonal` ASC),
+  CONSTRAINT `fk_usuario_fichapersonal1`
+    FOREIGN KEY (`fichapersonal`)
+    REFERENCES `reconocimientofacial`.`fichapersonal` (`dni`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -52,16 +52,16 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`imagen`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `reconocimientobbdd`.`imagen` (
+CREATE TABLE IF NOT EXISTS `reconocimientofacial`.`imagen` (
   `id` int,
   `imagen` BLOB NOT NULL,
   `cara` tinyint NOT NULL,
-  `FichaPersonal` VARCHAR(9),
+  `fichapersonal` VARCHAR(9),
   PRIMARY KEY (`id`),
-  INDEX `fk_imagen_FichaPersonal1_idx` (`FichaPersonal` ASC),
-  CONSTRAINT `fk_imagen_FichaPersonal1`
-    FOREIGN KEY (`FichaPersonal`)
-    REFERENCES `reconocimientobbdd`.`FichaPersonal` (`dni`)
+  INDEX `fk_imagen_fichapersonal1_idx` (`fichapersonal` ASC),
+  CONSTRAINT `fk_imagen_fichapersonal1`
+    FOREIGN KEY (`fichapersonal`)
+    REFERENCES `reconocimientofacial`.`fichapersonal` (`dni`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -70,4 +70,3 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-SET GLOBAL time_zone='+1:00';

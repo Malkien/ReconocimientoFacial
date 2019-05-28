@@ -1,6 +1,6 @@
 package Excepciones;
 
-public class EncontrarUsuarioException extends Exception{
+public class EncontrarUsuarioException extends SuperException{
 
 	public EncontrarUsuarioException() {
 		super("Usuario no encontrado");

@@ -125,7 +125,7 @@ public class Login extends JPanel{
 	
 	public Usuario loguear() throws PuestoException, EncontrarUsuarioException, EncontrarFichaPersonalException, SQLException {
 		Usuario userLogueado=null;            	
-        PreparedStatement comprobar=Conexion.creaPreparedStatement("select * from USUARIO "
+        PreparedStatement comprobar=Conexion.creaPreparedStatement("select * from usuario "
                         + "where nombreUsuario=? and password=? ");
         if(Constantes.debugMode) {
 
@@ -148,7 +148,7 @@ public class Login extends JPanel{
         	throw new EncontrarUsuarioException();
         }
         
-        PreparedStatement comprobarFicha=Conexion.creaPreparedStatement("select * from FichaPersonal "
+        PreparedStatement comprobarFicha=Conexion.creaPreparedStatement("select * from fichapersonal "
                         + "where dni=? ");
     	comprobarFicha.setString(1,encontrado.getString("fichapersonal"));
     	

@@ -3,6 +3,9 @@ package Personas;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import Excepciones.DniException;
+import Excepciones.EmailException;
+
 
 public final class FichaPersonal{
 	private String nombre;
@@ -71,31 +74,32 @@ public final class FichaPersonal{
 	 * Setter de dni. Si la longitud del dni no es igual a 9 le da valor nulo
 	 * @param dni Ten en cuenta que tiene que tener 8 numeros y 1 letra.
 	 */
-	public final void setDni(String dni) throws Exception {
-        
-    	if(dni.length()!=9) {
-            throw new Exception();
-    	}else {
-            this.dni=compruebaDni(dni);
-    	}
+	public final void setDni(String dni) throws DniException {
+        	comprobarDni(dni);
+        	this.dni=dni;
+    	
 	}
 	/**
-	 * Comprueba si el dni introducido es valido, comprobando la coerencia con la letra.
+	 * Comprueba si el dni introducido es valido, comprobando la coerencia con la letra, y la longitud.
 	 * Ten en cuenta de que todas las posiciones excepto la ultima son numeros.
 	 * @param dni El DNI
-	 * @return devuelve el dni comprobado o una excepcion
 	 */
-	private String compruebaDni(String dni) throws Exception {
+	public static boolean comprobarDni(String dni) throws DniException {
 		String letras="TRWAGMYFPDXBNJZSQVHLCKET";
 		String numeros="";
-		for (int i = 0; i < dni.length()-1; i++) {
-			numeros+=dni.charAt(i);
-		}
-		if((dni.charAt(8)+"").equalsIgnoreCase(letras.charAt(Integer.parseInt(numeros)%23)+"")) {
-			return dni;
-		}else {
-            throw new Exception();
-		}
+		if(dni.length()!=9) {
+            throw new DniException();
+    	}else {
+            for (int i = 0; i < dni.length()-1; i++) {
+    			numeros+=dni.charAt(i);
+    		}
+    		if((dni.charAt(8)+"").equalsIgnoreCase(letras.charAt(Integer.parseInt(numeros)%23)+"")) {
+    			return true;
+    		}else {
+                throw new DniException();
+    		}
+    	}
+		
 	}
 	/**
 	 * Getter de telefono
@@ -124,21 +128,10 @@ public final class FichaPersonal{
 	 * @param email
 	 * @throws Exception 
 	 */
-	public final void setEmail(String email) throws Exception{
-		boolean tieneArroba=false;
-		boolean tienePunto=false;
-		for (int i = 0; i < email.length(); i++) {
-            if(email.charAt(i)=='@') {
-                tieneArroba=true;
-            }else if(email.charAt(i)=='.'){
-                tienePunto=true;
-            }
-		}
-        if(tieneArroba&&tienePunto) {
-            this.email = email;
-        }else {
-            throw new Exception();
-        }
+	public final void setEmail(String email) throws EmailException{
+		comprobarEmail(email);
+		this.email=email;
+		
 	}
 	/**
 	 * Getter de nivelConfidencialidad
@@ -171,5 +164,19 @@ public final class FichaPersonal{
 	 */
 	public String getDireccion() {
 		return direccion;
+	}
+	public static void comprobarEmail(String email) throws EmailException {
+		boolean tieneArroba=false;
+		boolean tienePunto=false;
+		for (int i = 0; i < email.length(); i++) {
+            if(email.charAt(i)=='@') {
+                tieneArroba=true;
+            }else if(email.charAt(i)=='.'){
+                tienePunto=true;
+            }
+		}
+        if(!tieneArroba||!tienePunto) {
+            throw new EmailException();
+        }
 	}
 }

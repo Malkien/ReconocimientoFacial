@@ -71,7 +71,7 @@ public class BotonLoguear extends JButton{
 		if(usuarioLogueado!=null) {
 			login.setVisible(false);
 			EleccionPantalla elegir=new EleccionPantalla(ventana,login,usuarioLogueado);
-			login.ventana.getContentPane().add(elegir);
+			ventana.getContentPane().add(elegir);
 		}
 		
 	}

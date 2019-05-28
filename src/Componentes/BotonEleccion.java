@@ -87,7 +87,7 @@ public class BotonEleccion extends JButton{
 			Administrar administrar=new Administrar(ventana,eleccion);
 			ventana.getContentPane().add(administrar);
 		}else if(seguridad==Seguridad.RECONOCER) {
-			Reconocimiento reconocer=new Reconocimiento(ventana);
+			Reconocimiento reconocer=new Reconocimiento(ventana,eleccion);
 			ventana.getContentPane().add(reconocer);
 		}else if(seguridad==Seguridad.ENTRENAR) {
 			Entrenamiento entrenar=new Entrenamiento(ventana,eleccion);

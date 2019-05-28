@@ -15,7 +15,7 @@ public class Administrar extends JPanel{
 	private Ventana ventana;
 	public Administrar(Ventana ventana,EleccionPantalla eleccion) {
 		this.ventana=ventana;
-		eleccion.login.ventana.getJMenuBar().setVisible(true);
+		ventana.getJMenuBar().setVisible(true);
 		//eleccion.login.ventana.getJMenuBar().getComponents()[0].setVisible(false);
 		eleccion.login.ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);//Poner en ventana completa
 	}

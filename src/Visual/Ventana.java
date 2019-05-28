@@ -25,6 +25,7 @@ public class Ventana extends JFrame{
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		menuBar.setVisible(false);
+		
 		BotonAtras botonBarAtras = new BotonAtras();
 		botonBarAtras.setHorizontalTextPosition(SwingConstants.CENTER);
 		botonBarAtras.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
