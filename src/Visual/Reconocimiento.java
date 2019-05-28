@@ -1,11 +1,9 @@
 package Visual;
 
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import com.mysql.cj.jdbc.Blob;
 
 import Componentes.Etiqueta;
 import Excepciones.PreparedStatementException;
@@ -14,7 +12,6 @@ import Principal.Conexion;
 import Principal.ImageUtils;
 
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -22,18 +19,11 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -47,24 +37,21 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
-import javax.swing.JTextPane;
 
-public class EntrenamientoReconocimiento extends JPanel{
+public class Reconocimiento extends JPanel{
 	private File archivoCogido;
 	private JTextArea areaTexto;
-	private EntrenamientoReconocimiento thisRef;
+	private Reconocimiento thisRef;
 	private BufferedImage imagen;
 	private Map<Integer,BufferedImage> listadoImagenes=new HashMap<Integer,BufferedImage>();
 	private BufferedImage imagenSobel;
 	private FichaPersonal personaSimilitud;
 	private Ventana ventana;
-	public EntrenamientoReconocimiento(Ventana ventana,EleccionPantalla eleccion, String txt) {
+	public Reconocimiento(Ventana ventana,EleccionPantalla eleccion) {
 		this.ventana=ventana;
 		thisRef=this;
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -74,7 +61,7 @@ public class EntrenamientoReconocimiento extends JPanel{
 		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		Etiqueta etiquetaTitulo = new Etiqueta(txt);
+		Etiqueta etiquetaTitulo = new Etiqueta("Reconocimiento");
 		GridBagConstraints gbc_etiquetaTitulo = new GridBagConstraints();
 		gbc_etiquetaTitulo.insets = new Insets(0, 0, 5, 0);
 		gbc_etiquetaTitulo.gridwidth = 5;
@@ -89,7 +76,13 @@ public class EntrenamientoReconocimiento extends JPanel{
 		gbc_botonAbrirImagen.gridy = 1;
 		add(botonAbrirImagen, gbc_botonAbrirImagen);
 		
+		JButton botonComparar = new JButton("Comparar");
 		
+		GridBagConstraints gbc_botonComparar = new GridBagConstraints();
+		gbc_botonComparar.insets = new Insets(0, 0, 5, 5);
+		gbc_botonComparar.gridx = 2;
+		gbc_botonComparar.gridy = 1;
+		add(botonComparar, gbc_botonComparar);
 		
 		JButton botonConvertir = new JButton("Convertir");
 		
@@ -200,6 +193,94 @@ public class EntrenamientoReconocimiento extends JPanel{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
+			}
+		});
+		botonComparar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				//Asegurate de que todas las imagenes en bd se han reescalado al mismo tamaño
+				//coger de base de datos todas las imagenes de caras y meterlas en un array (todas sobel)
+				try {
+					PreparedStatement selectImagen=Conexion.creaPreparedStatement("SELECT image FROM imagen");
+					ResultSet selectResultados=selectImagen.executeQuery();
+					while(selectResultados.next()) {
+						//Para cada imagen del array: Convertirla en bufferedImage
+						listadoImagenes.put(selectResultados.getInt("id"),ImageUtils.textoAImagen(selectResultados.getString("imagen")));
+					}
+					selectImagen.close();
+					selectResultados.close();
+				}catch(SQLException e) {
+					
+				}
+				float porcentaje=70;
+				BufferedImage imagenSimilar = null;
+				int idImagenSimilar=0;
+				float porcParecido=0;
+				
+				for (int i = 0; i < listadoImagenes.size(); i++) {
+					try {
+						porcParecido = ImageUtils.compareImage2(imagenSobel, listadoImagenes.get(i));
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if(porcParecido>porcentaje) {
+						porcentaje=porcParecido;
+						imagenSimilar = listadoImagenes.get(i);
+						idImagenSimilar=i;
+					}
+				}
+				
+				//Comprobaciones de la imagen
+				if(imagenSimilar!=null) {
+					try {
+						PreparedStatement imagenEncontrada=Conexion.creaPreparedStatement("SELECT * FROM imagen WHERE id = id=?");
+						imagenEncontrada.setInt(1, idImagenSimilar);
+						ResultSet imagenResultado=imagenEncontrada.executeQuery();
+						
+						if(imagenResultado.next()&&imagenResultado.getBoolean("cara")) {
+							
+							int acertado=JOptionPane.showConfirmDialog(ventana,"Después del analisis hemos deducido que es una persona, ¿He acertado?"
+									, "Coincidencia",JOptionPane.YES_NO_OPTION);
+							if(acertado==0) {
+								Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), imagenResultado.getBoolean("cara"), imagenResultado.getString("FichaPersonal"));
+							}else if(acertado==1){
+								noEsCara(ventana,imagenSobel);
+							}
+							//TODO si llega aquí cree que es una cara, y te dice quien cree que es. Le das tres opciones: No es una cara, es esta persona, no es esta persona.
+							//en función de eso, metes en bd.
+						}else {
+							int esCara=JOptionPane.showConfirmDialog(ventana,"Según el registro no es una cara, ¿Acierto?", "Añadir imagen",JOptionPane.YES_NO_OPTION);
+							if(esCara==1) {
+								
+							}else if(esCara==0) {
+								
+							}
+							//Cree que no es cara, te lanza dialogo diciendo que cree que no es una cara, y te da opcion de decir si es correcto o no. Si en realidad es una cara, lanza dialogo para que lo asocie con una ficha o cree una nueva.
+						}
+					} catch (PreparedStatementException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}finally {
+						//cerrar las conexiones
+					}
+					
+				}else {
+					noEsCara(ventana,imagenSobel);
+				
+				}
+				//Comparas pixel a pixel con la actual y miras el porcentaje de pixels que son blancos o gris claro en las dos imágenes (el mismo px en las dos imagenes) 
+				//De eso, te sale un porcentaje de pixels que son blancos en las dos.
+				//Guardas la imagen con el porcentaje mayor que encuentras y estimas que la imagen que tu le has pasaado
+				//es lo mismo (cara o no) que la imagen a la que más se parece
+				//Se lo preguntas al usuario : Creo que es una cara ¿Acierto? Tu le dices si o no , y guardas eso en base de datos con el es cara o no es cara.
 				
 			}
 		});
