@@ -172,7 +172,7 @@ public final class FichaPersonal{
             if(email.charAt(i)=='@') {
                 tieneArroba=true;
             }else if(email.charAt(i)=='.'){
-                tienePunto=true;
+            	tienePunto=true;
             }
 		}
         if(!tieneArroba||!tienePunto) {

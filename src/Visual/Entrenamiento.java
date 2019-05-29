@@ -281,12 +281,7 @@ public class Entrenamiento extends JPanel{
 							//TODO si llega aquí cree que es una cara, y te dice quien cree que es. Le das tres opciones: No es una cara, es esta persona, no es esta persona.
 							//en función de eso, metes en bd.
 						}else {
-							int esCara=JOptionPane.showConfirmDialog(ventana,"Según el registro no es una cara, ¿Acierto?", "Añadir imagen",JOptionPane.YES_NO_OPTION);
-							if(esCara==1) {
-								
-							}else if(esCara==0) {
-								
-							}
+							Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), false, null);
 							//Cree que no es cara, te lanza dialogo diciendo que cree que no es una cara, y te da opcion de decir si es correcto o no. Si en realidad es una cara, lanza dialogo para que lo asocie con una ficha o cree una nueva.
 						}
 					} catch (PreparedStatementException e) {
@@ -326,13 +321,9 @@ public class Entrenamiento extends JPanel{
 				Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), false, null);
 				
 			}else if(esCara==0) {
-				int existeFicha=JOptionPane.showConfirmDialog(ventana, "¿Tiene ficha creada dentro de la base de datos?","¿Tiene ficha?",JOptionPane.YES_NO_OPTION);
-				if(existeFicha==1) {
-				}else if(existeFicha==0) {
-					Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), true, 
-								JOptionPane.showInputDialog(ventana, "Introduce el DNI \n Compruebe que es correcto","Vincular"));
-				}
-				
+				Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), true, 
+							JOptionPane.showInputDialog(ventana, "Introduce el DNI \n Compruebe que es correcto","Vincular"));
+			
 			}
 			
 		}

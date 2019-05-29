@@ -1,2 +1,7 @@
 2019-05-28T21:21:45.489489500	Error al introducir email
 2019-05-28T21:21:46.597422500	Error al introducir email
+2019-05-29T21:15:21.225522100	Error al introducir email
+2019-05-29T21:35:28.259375700	Usuario no encontrado
+2019-05-29T21:37:35.083014200	Usuario no encontrado
+2019-05-29T21:52:40.581158100	Usuario no encontrado
+2019-05-29T21:58:04.867970300	Usuario no encontrado

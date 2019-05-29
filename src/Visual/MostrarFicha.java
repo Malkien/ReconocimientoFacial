@@ -3,13 +3,11 @@ package Visual;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 import Excepciones.DniException;
 import Excepciones.EmailException;
@@ -23,17 +21,17 @@ import java.awt.event.MouseEvent;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class CrearFicha extends JPanel{
-	private CrearFicha esta=this;
+public class MostrarFicha extends JPanel{
+	private MostrarFicha esta=this;
 	private JTextField textoNombre;
 	private JTextField textoApellidos;
 	private JTextField textoDNI;
 	private JTextField textoTelefono;
 	private JTextField textoDireccion;
-	private JTextField textoSeguridad;
+	private JTextField textoNvConfidencialidad;
 	private JTextField textoEmail;
 	
-	public CrearFicha() {
+	public MostrarFicha(String nombre, String apellidos, String dni, int telefono, byte nivelConfidencialidad, String direccion) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -41,7 +39,7 @@ public class CrearFicha extends JPanel{
 		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JLabel etiquetaTitulo = new JLabel("A\u00F1adir Ficha Personal");
+		JLabel etiquetaTitulo = new JLabel("Ficha Personal");
 		GridBagConstraints gbc_etiquetaTitulo = new GridBagConstraints();
 		gbc_etiquetaTitulo.gridwidth = 5;
 		gbc_etiquetaTitulo.insets = new Insets(0, 0, 5, 5);
@@ -56,6 +54,7 @@ public class CrearFicha extends JPanel{
 		gbc_etiquetaNombre.gridx = 1;
 		gbc_etiquetaNombre.gridy = 1;
 		add(etiquetaNombre, gbc_etiquetaNombre);
+		
 		
 		textoNombre = new JTextField();
 		GridBagConstraints gbc_textoNombre = new GridBagConstraints();
@@ -142,14 +141,14 @@ public class CrearFicha extends JPanel{
 		gbc_etiquetaNvConfidencialidad.gridy = 6;
 		add(etiquetaNvConfidencialidad, gbc_etiquetaNvConfidencialidad);
 		
-		textoSeguridad = new JTextField();
-		GridBagConstraints gbc_textoSeguridad = new GridBagConstraints();
-		gbc_textoSeguridad.insets = new Insets(0, 0, 5, 5);
-		gbc_textoSeguridad.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textoSeguridad.gridx = 2;
-		gbc_textoSeguridad.gridy = 6;
-		add(textoSeguridad, gbc_textoSeguridad);
-		textoSeguridad.setColumns(10);
+		textoNvConfidencialidad = new JTextField();
+		GridBagConstraints gbc_textoNvConfidencialidad = new GridBagConstraints();
+		gbc_textoNvConfidencialidad.insets = new Insets(0, 0, 5, 5);
+		gbc_textoNvConfidencialidad.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textoNvConfidencialidad.gridx = 2;
+		gbc_textoNvConfidencialidad.gridy = 6;
+		add(textoNvConfidencialidad, gbc_textoNvConfidencialidad);
+		textoNvConfidencialidad.setColumns(10);
 		
 		JLabel etiquetaEmail = new JLabel("Email: ");
 		GridBagConstraints gbc_etiquetaEmail = new GridBagConstraints();
@@ -168,58 +167,18 @@ public class CrearFicha extends JPanel{
 		add(textoEmail, gbc_textoEmail);
 		textoEmail.setColumns(10);
 		
-		JButton botonAdd = new JButton("A\u00F1adir");
-		botonAdd.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				PreparedStatement insertarFicha=null;
-				boolean insertadoOK=false;
-				try {
-					FichaPersonal.comprobarEmail(textoEmail.getText());
-					FichaPersonal.comprobarDni(textoDNI.getText());
-					
-					insertarFicha = Conexion.creaPreparedStatement("INSERT INTO fichapersonal VALUES("
-							+ "nombre=?, apellidos=?, dni=?, telefono=?, direccion=?, nivelConfidencialidad=?, email=?);");
-					insertarFicha.setString(1, "\""+textoNombre.getText()+"\"");
-					insertarFicha.setString(2, "\""+textoApellidos.getText()+"\"");
-					insertarFicha.setString(3, "\""+textoDNI.getText()+"\"");
-					insertarFicha.setInt(4, Integer.parseInt(textoTelefono.getText()));
-					insertarFicha.setString(5, "\""+textoDireccion.getText()+"\"");
-					insertarFicha.setInt(6, Integer.parseInt(textoSeguridad.getText()));
-					insertarFicha.setString(7,"\""+textoEmail.getText()+"\"");
-					insertarFicha.executeUpdate();
-					insertadoOK=true;
-				}catch(EmailException ex) {
-					textoEmail.setBackground(Color.RED);
-					ex.printStackTrace();
-				} catch (DniException e1) {
-					textoEmail.setBackground(Color.RED);
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (PreparedStatementException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}finally{
-					try {
-						insertarFicha.close();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				if(insertadoOK) {
-					JOptionPane.showMessageDialog(esta, "Añadido correctamente", "Añadido", JOptionPane.ERROR_MESSAGE);
-					SwingUtilities.getWindowAncestor(esta).dispose();
-				}
-			}
-		});
-		GridBagConstraints gbc_botonAdd = new GridBagConstraints();
-		gbc_botonAdd.insets = new Insets(0, 0, 0, 5);
-		gbc_botonAdd.gridx = 2;
-		gbc_botonAdd.gridy = 8;
-		add(botonAdd, gbc_botonAdd);
+		textoNombre.setText(nombre);
+		textoApellidos.setText(apellidos);
+		textoDNI.setText(dni);
+		textoTelefono.setText(telefono+"");
+		textoNvConfidencialidad.setText(nivelConfidencialidad+"");
+		textoDireccion.setText(direccion);
+		textoNombre.setEnabled(false);
+		textoApellidos.setEnabled(false);
+		textoDNI.setEnabled(false);
+		textoTelefono.setEnabled(false);
+		textoNvConfidencialidad.setEnabled(false);
+		textoDireccion.setEnabled(false);
+		
 	}
 }

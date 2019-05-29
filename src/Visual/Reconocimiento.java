@@ -76,7 +76,7 @@ public class Reconocimiento extends JPanel{
 		gbc_botonAbrirImagen.gridy = 1;
 		add(botonAbrirImagen, gbc_botonAbrirImagen);
 		
-		JButton botonComparar = new JButton("Comparar");
+		JButton botonComparar = new JButton("Buscar");
 		
 		GridBagConstraints gbc_botonComparar = new GridBagConstraints();
 		gbc_botonComparar.insets = new Insets(0, 0, 5, 5);
@@ -241,22 +241,13 @@ public class Reconocimiento extends JPanel{
 						
 						if(imagenResultado.next()&&imagenResultado.getBoolean("cara")) {
 							
-							int acertado=JOptionPane.showConfirmDialog(ventana,"Después del analisis hemos deducido que es una persona, ¿He acertado?"
-									, "Coincidencia",JOptionPane.YES_NO_OPTION);
-							if(acertado==0) {
+							int acertado=JOptionPane.showConfirmDialog(ventana,"Después del analisis hemos deducido que es una persona", "Coincidencia",JOptionPane.YES_NO_OPTION);
 								Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), imagenResultado.getBoolean("cara"), imagenResultado.getString("FichaPersonal"));
-							}else if(acertado==1){
-								noEsCara(ventana,imagenSobel);
-							}
+								
 							//TODO si llega aquí cree que es una cara, y te dice quien cree que es. Le das tres opciones: No es una cara, es esta persona, no es esta persona.
 							//en función de eso, metes en bd.
 						}else {
-							int esCara=JOptionPane.showConfirmDialog(ventana,"Según el registro no es una cara, ¿Acierto?", "Añadir imagen",JOptionPane.YES_NO_OPTION);
-							if(esCara==1) {
-								
-							}else if(esCara==0) {
-								
-							}
+							JOptionPane.showMessageDialog(ventana, "No es una cara","Coincidencia sin Ficha",JOptionPane.OK_OPTION);
 							//Cree que no es cara, te lanza dialogo diciendo que cree que no es una cara, y te da opcion de decir si es correcto o no. Si en realidad es una cara, lanza dialogo para que lo asocie con una ficha o cree una nueva.
 						}
 					} catch (PreparedStatementException e) {
@@ -273,7 +264,7 @@ public class Reconocimiento extends JPanel{
 					}
 					
 				}else {
-					noEsCara(ventana,imagenSobel);
+					JOptionPane.showMessageDialog(ventana, "No hay coincidencia con la BBDD","Sin coincidencia",JOptionPane.OK_OPTION);
 				
 				}
 				//Comparas pixel a pixel con la actual y miras el porcentaje de pixels que son blancos o gris claro en las dos imágenes (el mismo px en las dos imagenes) 
@@ -284,28 +275,6 @@ public class Reconocimiento extends JPanel{
 				
 			}
 		});
-	}
-	public static void noEsCara(Ventana ventana,BufferedImage imagenSobel) {
-		int respuestaAñadirImagen=JOptionPane.showConfirmDialog(ventana,"No se encuentra coincidencia \n ¿Quieres añadir la imagen al registro?", "Añadir imagen",JOptionPane.YES_NO_OPTION);
-		if(respuestaAñadirImagen==1) {
-			
-		}else if(respuestaAñadirImagen==0) {
-			int esCara=JOptionPane.showConfirmDialog(ventana, "¿Es una cara?","¿Es una cara?",JOptionPane.YES_NO_OPTION);
-			if(esCara==1) {
-				
-				Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), false, null);
-				
-			}else if(esCara==0) {
-				int existeFicha=JOptionPane.showConfirmDialog(ventana, "¿Tiene ficha creada dentro de la base de datos?","¿Tiene ficha?",JOptionPane.YES_NO_OPTION);
-				if(existeFicha==1) {
-				}else if(existeFicha==0) {
-					Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), true, 
-								JOptionPane.showInputDialog(ventana, "Introduce el DNI \n Compruebe que es correcto","Vincular"));
-				}
-				
-			}
-			
-		}
 	}
 	
 }

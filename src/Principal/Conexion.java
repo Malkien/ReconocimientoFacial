@@ -21,7 +21,7 @@ public class Conexion {
 	public static void realizarInsertImagen(String imagen, boolean cara, String fichaPersonal) {
 		PreparedStatement insertImagen=null;
 		try {
-			insertImagen=creaPreparedStatement("INSERT INTO imagen(imagen,cara,fichapersonal) VALUES(imagen=?,cara=?,fichapersonal=?);");
+			insertImagen=creaPreparedStatement("INSERT INTO imagen(imagen,cara,fichapersonal) VALUES(imagen=?,cara=?,\"fichapersonal=?\");");
 			insertImagen.setString(1, imagen);
 			insertImagen.setBoolean(2,cara);
 			insertImagen.setString(3, fichaPersonal);
