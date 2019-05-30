@@ -11,13 +11,13 @@ import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import Componentes.BotonDefault;
 import Excepciones.DniException;
 import Excepciones.EmailException;
 import Excepciones.PreparedStatementException;
 import Personas.FichaPersonal;
 import Principal.Conexion;
 
-import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.PreparedStatement;
@@ -168,7 +168,7 @@ public class CrearFicha extends JPanel{
 		add(textoEmail, gbc_textoEmail);
 		textoEmail.setColumns(10);
 		
-		JButton botonAdd = new JButton("A\u00F1adir");
+		BotonDefault botonAdd = new BotonDefault("A\u00F1adir");
 		botonAdd.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -178,15 +178,16 @@ public class CrearFicha extends JPanel{
 					FichaPersonal.comprobarEmail(textoEmail.getText());
 					FichaPersonal.comprobarDni(textoDNI.getText());
 					
-					insertarFicha = Conexion.creaPreparedStatement("INSERT INTO fichapersonal VALUES("
-							+ "nombre=?, apellidos=?, dni=?, telefono=?, direccion=?, nivelConfidencialidad=?, email=?);");
-					insertarFicha.setString(1, "\""+textoNombre.getText()+"\"");
-					insertarFicha.setString(2, "\""+textoApellidos.getText()+"\"");
-					insertarFicha.setString(3, "\""+textoDNI.getText()+"\"");
+					insertarFicha = Conexion.creaPreparedStatement("INSERT INTO fichapersonal(nombre,apellidos,dni,telefono,direccion,nivelConfidencialidad,email) "
+							+ "VALUES(?,?,?,?,?,?,?);");
+					insertarFicha.setString(1, textoNombre.getText());
+					insertarFicha.setString(2, textoApellidos.getText());
+					System.out.println(textoDNI.getText().length());
+					insertarFicha.setString(3,textoDNI.getText());
 					insertarFicha.setInt(4, Integer.parseInt(textoTelefono.getText()));
-					insertarFicha.setString(5, "\""+textoDireccion.getText()+"\"");
+					insertarFicha.setString(5, textoDireccion.getText());
 					insertarFicha.setInt(6, Integer.parseInt(textoSeguridad.getText()));
-					insertarFicha.setString(7,"\""+textoEmail.getText()+"\"");
+					insertarFicha.setString(7,textoEmail.getText());
 					insertarFicha.executeUpdate();
 					insertadoOK=true;
 				}catch(EmailException ex) {

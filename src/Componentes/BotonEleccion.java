@@ -19,7 +19,7 @@ import Visual.Entrenamiento;
 import Visual.Reconocimiento;
 import Visual.Ventana;
 
-public class BotonEleccion extends JButton{
+public class BotonEleccion extends BotonDefault{
 	private EleccionPantalla eleccion;
 	private Usuario usuario;
 	private Usuario.Seguridad seguridad;
@@ -47,10 +47,6 @@ public class BotonEleccion extends JButton{
 				}
 			}
 		});
-		setBackground(new Color(235, 206, 235));
-        setBorderPainted(true);
-		setForeground(new Color(0, 0, 0));
-		setFont(new Font("Tahoma", Font.PLAIN, 12));
 	}
 	
 	private void comprobarPuesto() {
@@ -84,13 +80,13 @@ public class BotonEleccion extends JButton{
 	private void cambiarPantalla() {
 		eleccion.setVisible(false);
 		if(seguridad==Seguridad.ADMINISTRAR) {
-			Administrar administrar=new Administrar(ventana,eleccion);
+			Administrar administrar=new Administrar(ventana,eleccion,usuario);
 			ventana.getContentPane().add(administrar);
 		}else if(seguridad==Seguridad.RECONOCER) {
-			Reconocimiento reconocer=new Reconocimiento(ventana,eleccion);
+			Reconocimiento reconocer=new Reconocimiento(ventana,eleccion,usuario);
 			ventana.getContentPane().add(reconocer);
 		}else if(seguridad==Seguridad.ENTRENAR) {
-			Entrenamiento entrenar=new Entrenamiento(ventana,eleccion);
+			Entrenamiento entrenar=new Entrenamiento(ventana,eleccion,usuario);
 			ventana.getContentPane().add(entrenar);
 		}
 	}

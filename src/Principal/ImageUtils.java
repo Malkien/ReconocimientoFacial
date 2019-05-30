@@ -3,6 +3,7 @@ package Principal;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.io.File;
@@ -221,4 +222,14 @@ public static int  getGrayScale(int rgb) {
 		System.out.println("Resultado: "+porcentaje);
 		return porcentaje;
 	}
+	public static BufferedImage resize(BufferedImage bufferedImage) {
+        int w = bufferedImage.getWidth();
+        int h = bufferedImage.getHeight();
+        BufferedImage bufim = new BufferedImage(500, 500, bufferedImage.getType());
+        Graphics2D g = bufim.createGraphics();
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g.drawImage(bufferedImage, 0, 0, 500, 500, 0, 0, w, h, null);
+        g.dispose();
+        return bufim;
+    }
 }

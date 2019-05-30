@@ -9,8 +9,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class BotonSalir extends JButton{
+public class BotonSalir extends BotonDefault{
 	public BotonSalir(String txt) {
+		super(txt);
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -28,11 +29,6 @@ public class BotonSalir extends JButton{
 				}
 			}
 		});
-		setBackground(new Color(135, 206, 235));
-        setBorderPainted(true);
-		setForeground(new Color(0, 0, 0));
-		setText(txt);
-		setFont(new Font("Tahoma", Font.PLAIN, 12));
 	}
 	
 }

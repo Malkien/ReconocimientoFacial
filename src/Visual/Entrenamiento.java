@@ -1,20 +1,19 @@
 package Visual;
 
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import com.mysql.cj.jdbc.Blob;
 
+import Componentes.BotonDefault;
 import Componentes.Etiqueta;
 import Excepciones.PreparedStatementException;
 import Personas.FichaPersonal;
+import Personas.Usuario;
 import Principal.Conexion;
 import Principal.ImageUtils;
 
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -22,18 +21,12 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -47,13 +40,9 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import javax.swing.JButton;
-import javax.swing.JTextPane;
 
 public class Entrenamiento extends JPanel{
 	private File archivoCogido;
@@ -64,9 +53,13 @@ public class Entrenamiento extends JPanel{
 	private BufferedImage imagenSobel;
 	private FichaPersonal personaSimilitud;
 	private Ventana ventana;
-	public Entrenamiento(Ventana ventana,EleccionPantalla eleccion) {
+	private Usuario usuario;
+	public Entrenamiento(Ventana ventana,EleccionPantalla eleccion,Usuario usuario) {
 		this.ventana=ventana;
 		thisRef=this;
+		this.usuario=usuario;
+		ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);//Poner en ventana completa
+		setBackground(new Color(173, 169, 183));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
@@ -82,14 +75,14 @@ public class Entrenamiento extends JPanel{
 		gbc_etiquetaTitulo.gridy = 0;
 		add(etiquetaTitulo, gbc_etiquetaTitulo);
 		
-		JButton botonAbrirImagen = new JButton("Abrir Imagen");
+		BotonDefault botonAbrirImagen = new BotonDefault("Abrir Imagen");
 		GridBagConstraints gbc_botonAbrirImagen = new GridBagConstraints();
 		gbc_botonAbrirImagen.insets = new Insets(0, 0, 5, 5);
 		gbc_botonAbrirImagen.gridx = 1;
 		gbc_botonAbrirImagen.gridy = 1;
 		add(botonAbrirImagen, gbc_botonAbrirImagen);
 		
-		JButton botonComparar = new JButton("Comparar");
+		BotonDefault botonComparar = new BotonDefault("Comparar");
 		
 		GridBagConstraints gbc_botonComparar = new GridBagConstraints();
 		gbc_botonComparar.insets = new Insets(0, 0, 5, 5);
@@ -97,7 +90,7 @@ public class Entrenamiento extends JPanel{
 		gbc_botonComparar.gridy = 1;
 		add(botonComparar, gbc_botonComparar);
 		
-		JButton botonConvertir = new JButton("Convertir");
+		BotonDefault botonConvertir = new BotonDefault("Convertir");
 		
 		GridBagConstraints gbc_botonConvertir = new GridBagConstraints();
 		gbc_botonConvertir.insets = new Insets(0, 0, 5, 5);
@@ -133,7 +126,7 @@ public class Entrenamiento extends JPanel{
 		gbc_imagenResultado.gridy = 2;
 		add(imagenResultado, gbc_imagenResultado);
 		
-		JButton botonAddFicha = new JButton("A\u00F1adir Ficha");
+		BotonDefault botonAddFicha = new BotonDefault("A\u00F1adir Ficha");
 		botonAddFicha.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -151,9 +144,6 @@ public class Entrenamiento extends JPanel{
 		gbc_botonAddFicha.gridy = 2;
 		add(botonAddFicha, gbc_botonAddFicha);
 		
-		ventana.getJMenuBar().setVisible(true);
-		ventana.getJMenuBar().getComponents()[0].setVisible(false);
-		ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);//Poner en ventana completa
 		
 		botonAbrirImagen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -194,7 +184,7 @@ public class Entrenamiento extends JPanel{
 					//El fichero es una imagen.
 					try {
 						BufferedImage aux=ImageIO.read(archivoCogido);
-						 imagen=ImageUtils.toBufferedImage(aux.getScaledInstance(imagenOriginal.getWidth(), imagenOriginal.getHeight(), Image.SCALE_SMOOTH));
+						 imagen=ImageUtils.resize(ImageUtils.toBufferedImage(aux.getScaledInstance(imagenOriginal.getWidth(), imagenOriginal.getHeight(), Image.SCALE_SMOOTH)));
 						//imagen.getGraphics().drawImage(image, imagenOriginal.getWidth(), imagenOriginal.getHeight() , null);
 						
 					} catch (IOException e1) {
@@ -233,7 +223,7 @@ public class Entrenamiento extends JPanel{
 				//Asegurate de que todas las imagenes en bd se han reescalado al mismo tamaño
 				//coger de base de datos todas las imagenes de caras y meterlas en un array (todas sobel)
 				try {
-					PreparedStatement selectImagen=Conexion.creaPreparedStatement("SELECT image FROM imagen");
+					PreparedStatement selectImagen=Conexion.creaPreparedStatement("SELECT * FROM imagen");
 					ResultSet selectResultados=selectImagen.executeQuery();
 					while(selectResultados.next()) {
 						//Para cada imagen del array: Convertirla en bufferedImage
@@ -321,8 +311,8 @@ public class Entrenamiento extends JPanel{
 				Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), false, null);
 				
 			}else if(esCara==0) {
-				Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), true, 
-							JOptionPane.showInputDialog(ventana, "Introduce el DNI \n Compruebe que es correcto","Vincular"));
+				String dni=JOptionPane.showInputDialog(ventana, "Introduce el DNI \n Compruebe que es correcto","Vincular");
+				Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), true,dni);
 			
 			}
 			

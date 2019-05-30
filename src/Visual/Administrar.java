@@ -3,21 +3,115 @@ package Visual;
 import javax.swing.JPanel;
 
 import Componentes.BotonAtras;
+import Componentes.BotonDefault;
+import Componentes.Etiqueta;
+import Personas.Usuario;
 
-import javax.swing.JLabel;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.GridBagLayout;
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class Administrar extends JPanel{
 	private Ventana ventana;
-	public Administrar(Ventana ventana,EleccionPantalla eleccion) {
+	private Usuario usuario;
+	public Administrar(Ventana ventana,EleccionPantalla eleccion, Usuario usuario) {
 		this.ventana=ventana;
-		ventana.getJMenuBar().setVisible(true);
-		//eleccion.login.ventana.getJMenuBar().getComponents()[0].setVisible(false);
-		eleccion.login.ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);//Poner en ventana completa
+		this.usuario=usuario;
+		setBackground(new Color(173, 169, 183));
+		ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);//Poner en ventana completa
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{63, 14, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
+		setLayout(gridBagLayout);
+		
+		Etiqueta EtiquetaTitulo = new Etiqueta("Administracion");
+		GridBagConstraints gbc_EtiquetaTitulo = new GridBagConstraints();
+		gbc_EtiquetaTitulo.gridwidth = 7;
+		gbc_EtiquetaTitulo.insets = new Insets(0, 0, 5, 0);
+		gbc_EtiquetaTitulo.gridx = 0;
+		gbc_EtiquetaTitulo.gridy = 0;
+		add(EtiquetaTitulo, gbc_EtiquetaTitulo);
+		
+		Etiqueta EtiquetaAñadir = new Etiqueta("A\u00F1adir");
+		GridBagConstraints gbc_EtiquetaAñadir = new GridBagConstraints();
+		gbc_EtiquetaAñadir.insets = new Insets(0, 0, 5, 5);
+		gbc_EtiquetaAñadir.gridx = 1;
+		gbc_EtiquetaAñadir.gridy = 1;
+		add(EtiquetaAñadir, gbc_EtiquetaAñadir);
+		
+		Etiqueta EtiquetaBorrar = new Etiqueta("Borrar");
+		GridBagConstraints gbc_EtiquetaBorrar = new GridBagConstraints();
+		gbc_EtiquetaBorrar.insets = new Insets(0, 0, 5, 5);
+		gbc_EtiquetaBorrar.gridx = 3;
+		gbc_EtiquetaBorrar.gridy = 1;
+		add(EtiquetaBorrar, gbc_EtiquetaBorrar);
+		
+		Etiqueta EtiquetaMod = new Etiqueta("Modificar");
+		GridBagConstraints gbc_EtiquetaMod = new GridBagConstraints();
+		gbc_EtiquetaMod.insets = new Insets(0, 0, 5, 5);
+		gbc_EtiquetaMod.gridx = 5;
+		gbc_EtiquetaMod.gridy = 1;
+		add(EtiquetaMod, gbc_EtiquetaMod);
+		
+		BotonDefault botonAddFicha = new BotonDefault("A\u00F1adir Ficha Personal");
+		GridBagConstraints gbc_botonAddFicha = new GridBagConstraints();
+		gbc_botonAddFicha.fill = GridBagConstraints.BOTH;
+		gbc_botonAddFicha.insets = new Insets(0, 0, 5, 5);
+		gbc_botonAddFicha.gridx = 1;
+		gbc_botonAddFicha.gridy = 2;
+		add(botonAddFicha, gbc_botonAddFicha);
+		
+		BotonDefault botonBorrarFicha = new BotonDefault("Borrar Ficha Personal");
+		GridBagConstraints gbc_botonBorrarFicha = new GridBagConstraints();
+		gbc_botonBorrarFicha.fill = GridBagConstraints.BOTH;
+		gbc_botonBorrarFicha.insets = new Insets(0, 0, 5, 5);
+		gbc_botonBorrarFicha.gridx = 3;
+		gbc_botonBorrarFicha.gridy = 2;
+		add(botonBorrarFicha, gbc_botonBorrarFicha);
+		
+		BotonDefault botonModFicha = new BotonDefault("Modificar Ficha Personal");
+		GridBagConstraints gbc_botonModFicha = new GridBagConstraints();
+		gbc_botonModFicha.fill = GridBagConstraints.BOTH;
+		gbc_botonModFicha.insets = new Insets(0, 0, 5, 5);
+		gbc_botonModFicha.gridx = 5;
+		gbc_botonModFicha.gridy = 2;
+		add(botonModFicha, gbc_botonModFicha);
+		
+		BotonDefault botonAddUsuario = new BotonDefault("A\u00F1adir Usuario");
+		GridBagConstraints gbc_botonAddUsuario = new GridBagConstraints();
+		gbc_botonAddUsuario.fill = GridBagConstraints.BOTH;
+		gbc_botonAddUsuario.insets = new Insets(0, 0, 5, 5);
+		gbc_botonAddUsuario.gridx = 1;
+		gbc_botonAddUsuario.gridy = 3;
+		add(botonAddUsuario, gbc_botonAddUsuario);
+		
+		BotonDefault botonBorrarUsuario = new BotonDefault("BorrarUsuario");
+		GridBagConstraints gbc_botonBorrarUsuario = new GridBagConstraints();
+		gbc_botonBorrarUsuario.fill = GridBagConstraints.BOTH;
+		gbc_botonBorrarUsuario.insets = new Insets(0, 0, 5, 5);
+		gbc_botonBorrarUsuario.gridx = 3;
+		gbc_botonBorrarUsuario.gridy = 3;
+		add(botonBorrarUsuario, gbc_botonBorrarUsuario);
+		
+		BotonDefault botonModUsuario = new BotonDefault("Modificar Usuario");
+		botonModUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		GridBagConstraints gbc_botonModUsuario = new GridBagConstraints();
+		gbc_botonModUsuario.insets = new Insets(0, 0, 5, 5);
+		gbc_botonModUsuario.fill = GridBagConstraints.BOTH;
+		gbc_botonModUsuario.gridx = 5;
+		gbc_botonModUsuario.gridy = 3;
+		add(botonModUsuario, gbc_botonModUsuario);
+		
 	}
 
 }

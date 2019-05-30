@@ -20,7 +20,7 @@ import Visual.EleccionPantalla;
 import Visual.Login;
 import Visual.Ventana;
 
-public class BotonLoguear extends JButton{
+public class BotonLoguear extends BotonDefault{
 	private Login login;
 	private Ventana ventana;
 	public BotonLoguear(Ventana ventana,String txt, Login login) {

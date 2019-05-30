@@ -15,7 +15,6 @@ import Excepciones.PreparedStatementException;
 import Personas.FichaPersonal;
 import Principal.Conexion;
 
-import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.PreparedStatement;

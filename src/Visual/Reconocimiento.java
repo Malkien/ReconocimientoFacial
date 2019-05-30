@@ -4,10 +4,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-
+import Componentes.BotonDefault;
 import Componentes.Etiqueta;
 import Excepciones.PreparedStatementException;
 import Personas.FichaPersonal;
+import Personas.Usuario;
 import Principal.Conexion;
 import Principal.ImageUtils;
 
@@ -21,6 +22,7 @@ import java.awt.Image;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -40,7 +42,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JButton;
 
 public class Reconocimiento extends JPanel{
 	private File archivoCogido;
@@ -51,9 +52,13 @@ public class Reconocimiento extends JPanel{
 	private BufferedImage imagenSobel;
 	private FichaPersonal personaSimilitud;
 	private Ventana ventana;
-	public Reconocimiento(Ventana ventana,EleccionPantalla eleccion) {
+	private Usuario usuario;
+	public Reconocimiento(Ventana ventana,EleccionPantalla eleccion,Usuario usuario) {
 		this.ventana=ventana;
 		thisRef=this;
+		this.usuario=usuario;
+		setBackground(new Color(173, 169, 183));
+		ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);//Poner en ventana completa
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
@@ -69,14 +74,14 @@ public class Reconocimiento extends JPanel{
 		gbc_etiquetaTitulo.gridy = 0;
 		add(etiquetaTitulo, gbc_etiquetaTitulo);
 		
-		JButton botonAbrirImagen = new JButton("Abrir Imagen");
+		BotonDefault botonAbrirImagen = new BotonDefault("Abrir Imagen");
 		GridBagConstraints gbc_botonAbrirImagen = new GridBagConstraints();
 		gbc_botonAbrirImagen.insets = new Insets(0, 0, 5, 5);
 		gbc_botonAbrirImagen.gridx = 1;
 		gbc_botonAbrirImagen.gridy = 1;
 		add(botonAbrirImagen, gbc_botonAbrirImagen);
 		
-		JButton botonComparar = new JButton("Buscar");
+		BotonDefault botonComparar = new BotonDefault("Buscar");
 		
 		GridBagConstraints gbc_botonComparar = new GridBagConstraints();
 		gbc_botonComparar.insets = new Insets(0, 0, 5, 5);
@@ -84,7 +89,7 @@ public class Reconocimiento extends JPanel{
 		gbc_botonComparar.gridy = 1;
 		add(botonComparar, gbc_botonComparar);
 		
-		JButton botonConvertir = new JButton("Convertir");
+		BotonDefault botonConvertir = new BotonDefault("Convertir");
 		
 		GridBagConstraints gbc_botonConvertir = new GridBagConstraints();
 		gbc_botonConvertir.insets = new Insets(0, 0, 5, 5);
@@ -119,10 +124,6 @@ public class Reconocimiento extends JPanel{
 		gbc_imagenResultado.gridx = 3;
 		gbc_imagenResultado.gridy = 2;
 		add(imagenResultado, gbc_imagenResultado);
-		
-		ventana.getJMenuBar().setVisible(true);
-		ventana.getJMenuBar().getComponents()[0].setVisible(false);
-		ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);//Poner en ventana completa
 		
 		botonAbrirImagen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -163,7 +164,7 @@ public class Reconocimiento extends JPanel{
 					//El fichero es una imagen.
 					try {
 						BufferedImage aux=ImageIO.read(archivoCogido);
-						 imagen=ImageUtils.toBufferedImage(aux.getScaledInstance(imagenOriginal.getWidth(), imagenOriginal.getHeight(), Image.SCALE_SMOOTH));
+						 imagen=ImageUtils.resize(ImageUtils.toBufferedImage(aux.getScaledInstance(imagenOriginal.getWidth(), imagenOriginal.getHeight(), Image.SCALE_SMOOTH)));
 						//imagen.getGraphics().drawImage(image, imagenOriginal.getWidth(), imagenOriginal.getHeight() , null);
 						
 					} catch (IOException e1) {
@@ -241,11 +242,11 @@ public class Reconocimiento extends JPanel{
 						
 						if(imagenResultado.next()&&imagenResultado.getBoolean("cara")) {
 							
-							int acertado=JOptionPane.showConfirmDialog(ventana,"Después del analisis hemos deducido que es una persona", "Coincidencia",JOptionPane.YES_NO_OPTION);
+							int correcto=JOptionPane.showConfirmDialog(ventana,"Después del analisis hemos deducido que es una persona. ¿Es correcto?", "Coincidencia",JOptionPane.YES_NO_OPTION);
+							if(correcto==0) {
+								Conexion.sacarDatosFicha(imagenResultado.getString("dni"), ventana,usuario);
 								Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), imagenResultado.getBoolean("cara"), imagenResultado.getString("FichaPersonal"));
-								
-							//TODO si llega aquí cree que es una cara, y te dice quien cree que es. Le das tres opciones: No es una cara, es esta persona, no es esta persona.
-							//en función de eso, metes en bd.
+							}
 						}else {
 							JOptionPane.showMessageDialog(ventana, "No es una cara","Coincidencia sin Ficha",JOptionPane.OK_OPTION);
 							//Cree que no es cara, te lanza dialogo diciendo que cree que no es una cara, y te da opcion de decir si es correcto o no. Si en realidad es una cara, lanza dialogo para que lo asocie con una ficha o cree una nueva.
