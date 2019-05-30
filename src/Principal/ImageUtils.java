@@ -132,6 +132,12 @@ public static int  getGrayScale(int rgb) {
 		}
 		BufferedImage ret=new BufferedImage(imagen.length,imagen[0].length,BufferedImage.TYPE_INT_RGB);
 		
+		for(int i=0;i<ret.width();i++){
+			for(int j=0;j<ret.height();j++){
+					ret.setRGB(i,j,imagen[i][j]);
+			}
+		}
+		
 		return ret;
 	}
 	public static String metodoHarris(Image imagen) {
