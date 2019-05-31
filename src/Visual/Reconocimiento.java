@@ -40,7 +40,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 
 public class Reconocimiento extends JPanel{
@@ -203,7 +205,7 @@ public class Reconocimiento extends JPanel{
 				//Asegurate de que todas las imagenes en bd se han reescalado al mismo tamaño
 				//coger de base de datos todas las imagenes de caras y meterlas en un array (todas sobel)
 				try {
-					PreparedStatement selectImagen=Conexion.creaPreparedStatement("SELECT image FROM imagen");
+					PreparedStatement selectImagen=Conexion.creaPreparedStatement("SELECT * FROM imagen");
 					ResultSet selectResultados=selectImagen.executeQuery();
 					while(selectResultados.next()) {
 						//Para cada imagen del array: Convertirla en bufferedImage
@@ -218,25 +220,27 @@ public class Reconocimiento extends JPanel{
 				BufferedImage imagenSimilar = null;
 				int idImagenSimilar=0;
 				float porcParecido=0;
-				
-				for (int i = 0; i < listadoImagenes.size(); i++) {
+				Iterator it=listadoImagenes.entrySet().iterator();
+
+				while(it.hasNext()) {
+					Map.Entry<Integer,BufferedImage> actual = (Entry<Integer, BufferedImage>) it.next();
 					try {
-						porcParecido = ImageUtils.compareImage2(imagenSobel, listadoImagenes.get(i));
+						porcParecido = ImageUtils.compareImage2(imagenSobel, actual.getValue());
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					if(porcParecido>porcentaje) {
 						porcentaje=porcParecido;
-						imagenSimilar = listadoImagenes.get(i);
-						idImagenSimilar=i;
+						imagenSimilar = actual.getValue();
+						idImagenSimilar= actual.getKey();
 					}
 				}
 				
 				//Comprobaciones de la imagen
 				if(imagenSimilar!=null) {
 					try {
-						PreparedStatement imagenEncontrada=Conexion.creaPreparedStatement("SELECT * FROM imagen WHERE id = id=?");
+						PreparedStatement imagenEncontrada=Conexion.creaPreparedStatement("SELECT * FROM imagen WHERE id = ?");
 						imagenEncontrada.setInt(1, idImagenSimilar);
 						ResultSet imagenResultado=imagenEncontrada.executeQuery();
 						

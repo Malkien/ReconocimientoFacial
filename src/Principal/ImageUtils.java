@@ -119,22 +119,22 @@ public static int  getGrayScale(int rgb) {
 			for (int j = 0; j < im.getHeight(); j++) {
 				ret+=im.getRGB(i, j)+",";
 			}
-			ret+="-";
+			ret+="@";
 		}
 		return ret;
 	}
 	
 	public static BufferedImage textoAImagen(String image) {
-		String[] filas=image.split("-");
+		String[] filas=image.split("@");
 		String[][] imagen =new String[filas.length][];
 		for (int i = 0; i < filas.length; i++) {
 			imagen[i]=filas[i].split(",");
 		}
 		BufferedImage ret=new BufferedImage(imagen.length,imagen[0].length,BufferedImage.TYPE_INT_RGB);
-		
+		//System.out.println("Matriz String: "+imagen.length+"x"+imagen[0].length+" BufferedImage: "+ret.getWidth()+"x"+ret.getHeight());
 		for(int i=0;i<ret.getWidth();i++){
 			for(int j=0;j<ret.getHeight();j++){
-				System.out.println(imagen[i][j]);
+				//System.out.println(imagen[i][j]);
 					ret.setRGB(i,j,Integer.parseInt(imagen[i][j]));
 			}
 		}
@@ -212,21 +212,22 @@ public static int  getGrayScale(int rgb) {
 	}
 	public static float compareImage2(BufferedImage biA, BufferedImage biB) throws Exception {
 		float porcentaje = 0;
-		System.out.println("Comparando imagenes. Tamaño A: "+biA.getWidth()+","+biA.getHeight()+" Tamaño b: "+biB.getWidth()+","+biB.getHeight());
+		//System.out.println("Comparando imagenes. Tamaño A: "+biA.getWidth()+","+biA.getHeight()+" Tamaño b: "+biB.getWidth()+","+biB.getHeight());
 		if(biA.getWidth()!=biB.getWidth()||biA.getHeight()!=biB.getHeight()) {
 			throw new Exception();
 		}
 		int count = 0;
 		for(int i= 0; biA.getWidth()>i;i++) {
 			for(int y= 0; biA.getHeight()>y;y++) {
-					if(biA.getRGB(i,y) >= new Color(200,200,200).getRGB()&&biB.getRGB(i, y)==new Color(200,200,200).getRGB()) {
+					//System.out.println(imprimeColores(biA.getRGB(i, y)imprimeColores(biB.getRGB(i,y));
+					if( imprimeColores( biA.getRGB(i, y), biB.getRGB(i,y) ) ) {
 							count = count + 1;
 						}
 					}
 				
 			}
 		porcentaje = (count * 100) / (biA.getWidth()*biA.getHeight());
-		System.out.println("Resultado: "+porcentaje);
+		//System.out.println("Resultado: "+porcentaje);
 		return porcentaje;
 	}
 	public static BufferedImage resize(BufferedImage bufferedImage) {
@@ -239,4 +240,13 @@ public static int  getGrayScale(int rgb) {
         g.dispose();
         return bufim;
     }
+	
+	public static boolean imprimeColores(int biA, int biB) {
+		 Color imA = new Color(biA, true);
+		 Color imB = new Color(biB,true);
+		    if(imA.getRed()-imB.getRed()<20&&imA.getGreen()-imB.getGreen()<20&&imA.getBlue()-imB.getBlue()<20){
+		    	return true;
+		    }
+		    return false;
+	}
 }
