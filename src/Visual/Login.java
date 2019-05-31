@@ -63,7 +63,6 @@ public class Login extends JPanel{
 		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		ventana.getJMenuBar().setVisible(false);
 		
 		Etiqueta lblLogin = new Etiqueta("Login");
 		lblLogin.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 25));

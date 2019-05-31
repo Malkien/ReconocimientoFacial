@@ -21,8 +21,6 @@ public class EleccionPantalla extends JPanel{
 		this.usuario=usuario;
 		this.login=login;
 		this.ventana=ventana;
-
-		ventana.getJMenuBar().setVisible(true);
 		
 		setBackground(new Color(173, 169, 183));
 		GridBagLayout gridBagLayout = new GridBagLayout();

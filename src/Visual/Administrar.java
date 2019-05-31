@@ -24,16 +24,18 @@ public class Administrar extends JPanel{
 		this.usuario=usuario;
 		setBackground(new Color(173, 169, 183));
 		ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);//Poner en ventana completa
+		
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{63, 14, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		Etiqueta EtiquetaTitulo = new Etiqueta("Administracion");
 		GridBagConstraints gbc_EtiquetaTitulo = new GridBagConstraints();
-		gbc_EtiquetaTitulo.gridwidth = 7;
+		gbc_EtiquetaTitulo.gridwidth = 5;
 		gbc_EtiquetaTitulo.insets = new Insets(0, 0, 5, 0);
 		gbc_EtiquetaTitulo.gridx = 0;
 		gbc_EtiquetaTitulo.gridy = 0;
@@ -53,13 +55,6 @@ public class Administrar extends JPanel{
 		gbc_EtiquetaBorrar.gridy = 1;
 		add(EtiquetaBorrar, gbc_EtiquetaBorrar);
 		
-		Etiqueta EtiquetaMod = new Etiqueta("Modificar");
-		GridBagConstraints gbc_EtiquetaMod = new GridBagConstraints();
-		gbc_EtiquetaMod.insets = new Insets(0, 0, 5, 5);
-		gbc_EtiquetaMod.gridx = 5;
-		gbc_EtiquetaMod.gridy = 1;
-		add(EtiquetaMod, gbc_EtiquetaMod);
-		
 		BotonDefault botonAddFicha = new BotonDefault("A\u00F1adir Ficha Personal");
 		GridBagConstraints gbc_botonAddFicha = new GridBagConstraints();
 		gbc_botonAddFicha.fill = GridBagConstraints.BOTH;
@@ -76,14 +71,6 @@ public class Administrar extends JPanel{
 		gbc_botonBorrarFicha.gridy = 2;
 		add(botonBorrarFicha, gbc_botonBorrarFicha);
 		
-		BotonDefault botonModFicha = new BotonDefault("Modificar Ficha Personal");
-		GridBagConstraints gbc_botonModFicha = new GridBagConstraints();
-		gbc_botonModFicha.fill = GridBagConstraints.BOTH;
-		gbc_botonModFicha.insets = new Insets(0, 0, 5, 5);
-		gbc_botonModFicha.gridx = 5;
-		gbc_botonModFicha.gridy = 2;
-		add(botonModFicha, gbc_botonModFicha);
-		
 		BotonDefault botonAddUsuario = new BotonDefault("A\u00F1adir Usuario");
 		GridBagConstraints gbc_botonAddUsuario = new GridBagConstraints();
 		gbc_botonAddUsuario.fill = GridBagConstraints.BOTH;
@@ -99,18 +86,6 @@ public class Administrar extends JPanel{
 		gbc_botonBorrarUsuario.gridx = 3;
 		gbc_botonBorrarUsuario.gridy = 3;
 		add(botonBorrarUsuario, gbc_botonBorrarUsuario);
-		
-		BotonDefault botonModUsuario = new BotonDefault("Modificar Usuario");
-		botonModUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		GridBagConstraints gbc_botonModUsuario = new GridBagConstraints();
-		gbc_botonModUsuario.insets = new Insets(0, 0, 5, 5);
-		gbc_botonModUsuario.fill = GridBagConstraints.BOTH;
-		gbc_botonModUsuario.gridx = 5;
-		gbc_botonModUsuario.gridy = 3;
-		add(botonModUsuario, gbc_botonModUsuario);
 		
 	}
 

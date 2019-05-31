@@ -216,7 +216,7 @@ public class Reconocimiento extends JPanel{
 				}catch(SQLException e) {
 					
 				}
-				float porcentaje=70;
+				float porcentaje=95;
 				BufferedImage imagenSimilar = null;
 				int idImagenSimilar=0;
 				float porcParecido=0;
@@ -231,6 +231,7 @@ public class Reconocimiento extends JPanel{
 						e.printStackTrace();
 					}
 					if(porcParecido>porcentaje) {
+						System.out.println(porcParecido);
 						porcentaje=porcParecido;
 						imagenSimilar = actual.getValue();
 						idImagenSimilar= actual.getKey();

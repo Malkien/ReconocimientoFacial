@@ -236,7 +236,7 @@ public class Entrenamiento extends JPanel{
 				}catch(SQLException e) {
 					
 				}
-				float porcentaje=70;
+				float porcentaje=95;
 				BufferedImage imagenSimilar = null;
 				int idImagenSimilar=0;
 				float porcParecido=0;
@@ -251,7 +251,9 @@ public class Entrenamiento extends JPanel{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					System.out.println(porcParecido);
 					if(porcParecido>porcentaje) {
+						
 						porcentaje=porcParecido;
 						imagenSimilar = actual.getValue();
 						idImagenSimilar= actual.getKey();
