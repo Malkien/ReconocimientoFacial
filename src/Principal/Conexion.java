@@ -82,6 +82,5 @@ public class Conexion {
 			e.printStackTrace();
 		}
 	}
-	public static 
 	
 }
