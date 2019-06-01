@@ -2,7 +2,7 @@ package Visual;
 
 import javax.swing.JPanel;
 
-import Componentes.BotonAtras;
+import Componentes.BotonMov;
 import Componentes.BotonDefault;
 import Componentes.Etiqueta;
 import Personas.Usuario;
@@ -15,6 +15,8 @@ import java.awt.GridBagLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Administrar extends JPanel{
 	private Ventana ventana;
@@ -56,6 +58,17 @@ public class Administrar extends JPanel{
 		add(EtiquetaBorrar, gbc_EtiquetaBorrar);
 		
 		BotonDefault botonAddFicha = new BotonDefault("A\u00F1adir Ficha Personal");
+		botonAddFicha.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JFrame ventanaFicha= new JFrame();
+				CrearFicha ficha=new CrearFicha();
+				ventanaFicha.setSize(400, 400);
+				ventanaFicha.setLocationRelativeTo(null);
+				ventanaFicha.getContentPane().add(ficha);
+				ventanaFicha.setVisible(true);
+			}
+		});
 		GridBagConstraints gbc_botonAddFicha = new GridBagConstraints();
 		gbc_botonAddFicha.fill = GridBagConstraints.BOTH;
 		gbc_botonAddFicha.insets = new Insets(0, 0, 5, 5);
@@ -64,6 +77,17 @@ public class Administrar extends JPanel{
 		add(botonAddFicha, gbc_botonAddFicha);
 		
 		BotonDefault botonBorrarFicha = new BotonDefault("Borrar Ficha Personal");
+		botonBorrarFicha.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JFrame ventanaFicha= new JFrame();
+				BorrarFicha ficha=new BorrarFicha();
+				ventanaFicha.setSize(400, 400);
+				ventanaFicha.setLocationRelativeTo(null);
+				ventanaFicha.getContentPane().add(ficha);
+				ventanaFicha.setVisible(true);
+			}
+		});
 		GridBagConstraints gbc_botonBorrarFicha = new GridBagConstraints();
 		gbc_botonBorrarFicha.fill = GridBagConstraints.BOTH;
 		gbc_botonBorrarFicha.insets = new Insets(0, 0, 5, 5);
@@ -78,8 +102,30 @@ public class Administrar extends JPanel{
 		gbc_botonAddUsuario.gridx = 1;
 		gbc_botonAddUsuario.gridy = 3;
 		add(botonAddUsuario, gbc_botonAddUsuario);
+		botonAddUsuario.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JFrame ventanaFicha= new JFrame();
+				CrearUsuario ficha=new CrearUsuario();
+				ventanaFicha.setSize(400, 400);
+				ventanaFicha.setLocationRelativeTo(null);
+				ventanaFicha.getContentPane().add(ficha);
+				ventanaFicha.setVisible(true);
+			}
+		});
 		
 		BotonDefault botonBorrarUsuario = new BotonDefault("BorrarUsuario");
+		botonBorrarUsuario.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JFrame ventanaFicha= new JFrame();
+				BorrarUsuario ficha=new BorrarUsuario();
+				ventanaFicha.setSize(400, 400);
+				ventanaFicha.setLocationRelativeTo(null);
+				ventanaFicha.getContentPane().add(ficha);
+				ventanaFicha.setVisible(true);
+			}
+		});
 		GridBagConstraints gbc_botonBorrarUsuario = new GridBagConstraints();
 		gbc_botonBorrarUsuario.fill = GridBagConstraints.BOTH;
 		gbc_botonBorrarUsuario.insets = new Insets(0, 0, 5, 5);

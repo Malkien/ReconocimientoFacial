@@ -21,21 +21,24 @@ import Principal.Conexion;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JComboBox;
+import javax.swing.JPasswordField;
 
-public class BorrarFicha extends JPanel{
-	private BorrarFicha esta=this;
-	private JTextField textoDNI;
+public class BorrarUsuario extends JPanel{
+	private BorrarUsuario esta=this;
+	private JTextField textoNombre;
 	
-	public BorrarFicha() {
+	public BorrarUsuario() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JLabel etiquetaTitulo = new JLabel("Borrar Ficha Personal");
+		JLabel etiquetaTitulo = new JLabel("Borrar Usuario");
 		GridBagConstraints gbc_etiquetaTitulo = new GridBagConstraints();
 		gbc_etiquetaTitulo.gridwidth = 5;
 		gbc_etiquetaTitulo.insets = new Insets(0, 0, 5, 0);
@@ -43,42 +46,44 @@ public class BorrarFicha extends JPanel{
 		gbc_etiquetaTitulo.gridy = 0;
 		add(etiquetaTitulo, gbc_etiquetaTitulo);
 		
-		JLabel etiquetaDNI = new JLabel("DNI: ");
-		GridBagConstraints gbc_etiquetaDNI = new GridBagConstraints();
-		gbc_etiquetaDNI.anchor = GridBagConstraints.WEST;
-		gbc_etiquetaDNI.insets = new Insets(0, 0, 5, 5);
-		gbc_etiquetaDNI.gridx = 1;
-		gbc_etiquetaDNI.gridy = 2;
-		add(etiquetaDNI, gbc_etiquetaDNI);
+		JLabel etiquetaNombre = new JLabel("Nombre: ");
+		GridBagConstraints gbc_etiquetaNombre = new GridBagConstraints();
+		gbc_etiquetaNombre.anchor = GridBagConstraints.WEST;
+		gbc_etiquetaNombre.insets = new Insets(0, 0, 5, 5);
+		gbc_etiquetaNombre.gridx = 1;
+		gbc_etiquetaNombre.gridy = 1;
+		add(etiquetaNombre, gbc_etiquetaNombre);
+		
+		textoNombre = new JTextField();
+		GridBagConstraints gbc_textoNombre = new GridBagConstraints();
+		gbc_textoNombre.insets = new Insets(0, 0, 5, 5);
+		gbc_textoNombre.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textoNombre.gridx = 2;
+		gbc_textoNombre.gridy = 1;
+		add(textoNombre, gbc_textoNombre);
+		textoNombre.setColumns(10);
 		
 		BotonDefault botonAdd = new BotonDefault("Borrar");
 		botonAdd.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				PreparedStatement BorrarFicha=null;
+				PreparedStatement borrarUsuario=null;
 				boolean insertadoOK=false;
 				try {
-					FichaPersonal.comprobarDni(textoDNI.getText());
 					
-					BorrarFicha = Conexion.creaPreparedStatement("DELETE FROM fichapersonal WHERE dni=?;");
-					BorrarFicha.setString(1,textoDNI.getText());
-					PreparedStatement BorrarUsuarios = Conexion.creaPreparedStatement("DELETE FROM usuario WHERE fichapersonal=?;");
-					BorrarFicha.setString(1,textoDNI.getText());
-					BorrarFicha.executeUpdate();
+					borrarUsuario = Conexion.creaPreparedStatement("DELETE FROM usuario WHERE nombreusuario=?");
+					borrarUsuario.setString(1, textoNombre.getText());
+					borrarUsuario.executeUpdate();
 					insertadoOK=true;
-				
 				} catch (PreparedStatementException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				} catch (DniException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}finally{
 					try {
-						BorrarFicha.close();
+						borrarUsuario.close();
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -91,18 +96,10 @@ public class BorrarFicha extends JPanel{
 			}
 		});
 		
-		textoDNI = new JTextField();
-		GridBagConstraints gbc_textoDNI = new GridBagConstraints();
-		gbc_textoDNI.insets = new Insets(0, 0, 5, 5);
-		gbc_textoDNI.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textoDNI.gridx = 2;
-		gbc_textoDNI.gridy = 2;
-		add(textoDNI, gbc_textoDNI);
-		textoDNI.setColumns(10);
 		GridBagConstraints gbc_botonAdd = new GridBagConstraints();
 		gbc_botonAdd.insets = new Insets(0, 0, 0, 5);
 		gbc_botonAdd.gridx = 2;
-		gbc_botonAdd.gridy = 4;
+		gbc_botonAdd.gridy = 2;
 		add(botonAdd, gbc_botonAdd);
 	}
 }

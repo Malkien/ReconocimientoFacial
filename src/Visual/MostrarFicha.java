@@ -30,7 +30,7 @@ public class MostrarFicha extends JPanel{
 	private JTextField textoNvConfidencialidad;
 	private JTextField textoEmail;
 	
-	public MostrarFicha(String nombre, String apellidos, String dni, int telefono, byte nivelConfidencialidad, String direccion) {
+	public MostrarFicha(String nombre, String apellidos, String dni, int telefono, int nivelConfidencialidad, String direccion,String email) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -172,12 +172,7 @@ public class MostrarFicha extends JPanel{
 		textoTelefono.setText(telefono+"");
 		textoNvConfidencialidad.setText(nivelConfidencialidad+"");
 		textoDireccion.setText(direccion);
-		textoNombre.setEnabled(false);
-		textoApellidos.setEnabled(false);
-		textoDNI.setEnabled(false);
-		textoTelefono.setEnabled(false);
-		textoNvConfidencialidad.setEnabled(false);
-		textoDireccion.setEnabled(false);
+		textoEmail.setText(email);
 		
 	}
 }

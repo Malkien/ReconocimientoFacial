@@ -194,7 +194,7 @@ public class CrearFicha extends JPanel{
 					textoEmail.setBackground(Color.RED);
 					ex.printStackTrace();
 				} catch (DniException e1) {
-					textoEmail.setBackground(Color.RED);
+					textoDNI.setBackground(Color.RED);
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (PreparedStatementException e1) {

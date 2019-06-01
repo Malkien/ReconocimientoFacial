@@ -246,12 +246,38 @@ public class Reconocimiento extends JPanel{
 						ResultSet imagenResultado=imagenEncontrada.executeQuery();
 						
 						if(imagenResultado.next()&&imagenResultado.getBoolean("cara")) {
-							
-							int correcto=JOptionPane.showConfirmDialog(ventana,"Después del analisis hemos deducido que es una persona. ¿Es correcto?", "Coincidencia",JOptionPane.YES_NO_OPTION);
-							if(correcto==0) {
-								Conexion.sacarDatosFicha(imagenResultado.getString("dni"), ventana,usuario);
-								Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), imagenResultado.getBoolean("cara"), imagenResultado.getString("FichaPersonal"));
+							PreparedStatement buscarPersona=Conexion.creaPreparedStatement("SELECT * FROM fichapersonal WHERE dni=?");
+							buscarPersona.setString(1, imagenResultado.getString("fichapersonal"));
+							ResultSet encontradaPersona=buscarPersona.executeQuery();
+							encontradaPersona.next();
+							int seguridad=encontradaPersona.getInt("nivelConfidencialidad");
+							if(seguridad<=usuario.getNivelSeguridad()) {
+								String nombre=encontradaPersona.getString("nombre");
+								String dni=encontradaPersona.getString("dni");
+								int correcto=JOptionPane.showConfirmDialog(ventana,"Después del analisis hemos deducido que es "+nombre+" con DNI: "+dni, "Coincidencia",JOptionPane.YES_NO_OPTION);
+								if(correcto==0) {
+
+									JFrame ventanaFicha= new JFrame();
+									MostrarFicha mostrarFicha=new MostrarFicha(
+											nombre,
+											encontradaPersona.getString("apellidos"),
+											dni,
+											encontradaPersona.getInt("telefono"),
+											seguridad,
+											encontradaPersona.getString("direccion"),
+											encontradaPersona.getString("email")
+											);
+									ventanaFicha.setSize(400, 400);
+									ventanaFicha.setLocationRelativeTo(null);
+									ventanaFicha.getContentPane().add(mostrarFicha);
+									ventanaFicha.setVisible(true);
+									//Conexion.sacarDatosFicha(imagenResultado.getString("id"), ventana,usuario);
+									
+								}
+							}else {
+								JOptionPane.showConfirmDialog(ventana,"Persona Coincidente Confidencial para tu rango", "Nivel insuficiente",JOptionPane.YES_NO_OPTION);
 							}
+							
 						}else {
 							JOptionPane.showMessageDialog(ventana, "No es una cara","Coincidencia sin Ficha",JOptionPane.OK_OPTION);
 							//Cree que no es cara, te lanza dialogo diciendo que cree que no es una cara, y te da opcion de decir si es correcto o no. Si en realidad es una cara, lanza dialogo para que lo asocie con una ficha o cree una nueva.

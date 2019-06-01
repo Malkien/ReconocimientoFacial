@@ -8,3 +8,5 @@
 2019-05-30T17:37:57.788629600	Usuario no encontrado
 2019-05-30T17:47:07.376639700	Error al introducir email
 2019-05-30T18:12:54.148573800	Usuario no encontrado
+2019-06-01T19:28:08.992623100	Error en el DNI
+2019-06-01T19:28:20.931557600	Error en el DNI
