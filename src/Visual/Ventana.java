@@ -17,24 +17,22 @@ import javax.swing.JMenuItem;
 import javax.swing.ImageIcon;
 
 public class Ventana extends JFrame{
-	private LinkedList atras;
 	private LinkedList adelante;
 	public Ventana() {
-		Login login=new Login(this);
-		atras=null;
 		adelante=null;
-		getContentPane().add(login,BorderLayout.CENTER);
-		setSize(500,350);
-		setVisible(true);
-		setLocationRelativeTo(null);
+		
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		BotonMov botonAtras=new BotonMov(atras, true);
+		BotonMov botonAtras=new BotonMov();
 		menuBar.add(botonAtras);
-		BotonMov botonAdelante=new BotonMov(adelante,false);
-		menuBar.add(botonAdelante);
+
+		Login login=new Login(this,botonAtras);
+		getContentPane().add(login,BorderLayout.CENTER);
+		setSize(500,350);
+		setVisible(true);
+		setLocationRelativeTo(null);
 
 	}
 }
