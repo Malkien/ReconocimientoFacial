@@ -80,16 +80,16 @@ public class BotonEleccion extends BotonDefault{
 	private void cambiarPantalla() {
 		eleccion.setVisible(false);
 		if(seguridad==Seguridad.ADMINISTRAR) {
-			Administrar administrar=new Administrar(ventana,eleccion,usuario,eleccion.atras);
+			Administrar administrar=new Administrar(ventana,eleccion,usuario);
 			ventana.getContentPane().add(administrar);
-			//EleccionPantalla elegir=new EleccionPantalla(ventana,usuario, atras);
 		}else if(seguridad==Seguridad.RECONOCER) {
-			Reconocimiento reconocer=new Reconocimiento(ventana,eleccion,usuario,eleccion.atras);
+			Reconocimiento reconocer=new Reconocimiento(ventana,eleccion,usuario);
 			ventana.getContentPane().add(reconocer);
 		}else if(seguridad==Seguridad.ENTRENAR) {
-			Entrenamiento entrenar=new Entrenamiento(ventana,eleccion,usuario,eleccion.atras);
+			Entrenamiento entrenar=new Entrenamiento(ventana,eleccion,usuario);
 			ventana.getContentPane().add(entrenar);
 		}
 	}
+	
 
 }

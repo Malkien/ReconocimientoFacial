@@ -18,26 +18,11 @@ public class EleccionPantalla extends JPanel{
 	private Usuario usuario;
 	public BotonMov atras;
 	public Ventana ventana;
-<<<<<<< HEAD
-<<<<<<< HEAD
-	public EleccionPantalla(Ventana ventana,Usuario usuario) {
-=======
 	public EleccionPantalla(Ventana ventana,Usuario usuario, BotonMov atras) {
->>>>>>> parent of f091510... solucion
 		this.usuario=usuario;
 		this.ventana=ventana;
-<<<<<<< HEAD
-=======
-	public EleccionPantalla(Ventana ventana,Login login,Usuario usuario) {
-		this.usuario=usuario;
-		this.login=login;
-		this.ventana=ventana;
-		
->>>>>>> parent of 3e46111... Inicio de implementacion de atras
-=======
 		this.atras=atras;
-		atras.add(this);
->>>>>>> parent of f091510... solucion
+		atras.click(this);
 		setBackground(new Color(173, 169, 183));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{35, 0, 0, 0, 35, 0};

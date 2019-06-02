@@ -68,19 +68,7 @@ public class BotonLoguear extends BotonDefault{
 			
 			JOptionPane.showMessageDialog(login,"Fallo en la BBDD del sistema", "BBDD caida",JOptionPane.ERROR_MESSAGE);
 		}
-<<<<<<< HEAD
-		if(usuarioLogueado!=null) {
-			login.setVisible(false);
-<<<<<<< HEAD
-			EleccionPantalla elegir=new EleccionPantalla(ventana,usuarioLogueado);
-=======
-			EleccionPantalla elegir=new EleccionPantalla(ventana,login,usuarioLogueado);
->>>>>>> parent of 3e46111... Inicio de implementacion de atras
-			ventana.getContentPane().add(elegir);
-		}
-=======
 		login.cambiarPantalla(usuarioLogueado);
->>>>>>> parent of f091510... solucion
 		
 	}
 }

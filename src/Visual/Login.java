@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import javax.swing.JTextField;
 
 import Componentes.BotonLoguear;
+import Componentes.BotonMov;
 import Componentes.BotonSalir;
 import Componentes.Etiqueta;
 import Excepciones.EncontrarFichaPersonalException;
@@ -35,15 +36,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
 public class Login extends JPanel{
-<<<<<<< HEAD
 	private Ventana ventana;
-<<<<<<< HEAD
-=======
-	public Ventana ventana;
->>>>>>> parent of 3e46111... Inicio de implementacion de atras
-=======
 	private BotonMov atras;
->>>>>>> parent of f091510... solucion
 	private JTextField textoUsuario;
 	private JPasswordField textoPassword;
 	
@@ -51,6 +45,7 @@ public class Login extends JPanel{
 
 	public void paintComponent(Graphics g) {
 		Image img=null;
+		
 		try {
 			img = ImageIO.read(new File("src/imagenesPrograma/fondoLogin.jpg"));
 		} catch (IOException e) {
@@ -65,7 +60,7 @@ public class Login extends JPanel{
 	public Login(Ventana ventana, BotonMov atras) {
 		this.ventana=ventana;
 		this.atras=atras;
-		atras.add(this);
+		atras.click(this);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
@@ -187,15 +182,13 @@ public class Login extends JPanel{
 		
 	}
 	
-<<<<<<< HEAD
 	public void cambiarPantalla(Usuario usuarioLogueado) {
 		if(usuarioLogueado!=null) {
+			atras.addContenido(this);
 			setVisible(false);
 			EleccionPantalla elegir=new EleccionPantalla(ventana,usuarioLogueado, atras);
 			ventana.getContentPane().add(elegir);
 		}
 	}
 	
-=======
->>>>>>> parent of 3e46111... Inicio de implementacion de atras
 }
