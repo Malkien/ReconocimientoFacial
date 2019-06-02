@@ -22,17 +22,23 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
+/**
+ * El JPanel de crearFicha
+ * @author malki
+ *
+ */
 public class CrearFicha extends JPanel{
-	private CrearFicha esta=this;
-	private JTextField textoNombre;
-	private JTextField textoApellidos;
-	private JTextField textoDNI;
-	private JTextField textoTelefono;
-	private JTextField textoDireccion;
-	private JTextField textoSeguridad;
-	private JTextField textoEmail;
-	
+	private CrearFicha esta=this;//Este JPanel
+	private JTextField textoNombre; //El nombre
+	private JTextField textoApellidos;//El apellido
+	private JTextField textoDNI;//el dni
+	private JTextField textoTelefono;//el telefono
+	private JTextField textoDireccion;//la direccion
+	private JTextField textoSeguridad;//la seguridad
+	private JTextField textoEmail;//el email
+	/**
+	 * Constructor de CrearFicha
+	 */
 	public CrearFicha() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
@@ -182,7 +188,6 @@ public class CrearFicha extends JPanel{
 							+ "VALUES(?,?,?,?,?,?,?);");
 					insertarFicha.setString(1, textoNombre.getText());
 					insertarFicha.setString(2, textoApellidos.getText());
-					System.out.println(textoDNI.getText().length());
 					insertarFicha.setString(3,textoDNI.getText());
 					insertarFicha.setInt(4, Integer.parseInt(textoTelefono.getText()));
 					insertarFicha.setString(5, textoDireccion.getText());

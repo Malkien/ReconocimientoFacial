@@ -13,8 +13,18 @@ import Personas.Usuario;
 import Visual.CrearFicha;
 import Visual.MostrarFicha;
 import Visual.Ventana;
-
+/**
+ * Las conexiones del programa
+ * @author malki
+ *
+ */
 public class Conexion {
+	/**
+	 * Funcion para crear un preparedStatement
+	 * @param txt EL texto
+	 * @return El preparedStatement
+	 * @throws PreparedStatementException El error de preparedStatement
+	 */
 	public static PreparedStatement creaPreparedStatement(String txt) throws PreparedStatementException {
 		try {
 			return DriverManager.getConnection(
@@ -26,6 +36,12 @@ public class Conexion {
 			throw new PreparedStatementException();
 		}
 	}
+	/**
+	 * Funcion para añadir imagen
+	 * @param imagen la imagen(String)
+	 * @param cara si es cara
+	 * @param fichaPersonal la fichapersonal(dni)
+	 */
 	public static void realizarInsertImagen(String imagen, boolean cara, String fichaPersonal) {
 		PreparedStatement insertImagen=null;
 		try {

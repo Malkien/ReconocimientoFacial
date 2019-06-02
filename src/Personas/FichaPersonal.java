@@ -6,14 +6,18 @@ import java.util.ArrayList;
 import Excepciones.DniException;
 import Excepciones.EmailException;
 
-
+/**
+ * La Ficha Personal
+ * @author malki
+ *
+ */
 public final class FichaPersonal{
-	private String nombre;
-	private String apellidos;
-	private String dni;
-	private String direccion;
-	private int telefono;
-	private String email;
+	private String nombre;//El nombre
+	private String apellidos;//el apellido
+	private String dni;//el dni
+	private String direccion;//la direccion
+	private int telefono;//el telefono
+	private String email;//el email
 	private byte nivelConfidencialidad;//nivel de confidencialidad que hay que tener para que se pueda saber su identidad despues del un escaner coincidente
 	/**
 	 * Constructor de Persona
@@ -165,6 +169,11 @@ public final class FichaPersonal{
 	public String getDireccion() {
 		return direccion;
 	}
+	/**
+	 * Comprueba si el email tiene un punto y un arroba
+	 * @param email
+	 * @throws EmailException
+	 */
 	public static void comprobarEmail(String email) throws EmailException {
 		boolean tieneArroba=false;
 		boolean tienePunto=false;

@@ -8,7 +8,11 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+/**
+ * Boton de salir
+ * @author malki
+ *
+ */
 public class BotonSalir extends BotonDefault{
 	/**
 	 * Boton para cerrar el programa

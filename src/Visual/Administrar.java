@@ -14,10 +14,14 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+/**
+ * JPanel de Administrar
+ * @author malki
+ *
+ */
 public class Administrar extends JPanel{
-	private Ventana ventana;
-	private Usuario usuario;
+	private Ventana ventana;//La ventana
+	private Usuario usuario;//el usuario
 	public Administrar(Ventana ventana,EleccionPantalla eleccion, Usuario usuario) {
 		this.ventana=ventana;
 		this.usuario=usuario;

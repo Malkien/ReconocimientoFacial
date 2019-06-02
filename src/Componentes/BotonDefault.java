@@ -4,8 +4,16 @@ import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.JButton;
-
+/**
+ * Visual de los botones
+ * @author malki
+ *
+ */
 public class BotonDefault extends JButton{
+	/**
+	 * Constructor
+	 * @param txt texto
+	 */
 	public BotonDefault(String txt) {
 		super(txt);
 		setBackground(new Color(235, 206, 235));

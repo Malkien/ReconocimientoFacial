@@ -19,9 +19,18 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 
-
+/**
+ * Funciones para las imagenes
+ * @author malki
+ *
+ */
 public class ImageUtils {
-
+	/**
+	 * Funcion de sobel, pasa la imagen a blanco y negro segun los contornos
+	 * @param image La imagen
+	 * @return La imagen convertida
+	 * @throws IOException Excepcion de IO
+	 */
 	public static BufferedImage sobel(BufferedImage image) throws IOException {
 	
 
@@ -81,7 +90,11 @@ public class ImageUtils {
        return image;
     
 	}
-	
+	/**
+	 * Pasar image a BufferedImage
+	 * @param img la image
+	 * @return El BufferedImage
+	 */
 	public static BufferedImage toBufferedImage(Image img)
 	{
 	    if (img instanceof BufferedImage)
@@ -101,18 +114,27 @@ public class ImageUtils {
 	    return bimage;
 	}
 
-public static int  getGrayScale(int rgb) {
-    int r = (rgb >> 16) & 0xff;
-    int g = (rgb >> 8) & 0xff;
-    int b = (rgb) & 0xff;
-
-    //from https://en.wikipedia.org/wiki/Grayscale, calculating luminance
-    int gray = (int)(0.2126 * r + 0.7152 * g + 0.0722 * b);
-    //int gray = (r + g + b) / 3;
-
-    return gray;
-}
-
+	/**
+	 * Coge la escala de grises
+	 * @param rgb el rgb(int)
+	 * @return devuelve el rgb en grises(int)
+	 */
+	public static int  getGrayScale(int rgb) {
+	    int r = (rgb >> 16) & 0xff;
+	    int g = (rgb >> 8) & 0xff;
+	    int b = (rgb) & 0xff;
+	
+	    //from https://en.wikipedia.org/wiki/Grayscale, calculating luminance
+	    int gray = (int)(0.2126 * r + 0.7152 * g + 0.0722 * b);
+	    //int gray = (r + g + b) / 3;
+	
+	    return gray;
+	}
+	/**
+	 * Pasa la imagen a texto
+	 * @param im la imagen
+	 * @return la imagen en texto
+	 */
 	public static String imagenAtexto(BufferedImage im) {
 		String ret="";
 		for (int i = 0; i < im.getWidth(); i++) {
@@ -123,7 +145,11 @@ public static int  getGrayScale(int rgb) {
 		}
 		return ret;
 	}
-	
+	/**
+	 * Pasa el texto a imagen(BufFeredImage
+	 * @param image La imagen en texto
+	 * @return La imagen
+	 */
 	public static BufferedImage textoAImagen(String image) {
 		String[] filas=image.split("@");
 		String[][] imagen =new String[filas.length][];
@@ -141,10 +167,14 @@ public static int  getGrayScale(int rgb) {
 		
 		return ret;
 	}
-	public static String metodoHarris(Image imagen) {
-		return "";
-	}
 	
+	
+	/**
+	 * El metodo harris para deteccion de bordes
+	 * @param Scene
+	 * @param Object
+	 * @param thresh
+	 */
 	public static void Harris(Mat Scene, Mat Object, int thresh) {
 
 	    // This function implements the Harris Corner detection. The corners at intensity > thresh
@@ -210,6 +240,13 @@ public static int  getGrayScale(int rgb) {
 	    }
 	    return percentage;
 	}
+	/**
+	 * Compara dos imagenes pixel a pixel
+	 * @param biA La primera imagen
+	 * @param biB La segunda imagen
+	 * @return El porcentaje de coincidencia
+	 * @throws Exception La excepcion
+	 */
 	public static float compareImage2(BufferedImage biA, BufferedImage biB) throws Exception {
 		float porcentaje = 0;
 		//System.out.println("Comparando imagenes. Tamaño A: "+biA.getWidth()+","+biA.getHeight()+" Tamaño b: "+biB.getWidth()+","+biB.getHeight());
@@ -230,6 +267,11 @@ public static int  getGrayScale(int rgb) {
 		//System.out.println("Resultado: "+porcentaje);
 		return porcentaje;
 	}
+	/**
+	 * Reescala una imagen
+	 * @param bufferedImage la imagen
+	 * @return La imagen reescalada
+	 */
 	public static BufferedImage resize(BufferedImage bufferedImage) {
         int w = bufferedImage.getWidth();
         int h = bufferedImage.getHeight();
@@ -240,7 +282,12 @@ public static int  getGrayScale(int rgb) {
         g.dispose();
         return bufim;
     }
-	
+	/**
+	 * Te dice si el pixel es igual
+	 * @param biA el pixel 1
+	 * @param biB el pixel 2
+	 * @return si sin iguales
+	 */
 	public static boolean imprimeColores(int biA, int biB) {
 		 Color imA = new Color(biA, true);
 		 Color imB = new Color(biB,true);

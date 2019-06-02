@@ -20,11 +20,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
+/**
+ * JPanel de BorrarFicha
+ * @author malki
+ *
+ */
 public class BorrarFicha extends JPanel{
-	private BorrarFicha esta=this;
-	private JTextField textoDNI;
-	
+	private BorrarFicha esta=this;//Este JPanel
+	private JTextField textoDNI;//el dni
+	/**
+	 * Constructor de BorrarFicha
+	 */
 	public BorrarFicha() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};

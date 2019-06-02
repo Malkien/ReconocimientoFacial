@@ -19,7 +19,11 @@ import Personas.Usuario;
 import Visual.EleccionPantalla;
 import Visual.Login;
 import Visual.Ventana;
-
+/**
+ * Boton de loguear
+ * @author malki
+ *
+ */
 public class BotonLoguear extends BotonDefault{
 	private Login login;//El login
 	private Ventana ventana;//La ventana

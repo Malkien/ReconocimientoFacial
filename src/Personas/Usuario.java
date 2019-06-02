@@ -14,14 +14,18 @@ import javax.sql.rowset.serial.SerialException;
 
 import Excepciones.PuestoException;
 import Personas.Usuario.Seguridad;
-
+/**
+ * El Usuario
+ * @author malki
+ *
+ */
 public final class Usuario{
 	
-	private Seguridad puesto;
-	private String nombreUsuario;
-	private String contrasena;
-	private FichaPersonal identidad;
-	private byte nivelSeguridad;
+	private Seguridad puesto;//el puesto es un enum
+	private String nombreUsuario;//el nombre
+	private String contrasena;//la contraseña
+	private FichaPersonal identidad;//la ficha personal(dni)
+	private byte nivelSeguridad;//el nivel de seguridad
 	public enum Seguridad{
 		ADMINISTRAR,
 		RECONOCER,

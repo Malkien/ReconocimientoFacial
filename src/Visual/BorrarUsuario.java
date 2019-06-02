@@ -18,11 +18,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
+/**
+ * JPanel de borrar usuario
+ * @author malki
+ *
+ */
 public class BorrarUsuario extends JPanel{
-	private BorrarUsuario esta=this;
-	private JTextField textoNombre;
-	
+	private BorrarUsuario esta=this;//este JPanel
+	private JTextField textoNombre;//el nombre
+	/**
+	 * Constructor de BorrarUsuario
+	 */
 	public BorrarUsuario() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};

@@ -17,7 +17,7 @@ public class Main {
 
 	public static void main(String[] args) {
             
-            Ventana ventana=new Ventana();
+            Ventana ventana=new Ventana();//la ventana
     		ventana.setVisible(true);
             	
 	}

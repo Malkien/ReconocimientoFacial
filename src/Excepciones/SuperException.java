@@ -5,8 +5,16 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
-
+/**
+ * Excepcion super
+ * @author malki
+ *
+ */
 public class SuperException extends Exception{
+	/**
+	 * Constructor
+	 * @param txt texto
+	 */
 	public SuperException(String txt) {
 		super(txt);
 		FileWriter logAbsolute=null;
@@ -16,6 +24,7 @@ public class SuperException extends Exception{
 			if(!log.exists()) {
 				log.createNewFile();
 			}
+			//Escribe el error en el fichero errorlog.txt
 			logAbsolute=new FileWriter(log.getAbsoluteFile(), true);
 			logEscribir=new BufferedWriter(logAbsolute);
 			logEscribir.write(LocalDateTime.now()+"\t"+txt);

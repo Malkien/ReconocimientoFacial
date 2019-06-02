@@ -18,7 +18,11 @@ import Visual.EleccionPantalla;
 import Visual.Entrenamiento;
 import Visual.Reconocimiento;
 import Visual.Ventana;
-
+/**
+ * Boton de Eleccion
+ * @author malki
+ *
+ */
 public class BotonEleccion extends BotonDefault{
 	private EleccionPantalla eleccion;//La eleccion
 	private Usuario usuario;//El usuario logueado
