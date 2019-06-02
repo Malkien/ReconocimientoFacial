@@ -8,7 +8,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 import Excepciones.EncontrarFichaPersonalException;
@@ -68,7 +67,11 @@ public class BotonLoguear extends BotonDefault{
 			
 			JOptionPane.showMessageDialog(login,"Fallo en la BBDD del sistema", "BBDD caida",JOptionPane.ERROR_MESSAGE);
 		}
-		login.cambiarPantalla(usuarioLogueado);
+		if(usuarioLogueado!=null) {
+			login.setVisible(false);
+			EleccionPantalla elegir=new EleccionPantalla(ventana,usuarioLogueado);
+			ventana.getContentPane().add(elegir);
+		}
 		
 	}
 }

@@ -37,7 +37,6 @@ import javax.swing.JPasswordField;
 
 public class Login extends JPanel{
 	private Ventana ventana;
-	private BotonMov atras;
 	private JTextField textoUsuario;
 	private JPasswordField textoPassword;
 	
@@ -57,10 +56,8 @@ public class Login extends JPanel{
 	}
 	
 	
-	public Login(Ventana ventana, BotonMov atras) {
+	public Login(Ventana ventana) {
 		this.ventana=ventana;
-		this.atras=atras;
-		atras.add(this);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
@@ -185,7 +182,7 @@ public class Login extends JPanel{
 	public void cambiarPantalla(Usuario usuarioLogueado) {
 		if(usuarioLogueado!=null) {
 			setVisible(false);
-			EleccionPantalla elegir=new EleccionPantalla(ventana,usuarioLogueado, atras);
+			EleccionPantalla elegir=new EleccionPantalla(ventana,usuarioLogueado);
 			ventana.getContentPane().add(elegir);
 		}
 	}

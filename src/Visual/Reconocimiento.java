@@ -48,7 +48,6 @@ import java.util.Map.Entry;
 
 public class Reconocimiento extends JPanel{
 	private File archivoCogido;
-	private JTextArea areaTexto;
 	private Reconocimiento thisRef;
 	private BufferedImage imagen;
 	private Map<Integer,BufferedImage> listadoImagenes=new HashMap<Integer,BufferedImage>();
@@ -56,11 +55,10 @@ public class Reconocimiento extends JPanel{
 	private FichaPersonal personaSimilitud;
 	private Ventana ventana;
 	private Usuario usuario;
-	public Reconocimiento(Ventana ventana,EleccionPantalla eleccion,Usuario usuario,BotonMov atras) {
+	public Reconocimiento(Ventana ventana,EleccionPantalla eleccion,Usuario usuario) {
 		this.ventana=ventana;
 		thisRef=this;
 		this.usuario=usuario;
-		atras.add(this);
 		setBackground(new Color(173, 169, 183));
 		ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);//Poner en ventana completa
 		GridBagLayout gridBagLayout = new GridBagLayout();

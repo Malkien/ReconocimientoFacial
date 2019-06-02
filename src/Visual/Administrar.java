@@ -21,10 +21,9 @@ import java.awt.event.MouseEvent;
 public class Administrar extends JPanel{
 	private Ventana ventana;
 	private Usuario usuario;
-	public Administrar(Ventana ventana,EleccionPantalla eleccion, Usuario usuario, BotonMov atras) {
+	public Administrar(Ventana ventana,EleccionPantalla eleccion, Usuario usuario) {
 		this.ventana=ventana;
 		this.usuario=usuario;
-		atras.add(this);
 		setBackground(new Color(173, 169, 183));
 		ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);//Poner en ventana completa
 		

@@ -53,11 +53,10 @@ public class Entrenamiento extends JPanel{
 	private Map<Integer,BufferedImage> listadoImagenes=new HashMap<Integer,BufferedImage>();
 	private BufferedImage imagenSobel;
 	private FichaPersonal personaSimilitud;
-	public Entrenamiento(Ventana ventana,EleccionPantalla eleccion,Usuario usuario, BotonMov atras) {
+	public Entrenamiento(Ventana ventana,EleccionPantalla eleccion,Usuario usuario) {
 		//this.ventana=ventana;
 		//thisRef=this;
 		//this.usuario=usuario;
-		atras.add(this);
 		ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);//Poner en ventana completa
 		setBackground(new Color(173, 169, 183));
 		GridBagLayout gridBagLayout = new GridBagLayout();
