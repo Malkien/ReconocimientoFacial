@@ -3,26 +3,20 @@ package Visual;
 import javax.swing.JPanel;
 
 import Componentes.BotonEleccion;
-import Componentes.BotonMov;
 import Personas.Usuario;
 
 import java.awt.GridBagLayout;
-import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JLabel;
 import java.awt.Color;
-import javax.swing.JMenuBar;
 
 public class EleccionPantalla extends JPanel{
-	private Usuario usuario;
-	public BotonMov atras;
-	public Ventana ventana;
-	public EleccionPantalla(Ventana ventana,Usuario usuario, BotonMov atras) {
+	private Usuario usuario;//El usuario Logueado
+	public Ventana ventana;//La ventana
+	public EleccionPantalla(Ventana ventana,Usuario usuario) {
 		this.usuario=usuario;
 		this.ventana=ventana;
-		this.atras=atras;
-		atras.click(this);
 		setBackground(new Color(173, 169, 183));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{35, 0, 0, 0, 35, 0};

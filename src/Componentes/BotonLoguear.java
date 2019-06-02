@@ -21,8 +21,14 @@ import Visual.Login;
 import Visual.Ventana;
 
 public class BotonLoguear extends BotonDefault{
-	private Login login;
-	private Ventana ventana;
+	private Login login;//El login
+	private Ventana ventana;//La ventana
+	/**
+	 * Constructor de BotonLoguear
+	 * @param ventana La ventana
+	 * @param txt El texto que tendrá el boton
+	 * @param login El login
+	 */
 	public BotonLoguear(Ventana ventana,String txt, Login login) {
 		super(txt);
 		this.login=login;
@@ -49,6 +55,10 @@ public class BotonLoguear extends BotonDefault{
 		setForeground(new Color(0, 0, 0));
 		setFont(new Font("Tahoma", Font.PLAIN, 12));
 	}
+	/**
+	 * Función para comprobar si el usuario introducido existe en la BBDD
+	 * @param ventana La ventana
+	 */
 	private void loguear(Ventana ventana) {
 		Usuario usuarioLogueado=null;
 		try {

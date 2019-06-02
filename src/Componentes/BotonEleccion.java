@@ -20,10 +20,10 @@ import Visual.Reconocimiento;
 import Visual.Ventana;
 
 public class BotonEleccion extends BotonDefault{
-	private EleccionPantalla eleccion;
-	private Usuario usuario;
-	private Usuario.Seguridad seguridad;
-	private Ventana ventana;
+	private EleccionPantalla eleccion;//La eleccion
+	private Usuario usuario;//El usuario logueado
+	private Usuario.Seguridad seguridad;//La seguridad del usuario puesto por comodidad
+	private Ventana ventana;//La ventana
 	public BotonEleccion(Ventana ventana,String txt, EleccionPantalla eleccion,Usuario usuario, Usuario.Seguridad seguridad) {
 		super(txt);
 		this.eleccion=eleccion;
@@ -48,7 +48,9 @@ public class BotonEleccion extends BotonDefault{
 			}
 		});
 	}
-	
+	/**
+	 * Comprueba si tienes la seguridad suficiente para entrar a la funcionalidad
+	 */
 	private void comprobarPuesto() {
 		switch(usuario.getPuesto()) {
 		case ADMINISTRAR:
@@ -77,6 +79,9 @@ public class BotonEleccion extends BotonDefault{
 			}
 		}
 	}
+	/**
+	 * Te realiza el cambio de pantalla, según la que has elegido
+	 */
 	private void cambiarPantalla() {
 		eleccion.setVisible(false);
 		if(seguridad==Seguridad.ADMINISTRAR) {

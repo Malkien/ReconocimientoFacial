@@ -2,37 +2,22 @@ package Visual;
 
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
-
-import Personas.Usuario;
-import javax.swing.JMenuBar;
-
-import Componentes.BotonMov;
-
-import javax.swing.JButton;
-import java.awt.Cursor;
-import java.util.LinkedList;
-
-import javax.swing.SwingConstants;
-import javax.swing.JMenuItem;
-import javax.swing.ImageIcon;
-
+/**
+ * El JFrame personalizado
+ * @author malki
+ *
+ */
 public class Ventana extends JFrame{
-	private LinkedList adelante;
+	/**
+	 * Constructor de Ventana
+	 */
 	public Ventana() {
-		adelante=null;
-		
-		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-		
-		BotonMov botonAtras=new BotonMov();
-		menuBar.add(botonAtras);
 
-		Login login=new Login(this,botonAtras);
+		Login login=new Login(this);
 		getContentPane().add(login,BorderLayout.CENTER);
-		setSize(500,350);
-		setVisible(true);
-		setLocationRelativeTo(null);
+		setSize(500,350);//Dimensines de la ventana
+		setVisible(true);//Que se vea
+		setLocationRelativeTo(null);//para que aparezca en el centro
 
 	}
 }

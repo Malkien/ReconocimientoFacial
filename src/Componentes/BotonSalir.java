@@ -10,6 +10,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class BotonSalir extends BotonDefault{
+	/**
+	 * Boton para cerrar el programa
+	 * @param txt El tengo que tiene el boton
+	 */
 	public BotonSalir(String txt) {
 		super(txt);
 		addMouseListener(new MouseAdapter() {

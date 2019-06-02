@@ -13,9 +13,7 @@ import javax.swing.SwingUtilities;
 
 import Componentes.BotonDefault;
 import Excepciones.DniException;
-import Excepciones.EmailException;
 import Excepciones.PreparedStatementException;
-import Personas.FichaPersonal;
 import Principal.Conexion;
 
 import java.awt.event.MouseAdapter;
@@ -25,13 +23,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JComboBox;
 import javax.swing.JPasswordField;
-
+/**
+ * JPanel para Crear Usuario
+ * @author malki
+ *
+ */
 public class CrearUsuario extends JPanel{
-	private CrearUsuario esta=this;
-	private JTextField textoNombre;
-	private JTextField textoFichaPersonal;
-	private JPasswordField textoPassword;
-	
+	private CrearUsuario esta=this;//Este panel
+	private JTextField textoNombre;//El nombre
+	private JTextField textoFichaPersonal;//La ficha personal
+	private JPasswordField textoPassword;//La contraseña
+	/**
+	 * Constructor de CrearUsuario
+	 */
 	public CrearUsuario() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};

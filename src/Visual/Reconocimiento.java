@@ -1,13 +1,11 @@
 package Visual;
 
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Componentes.BotonDefault;
 import Componentes.Etiqueta;
 import Excepciones.PreparedStatementException;
-import Personas.FichaPersonal;
 import Personas.Usuario;
 import Principal.Conexion;
 import Principal.ImageUtils;
@@ -44,22 +42,29 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-
+/**
+ * El JPanel de reconocimiento
+ * @author malki
+ *
+ */
 public class Reconocimiento extends JPanel{
-	private File archivoCogido;
-	private JTextArea areaTexto;
-	private Reconocimiento thisRef;
-	private BufferedImage imagen;
-	private Map<Integer,BufferedImage> listadoImagenes=new HashMap<Integer,BufferedImage>();
-	private BufferedImage imagenSobel;
-	private FichaPersonal personaSimilitud;
-	private Ventana ventana;
-	private Usuario usuario;
+	private File archivoCogido;//La imagen cogida
+	private BufferedImage imagen;//La imagen en BufferedImage
+	private Map<Integer,BufferedImage> listadoImagenes=new HashMap<Integer,BufferedImage>();//Mapa de imagenes que hay en la BBDD
+	private BufferedImage imagenSobel;//La imagen convertida a Sobel
+	private Ventana ventana;//La ventana
+	private Usuario usuario;//El usuario
+	/**
+	 * Constructor de Reconocimiento
+	 * @param ventana La ventana
+	 * @param eleccion La pantalla anterior
+	 * @param usuario El usuario
+	 */
 	public Reconocimiento(Ventana ventana,EleccionPantalla eleccion,Usuario usuario) {
 		this.ventana=ventana;
-		thisRef=this;
 		this.usuario=usuario;
 		setBackground(new Color(173, 169, 183));
+		ventana.setResizable(false);
 		ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);//Poner en ventana completa
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0};
@@ -166,8 +171,7 @@ public class Reconocimiento extends JPanel{
 					//El fichero es una imagen.
 					try {
 						BufferedImage aux=ImageIO.read(archivoCogido);
-						 imagen=ImageUtils.resize(ImageUtils.toBufferedImage(aux.getScaledInstance(imagenOriginal.getWidth(), imagenOriginal.getHeight(), Image.SCALE_SMOOTH)));
-						//imagen.getGraphics().drawImage(image, imagenOriginal.getWidth(), imagenOriginal.getHeight() , null);
+						imagen=ImageUtils.resize(ImageUtils.toBufferedImage(aux.getScaledInstance(imagenOriginal.getWidth(), imagenOriginal.getHeight(), Image.SCALE_SMOOTH)));//Reescala la imagen y la pone
 						
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
@@ -185,10 +189,10 @@ public class Reconocimiento extends JPanel{
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					imagenSobel= new BufferedImage(imagen.getWidth(), imagen.getHeight(), BufferedImage.TYPE_INT_RGB);
+					imagenSobel= new BufferedImage(imagen.getWidth(), imagen.getHeight(), BufferedImage.TYPE_INT_RGB);//Crea una imagen con las mismas dimensiones de imagen
 					Graphics g = imagenSobel.createGraphics();
 					g.drawImage(imagen, 0, 0, null);
-					imagenResultado.setIcon(new ImageIcon(ImageUtils.sobel(imagenSobel)));
+					imagenResultado.setIcon(new ImageIcon(ImageUtils.sobel(imagenSobel)));//Pasa la imagen a sobel
 					Image image=imagenSobel.getScaledInstance(imagenOriginal.getWidth(), imagenOriginal.getHeight(), Image.SCALE_SMOOTH);
 					imagenResultado.getGraphics().drawImage(image, 0, 0 , null);
 					
@@ -202,14 +206,11 @@ public class Reconocimiento extends JPanel{
 		botonComparar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				//Asegurate de que todas las imagenes en bd se han reescalado al mismo tamaño
-				//coger de base de datos todas las imagenes de caras y meterlas en un array (todas sobel)
 				try {
-					PreparedStatement selectImagen=Conexion.creaPreparedStatement("SELECT * FROM imagen");
+					PreparedStatement selectImagen=Conexion.creaPreparedStatement("SELECT * FROM imagen");//Buscamos las imagenes en la BBDD
 					ResultSet selectResultados=selectImagen.executeQuery();
-					while(selectResultados.next()) {
-						//Para cada imagen del array: Convertirla en bufferedImage
-						listadoImagenes.put(selectResultados.getInt("id"),ImageUtils.textoAImagen(selectResultados.getString("imagen")));
+					while(selectResultados.next()) {//Si hay imagenes
+						listadoImagenes.put(selectResultados.getInt("id"),ImageUtils.textoAImagen(selectResultados.getString("imagen")));//Saca las imagenes y las guarda en el mapa
 					}
 					selectImagen.close();
 					selectResultados.close();
@@ -220,42 +221,41 @@ public class Reconocimiento extends JPanel{
 				BufferedImage imagenSimilar = null;
 				int idImagenSimilar=0;
 				float porcParecido=0;
-				Iterator it=listadoImagenes.entrySet().iterator();
+				Iterator it=listadoImagenes.entrySet().iterator();//Crea un itinerador para recorrer el mapa
 
-				while(it.hasNext()) {
-					Map.Entry<Integer,BufferedImage> actual = (Entry<Integer, BufferedImage>) it.next();
+				while(it.hasNext()) {//Si tiene valor o valores
+					Map.Entry<Integer,BufferedImage> actual = (Entry<Integer, BufferedImage>) it.next();//Crea entry para itinerar
 					try {
-						porcParecido = ImageUtils.compareImage2(imagenSobel, actual.getValue());
+						porcParecido = ImageUtils.compareImage2(imagenSobel, actual.getValue());//Compara las 2 imagenes para ver si coincide
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					if(porcParecido>porcentaje) {
-						System.out.println(porcParecido);
-						porcentaje=porcParecido;
-						imagenSimilar = actual.getValue();
-						idImagenSimilar= actual.getKey();
+					if(porcParecido>porcentaje) {//Si tiene la coincidencia mayor que la actual
+						porcentaje=porcParecido;//Cambia el procentaje al nuevo
+						imagenSimilar = actual.getValue();//Pone la imagen
+						idImagenSimilar= actual.getKey();//Coge la id de la imagen
 					}
 				}
 				
 				//Comprobaciones de la imagen
-				if(imagenSimilar!=null) {
+				if(imagenSimilar!=null) {//Si hay imagenes
 					try {
-						PreparedStatement imagenEncontrada=Conexion.creaPreparedStatement("SELECT * FROM imagen WHERE id = ?");
+						PreparedStatement imagenEncontrada=Conexion.creaPreparedStatement("SELECT * FROM imagen WHERE id = ?");//Busca la imagen en la BBDD
 						imagenEncontrada.setInt(1, idImagenSimilar);
-						ResultSet imagenResultado=imagenEncontrada.executeQuery();
+						ResultSet imagenResultado=imagenEncontrada.executeQuery();//Coge la imagen
 						
-						if(imagenResultado.next()&&imagenResultado.getBoolean("cara")) {
-							PreparedStatement buscarPersona=Conexion.creaPreparedStatement("SELECT * FROM fichapersonal WHERE dni=?");
+						if(imagenResultado.next()&&imagenResultado.getBoolean("cara")) {//Conprueba si hay, y si es Cara
+							PreparedStatement buscarPersona=Conexion.creaPreparedStatement("SELECT * FROM fichapersonal WHERE dni=?");//Busca la fichaPersonal de la imagen
 							buscarPersona.setString(1, imagenResultado.getString("fichapersonal"));
-							ResultSet encontradaPersona=buscarPersona.executeQuery();
+							ResultSet encontradaPersona=buscarPersona.executeQuery();//Coge la ficha personal
 							encontradaPersona.next();
 							int seguridad=encontradaPersona.getInt("nivelConfidencialidad");
-							if(seguridad<=usuario.getNivelSeguridad()) {
+							if(seguridad<=usuario.getNivelSeguridad()) {//Comprueba si el usuario tiene la seguridad para acceder a la ficha
 								String nombre=encontradaPersona.getString("nombre");
 								String dni=encontradaPersona.getString("dni");
 								int correcto=JOptionPane.showConfirmDialog(ventana,"Después del analisis hemos deducido que es "+nombre+" con DNI: "+dni, "Coincidencia",JOptionPane.YES_NO_OPTION);
-								if(correcto==0) {
+								if(correcto==0) {//si es correcto te enseña los datos
 
 									JFrame ventanaFicha= new JFrame();
 									MostrarFicha mostrarFicha=new MostrarFicha(
@@ -277,11 +277,14 @@ public class Reconocimiento extends JPanel{
 							}else {
 								JOptionPane.showConfirmDialog(ventana,"Persona Coincidente Confidencial para tu rango", "Nivel insuficiente",JOptionPane.YES_NO_OPTION);
 							}
-							
+							buscarPersona.close();
+							encontradaPersona.close();
 						}else {
 							JOptionPane.showMessageDialog(ventana, "No es una cara","Coincidencia sin Ficha",JOptionPane.OK_OPTION);
 							//Cree que no es cara, te lanza dialogo diciendo que cree que no es una cara, y te da opcion de decir si es correcto o no. Si en realidad es una cara, lanza dialogo para que lo asocie con una ficha o cree una nueva.
 						}
+						imagenEncontrada.close();
+						imagenResultado.close();
 					} catch (PreparedStatementException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -299,11 +302,6 @@ public class Reconocimiento extends JPanel{
 					JOptionPane.showMessageDialog(ventana, "No hay coincidencia con la BBDD","Sin coincidencia",JOptionPane.OK_OPTION);
 				
 				}
-				//Comparas pixel a pixel con la actual y miras el porcentaje de pixels que son blancos o gris claro en las dos imágenes (el mismo px en las dos imagenes) 
-				//De eso, te sale un porcentaje de pixels que son blancos en las dos.
-				//Guardas la imagen con el porcentaje mayor que encuentras y estimas que la imagen que tu le has pasaado
-				//es lo mismo (cara o no) que la imagen a la que más se parece
-				//Se lo preguntas al usuario : Creo que es una cara ¿Acierto? Tu le dices si o no , y guardas eso en base de datos con el es cara o no es cara.
 				
 			}
 		});

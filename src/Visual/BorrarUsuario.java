@@ -5,26 +5,19 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import Componentes.BotonDefault;
-import Excepciones.DniException;
-import Excepciones.EmailException;
 import Excepciones.PreparedStatementException;
-import Personas.FichaPersonal;
 import Principal.Conexion;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JComboBox;
-import javax.swing.JPasswordField;
 
 public class BorrarUsuario extends JPanel{
 	private BorrarUsuario esta=this;

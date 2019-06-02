@@ -4,32 +4,32 @@ import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JTextField;
-
-import Excepciones.DniException;
-import Excepciones.EmailException;
-import Excepciones.PreparedStatementException;
-import Personas.FichaPersonal;
-import Principal.Conexion;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
+/**
+ * JPanel de mostrar ficha
+ * @author malki
+ *
+ */
 public class MostrarFicha extends JPanel{
-	private MostrarFicha esta=this;
-	private JTextField textoNombre;
-	private JTextField textoApellidos;
-	private JTextField textoDNI;
-	private JTextField textoTelefono;
-	private JTextField textoDireccion;
-	private JTextField textoNvConfidencialidad;
-	private JTextField textoEmail;
-	
+	private JTextField textoNombre;//El nombre
+	private JTextField textoApellidos;//El apellido
+	private JTextField textoDNI;//el dni
+	private JTextField textoTelefono;//El telefono
+	private JTextField textoDireccion;//La direccion
+	private JTextField textoNvConfidencialidad;//El nivel de confidencialidad
+	private JTextField textoEmail;//El email
+	/**
+	 * Constructor de MostraFicha
+	 * @param nombre el nombre
+	 * @param apellidos los apellidos
+	 * @param dni el dni
+	 * @param telefono el telefono
+	 * @param nivelConfidencialidad el nivel de confidencialidad
+	 * @param direccion la direccion
+	 * @param email el email
+	 */
 	public MostrarFicha(String nombre, String apellidos, String dni, int telefono, int nivelConfidencialidad, String direccion,String email) {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
@@ -165,7 +165,7 @@ public class MostrarFicha extends JPanel{
 		gbc_textoEmail.gridy = 7;
 		add(textoEmail, gbc_textoEmail);
 		textoEmail.setColumns(10);
-		
+		//Pone los datos
 		textoNombre.setText(nombre);
 		textoApellidos.setText(apellidos);
 		textoDNI.setText(dni);
@@ -173,6 +173,14 @@ public class MostrarFicha extends JPanel{
 		textoNvConfidencialidad.setText(nivelConfidencialidad+"");
 		textoDireccion.setText(direccion);
 		textoEmail.setText(email);
+		//Pone que no puedas cambiar los datos
+		textoNombre.setEnabled(false);
+		textoApellidos.setEnabled(false);
+		textoDNI.setEnabled(false);
+		textoTelefono.setEnabled(false);
+		textoNvConfidencialidad.setEnabled(false);
+		textoDireccion.setEnabled(false);
+		textoEmail.setEnabled(false);
 		
 	}
 }

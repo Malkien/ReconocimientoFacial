@@ -2,15 +2,12 @@ package Visual;
 
 import javax.swing.JPanel;
 
-import Componentes.BotonMov;
 import Componentes.BotonDefault;
 import Componentes.Etiqueta;
 import Personas.Usuario;
 
 import javax.swing.JFrame;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.GridBagLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;

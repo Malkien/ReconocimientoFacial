@@ -45,20 +45,20 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-
+/**
+ * El JPanel de Entrenamiento
+ * @author malki
+ *
+ */
 public class Entrenamiento extends JPanel{
-	private File archivoCogido;
-	private JTextArea areaTexto;
-	private Entrenamiento thisRef;
-	private BufferedImage imagen;
-	private Map<Integer,BufferedImage> listadoImagenes=new HashMap<Integer,BufferedImage>();
-	private BufferedImage imagenSobel;
-	private FichaPersonal personaSimilitud;
-	private Ventana ventana;
-	private Usuario usuario;
+	private File archivoCogido;//La imgen
+	private BufferedImage imagen;//La imagen en BufferedImage
+	private Map<Integer,BufferedImage> listadoImagenes=new HashMap<Integer,BufferedImage>();//El mapa de imagenes en BBDD
+	private BufferedImage imagenSobel;//La imagen en sobel
+	private Ventana ventana;//La ventana
+	private Usuario usuario;//El usuario
 	public Entrenamiento(Ventana ventana,EleccionPantalla eleccion,Usuario usuario) {
 		this.ventana=ventana;
-		thisRef=this;
 		this.usuario=usuario;
 		ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);//Poner en ventana completa
 		setBackground(new Color(173, 169, 183));
@@ -183,11 +183,9 @@ public class Entrenamiento extends JPanel{
 							
 						}
 					}
-					//El fichero es una imagen.
 					try {
-						BufferedImage aux=ImageIO.read(archivoCogido);
-						 imagen=ImageUtils.resize(ImageUtils.toBufferedImage(aux.getScaledInstance(imagenOriginal.getWidth(), imagenOriginal.getHeight(), Image.SCALE_SMOOTH)));
-						//imagen.getGraphics().drawImage(image, imagenOriginal.getWidth(), imagenOriginal.getHeight() , null);
+						BufferedImage aux=ImageIO.read(archivoCogido);//Lee la imagen
+						 imagen=ImageUtils.resize(ImageUtils.toBufferedImage(aux.getScaledInstance(imagenOriginal.getWidth(), imagenOriginal.getHeight(), Image.SCALE_SMOOTH)));//Reescala la imagen y la pone
 						
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
@@ -205,10 +203,10 @@ public class Entrenamiento extends JPanel{
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					imagenSobel= new BufferedImage(imagen.getWidth(), imagen.getHeight(), BufferedImage.TYPE_INT_RGB);
+					imagenSobel= new BufferedImage(imagen.getWidth(), imagen.getHeight(), BufferedImage.TYPE_INT_RGB);//Crea una imagen con las mismas dimensiones de imagen
 					Graphics g = imagenSobel.createGraphics();
 					g.drawImage(imagen, 0, 0, null);
-					imagenResultado.setIcon(new ImageIcon(ImageUtils.sobel(imagenSobel)));
+					imagenResultado.setIcon(new ImageIcon(ImageUtils.sobel(imagenSobel)));//Pasa la imagen a sobel
 					Image image=imagenSobel.getScaledInstance(imagenOriginal.getWidth(), imagenOriginal.getHeight(), Image.SCALE_SMOOTH);
 					imagenResultado.getGraphics().drawImage(image, 0, 0 , null);
 					
@@ -222,14 +220,11 @@ public class Entrenamiento extends JPanel{
 		botonComparar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				//Asegurate de que todas las imagenes en bd se han reescalado al mismo tamaño
-				//coger de base de datos todas las imagenes de caras y meterlas en un array (todas sobel)
 				try {
-					PreparedStatement selectImagen=Conexion.creaPreparedStatement("SELECT * FROM imagen");
+					PreparedStatement selectImagen=Conexion.creaPreparedStatement("SELECT * FROM imagen");//Buscamos las imagenes en la BBDD
 					ResultSet selectResultados=selectImagen.executeQuery();
-					while(selectResultados.next()) {
-						//Para cada imagen del array: Convertirla en bufferedImage
-						listadoImagenes.put(selectResultados.getInt("id"),ImageUtils.textoAImagen(selectResultados.getString("imagen")));
+					while(selectResultados.next()) {//Si hay imagen
+						listadoImagenes.put(selectResultados.getInt("id"),ImageUtils.textoAImagen(selectResultados.getString("imagen")));//Saca las imagenes y las guarda en el mapa
 					}
 					selectImagen.close();
 					selectResultados.close();
@@ -241,38 +236,36 @@ public class Entrenamiento extends JPanel{
 				int idImagenSimilar=0;
 				float porcParecido=0;
 				
-				Iterator it=listadoImagenes.entrySet().iterator();
+				Iterator it=listadoImagenes.entrySet().iterator();//Crea un itinerador para recorrer el mapa
 
 				while(it.hasNext()) {
-					Map.Entry<Integer,BufferedImage> actual = (Entry<Integer, BufferedImage>) it.next();
+					Map.Entry<Integer,BufferedImage> actual = (Entry<Integer, BufferedImage>) it.next();//Crea entry para itinerar
 					try {
-						porcParecido = ImageUtils.compareImage2(imagenSobel, actual.getValue());
+						porcParecido = ImageUtils.compareImage2(imagenSobel, actual.getValue());//Compara las 2 imagenes para ver si coincide
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					System.out.println(porcParecido);
-					if(porcParecido>porcentaje) {
-						
-						porcentaje=porcParecido;
-						imagenSimilar = actual.getValue();
-						idImagenSimilar= actual.getKey();
+					if(porcParecido>porcentaje) {//Si tiene la coincidencia mayor que la actual
+						porcentaje=porcParecido;//Cambia el procentaje al nuevo
+						imagenSimilar = actual.getValue();//Pone la imagen
+						idImagenSimilar= actual.getKey();//Coge la id de la imagen
 					}
 				}
 				
 				//Comprobaciones de la imagen
-				if(imagenSimilar!=null) {
+				if(imagenSimilar!=null) { //Si hay imagen
 					try {
-						PreparedStatement imagenEncontrada=Conexion.creaPreparedStatement("SELECT * FROM imagen WHERE id = ?");
+						PreparedStatement imagenEncontrada=Conexion.creaPreparedStatement("SELECT * FROM imagen WHERE id = ?");//Busca la imagen en la BBDD
 						imagenEncontrada.setInt(1, idImagenSimilar);
 						ResultSet imagenResultado=imagenEncontrada.executeQuery();
 						
 						if(imagenResultado.next()&&imagenResultado.getBoolean("cara")) {
 							int acertado=JOptionPane.showConfirmDialog(ventana,"Después del analisis hemos deducido que es una persona, ¿He acertado?"
 									, "Coincidencia",JOptionPane.YES_NO_OPTION);
-							if(acertado==0) {
+							if(acertado==0) {//Si ha aceptado
 								Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), imagenResultado.getBoolean("cara"), imagenResultado.getString("FichaPersonal"));
-							}else if(acertado==1){
+							}else if(acertado==1){//Si no ha acertado
 								noEsCara(ventana,imagenSobel);
 							}
 							//TODO si llega aquí cree que es una cara, y te dice quien cree que es. Le das tres opciones: No es una cara, es esta persona, no es esta persona.
@@ -281,6 +274,8 @@ public class Entrenamiento extends JPanel{
 							Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), false, null);
 							//Cree que no es cara, te lanza dialogo diciendo que cree que no es una cara, y te da opcion de decir si es correcto o no. Si en realidad es una cara, lanza dialogo para que lo asocie con una ficha o cree una nueva.
 						}
+						imagenEncontrada.close();
+						imagenResultado.close();
 					} catch (PreparedStatementException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -295,7 +290,7 @@ public class Entrenamiento extends JPanel{
 					}
 					
 				}else {
-					noEsCara(ventana,imagenSobel);
+					noEsCara(ventana,imagenSobel);//Funcion si no es cara
 				
 				}
 				//Comparas pixel a pixel con la actual y miras el porcentaje de pixels que son blancos o gris claro en las dos imágenes (el mismo px en las dos imagenes) 
@@ -307,6 +302,11 @@ public class Entrenamiento extends JPanel{
 			}
 		});
 	}
+	/**
+	 * Acción al no haber coincidencia
+	 * @param ventana La Ventana
+	 * @param imagenSobel La imagen pasada a sobel
+	 */
 	public static void noEsCara(Ventana ventana,BufferedImage imagenSobel) {
 		int respuestaAñadirImagen=JOptionPane.showConfirmDialog(ventana,"No se encuentra coincidencia \n ¿Quieres añadir la imagen al registro?", "Añadir imagen",JOptionPane.YES_NO_OPTION);
 		if(respuestaAñadirImagen==1) {
@@ -315,13 +315,13 @@ public class Entrenamiento extends JPanel{
 			int esCara=JOptionPane.showConfirmDialog(ventana, "¿Es una cara?","¿Es una cara?",JOptionPane.YES_NO_OPTION);
 			if(esCara==1) {
 				
-				Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), false, null);
+				Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), false, null);//Añade la imagen sin fichaPersonal
 				
 			}else if(esCara==0) {
 				String dni=JOptionPane.showInputDialog(ventana, "Introduce el DNI \n Compruebe que es correcto","Vincular");
 				if(dni!="") {
 
-					Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), true,dni);
+					Conexion.realizarInsertImagen(ImageUtils.imagenAtexto(imagenSobel), true,dni);//Añade la imagen con La ficha Personal
 					
 				}
 			}

@@ -15,12 +15,10 @@ import java.sql.SQLException;
 import javax.swing.JTextField;
 
 import Componentes.BotonLoguear;
-import Componentes.BotonMov;
 import Componentes.BotonSalir;
 import Componentes.Etiqueta;
 import Excepciones.EncontrarFichaPersonalException;
 import Excepciones.EncontrarUsuarioException;
-import Excepciones.PreparedStatementException;
 import Excepciones.PuestoException;
 import Personas.FichaPersonal;
 import Personas.Usuario;
@@ -31,18 +29,22 @@ import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 
 import javax.swing.JPasswordField;
-
+/**
+ * JPanel de Login
+ * @author malki
+ *
+ */
 public class Login extends JPanel{
-	private Ventana ventana;
-	private BotonMov atras;
-	private JTextField textoUsuario;
-	private JPasswordField textoPassword;
+	private Ventana ventana;//La ventana
+	private JTextField textoUsuario;//Donde se pondrá el nombre de usuario
+	private JPasswordField textoPassword;//Donde se pondrá la contraseña
 	
 	
-
+	/**
+	 * Se pone una imagen y se reescala, para que sea igual a la ventana
+	 */
 	public void paintComponent(Graphics g) {
 		Image img=null;
 		
@@ -56,11 +58,12 @@ public class Login extends JPanel{
 		}
 	}
 	
-	
-	public Login(Ventana ventana, BotonMov atras) {
+	/**
+	 * Constructor de Login
+	 * @param ventana La ventana donde va
+	 */
+	public Login(Ventana ventana) {
 		this.ventana=ventana;
-		this.atras=atras;
-		atras.click(this);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
@@ -128,7 +131,14 @@ public class Login extends JPanel{
 		
 		
 	}
-	
+	/**
+	 * Funcion para loguearse(sacar los datos de la BBDD)
+	 * @return devuelve el usuario logueado si lo encuentra
+	 * @throws PuestoException Si el puesto no es el correcto(Si se han equivocado al ponerlo desde BBDD)
+	 * @throws EncontrarUsuarioException Si no se encuentra el usuario
+	 * @throws EncontrarFichaPersonalException Si no se encuentra la ficha del usuario(Otro fallo de BBDD)
+	 * @throws SQLException Error en el SQL
+	 */
 	public Usuario loguear() throws PuestoException, EncontrarUsuarioException, EncontrarFichaPersonalException, SQLException {
 		Usuario userLogueado=null;            	
         PreparedStatement comprobar=Conexion.creaPreparedStatement("select * from usuario "
@@ -171,7 +181,7 @@ public class Login extends JPanel{
 						encontrarFicha.getString("direccion")));
 		} catch (Exception e) {
 			throw new EncontrarFichaPersonalException();
-		}finally {
+		}finally {//Cerramos las conexiones
 			comprobar.close();
 			encontrado.close();
 			comprobarFicha.close();
@@ -181,12 +191,14 @@ public class Login extends JPanel{
         
 		
 	}
-	
+	/**
+	 * Si se encuentra usuario cambia la pantalla
+	 * @param usuarioLogueado
+	 */
 	public void cambiarPantalla(Usuario usuarioLogueado) {
 		if(usuarioLogueado!=null) {
-			atras.addContenido(this);
 			setVisible(false);
-			EleccionPantalla elegir=new EleccionPantalla(ventana,usuarioLogueado, atras);
+			EleccionPantalla elegir=new EleccionPantalla(ventana,usuarioLogueado);
 			ventana.getContentPane().add(elegir);
 		}
 	}

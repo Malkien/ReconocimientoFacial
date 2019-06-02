@@ -5,7 +5,6 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JTextField;
@@ -13,7 +12,6 @@ import javax.swing.SwingUtilities;
 
 import Componentes.BotonDefault;
 import Excepciones.DniException;
-import Excepciones.EmailException;
 import Excepciones.PreparedStatementException;
 import Personas.FichaPersonal;
 import Principal.Conexion;
