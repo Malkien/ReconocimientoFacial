@@ -37,9 +37,13 @@ import javax.swing.JPasswordField;
 public class Login extends JPanel{
 <<<<<<< HEAD
 	private Ventana ventana;
+<<<<<<< HEAD
 =======
 	public Ventana ventana;
 >>>>>>> parent of 3e46111... Inicio de implementacion de atras
+=======
+	private BotonMov atras;
+>>>>>>> parent of f091510... solucion
 	private JTextField textoUsuario;
 	private JPasswordField textoPassword;
 	
@@ -58,8 +62,10 @@ public class Login extends JPanel{
 	}
 	
 	
-	public Login(Ventana ventana) {
+	public Login(Ventana ventana, BotonMov atras) {
 		this.ventana=ventana;
+		this.atras=atras;
+		atras.add(this);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
@@ -185,7 +191,7 @@ public class Login extends JPanel{
 	public void cambiarPantalla(Usuario usuarioLogueado) {
 		if(usuarioLogueado!=null) {
 			setVisible(false);
-			EleccionPantalla elegir=new EleccionPantalla(ventana,usuarioLogueado);
+			EleccionPantalla elegir=new EleccionPantalla(ventana,usuarioLogueado, atras);
 			ventana.getContentPane().add(elegir);
 		}
 	}

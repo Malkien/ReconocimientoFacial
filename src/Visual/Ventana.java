@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 
 public class Ventana extends JFrame{
 <<<<<<< HEAD
+<<<<<<< HEAD
 	public Ventana() {
 		Login login=new Login(this);
 =======
@@ -28,10 +29,25 @@ public class Ventana extends JFrame{
 		atras=null;
 		adelante=null;
 >>>>>>> parent of 3e46111... Inicio de implementacion de atras
+=======
+	private LinkedList adelante;
+	public Ventana() {
+		adelante=null;
+		
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		BotonMov botonAtras=new BotonMov();
+		menuBar.add(botonAtras);
+
+		Login login=new Login(this,botonAtras);
+>>>>>>> parent of f091510... solucion
 		getContentPane().add(login,BorderLayout.CENTER);
 		setSize(500,350);
 		setVisible(true);
 		setLocationRelativeTo(null);
+<<<<<<< HEAD
 		
 <<<<<<< HEAD
 =======
@@ -43,6 +59,8 @@ public class Ventana extends JFrame{
 		BotonMov botonAdelante=new BotonMov(adelante,false);
 		menuBar.add(botonAdelante);
 >>>>>>> parent of 3e46111... Inicio de implementacion de atras
+=======
+>>>>>>> parent of f091510... solucion
 
 	}
 }
