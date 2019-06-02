@@ -17,10 +17,18 @@ public class EleccionPantalla extends JPanel{
 	private Usuario usuario;
 	public Login login;
 	public Ventana ventana;
+<<<<<<< HEAD
 	public EleccionPantalla(Ventana ventana,Usuario usuario) {
 		this.usuario=usuario;
 		//this.login=login;
 		this.ventana=ventana;
+=======
+	public EleccionPantalla(Ventana ventana,Login login,Usuario usuario) {
+		this.usuario=usuario;
+		this.login=login;
+		this.ventana=ventana;
+		
+>>>>>>> parent of 3e46111... Inicio de implementacion de atras
 		setBackground(new Color(173, 169, 183));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{35, 0, 0, 0, 35, 0};

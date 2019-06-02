@@ -15,7 +15,6 @@ import java.sql.SQLException;
 import javax.swing.JTextField;
 
 import Componentes.BotonLoguear;
-import Componentes.BotonMov;
 import Componentes.BotonSalir;
 import Componentes.Etiqueta;
 import Excepciones.EncontrarFichaPersonalException;
@@ -36,7 +35,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
 public class Login extends JPanel{
+<<<<<<< HEAD
 	private Ventana ventana;
+=======
+	public Ventana ventana;
+>>>>>>> parent of 3e46111... Inicio de implementacion de atras
 	private JTextField textoUsuario;
 	private JPasswordField textoPassword;
 	
@@ -44,7 +47,6 @@ public class Login extends JPanel{
 
 	public void paintComponent(Graphics g) {
 		Image img=null;
-		
 		try {
 			img = ImageIO.read(new File("src/imagenesPrograma/fondoLogin.jpg"));
 		} catch (IOException e) {
@@ -179,6 +181,7 @@ public class Login extends JPanel{
 		
 	}
 	
+<<<<<<< HEAD
 	public void cambiarPantalla(Usuario usuarioLogueado) {
 		if(usuarioLogueado!=null) {
 			setVisible(false);
@@ -187,4 +190,6 @@ public class Login extends JPanel{
 		}
 	}
 	
+=======
+>>>>>>> parent of 3e46111... Inicio de implementacion de atras
 }

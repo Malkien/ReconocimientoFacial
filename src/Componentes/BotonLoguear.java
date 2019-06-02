@@ -69,7 +69,11 @@ public class BotonLoguear extends BotonDefault{
 		}
 		if(usuarioLogueado!=null) {
 			login.setVisible(false);
+<<<<<<< HEAD
 			EleccionPantalla elegir=new EleccionPantalla(ventana,usuarioLogueado);
+=======
+			EleccionPantalla elegir=new EleccionPantalla(ventana,login,usuarioLogueado);
+>>>>>>> parent of 3e46111... Inicio de implementacion de atras
 			ventana.getContentPane().add(elegir);
 		}
 		
