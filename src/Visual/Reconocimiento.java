@@ -5,6 +5,7 @@ import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import Componentes.BotonDefault;
+import Componentes.BotonMov;
 import Componentes.Etiqueta;
 import Excepciones.PreparedStatementException;
 import Personas.FichaPersonal;
@@ -55,10 +56,11 @@ public class Reconocimiento extends JPanel{
 	private FichaPersonal personaSimilitud;
 	private Ventana ventana;
 	private Usuario usuario;
-	public Reconocimiento(Ventana ventana,EleccionPantalla eleccion,Usuario usuario) {
+	public Reconocimiento(Ventana ventana,EleccionPantalla eleccion,Usuario usuario,BotonMov atras) {
 		this.ventana=ventana;
 		thisRef=this;
 		this.usuario=usuario;
+		atras.add(this);
 		setBackground(new Color(173, 169, 183));
 		ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);//Poner en ventana completa
 		GridBagLayout gridBagLayout = new GridBagLayout();

@@ -22,7 +22,7 @@ public class EleccionPantalla extends JPanel{
 		this.usuario=usuario;
 		this.ventana=ventana;
 		this.atras=atras;
-		atras.click(this);
+		atras.add(this);
 		setBackground(new Color(173, 169, 183));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{35, 0, 0, 0, 35, 0};

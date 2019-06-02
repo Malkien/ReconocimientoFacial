@@ -60,7 +60,7 @@ public class Login extends JPanel{
 	public Login(Ventana ventana, BotonMov atras) {
 		this.ventana=ventana;
 		this.atras=atras;
-		atras.click(this);
+		atras.add(this);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
@@ -184,7 +184,6 @@ public class Login extends JPanel{
 	
 	public void cambiarPantalla(Usuario usuarioLogueado) {
 		if(usuarioLogueado!=null) {
-			atras.addContenido(this);
 			setVisible(false);
 			EleccionPantalla elegir=new EleccionPantalla(ventana,usuarioLogueado, atras);
 			ventana.getContentPane().add(elegir);

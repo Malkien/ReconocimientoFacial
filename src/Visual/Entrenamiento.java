@@ -6,6 +6,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 
 import Componentes.BotonDefault;
+import Componentes.BotonMov;
 import Componentes.Etiqueta;
 import Excepciones.PreparedStatementException;
 import Personas.FichaPersonal;
@@ -48,18 +49,15 @@ import java.util.Map.Entry;
 
 public class Entrenamiento extends JPanel{
 	private File archivoCogido;
-	private JTextArea areaTexto;
-	private Entrenamiento thisRef;
 	private BufferedImage imagen;
 	private Map<Integer,BufferedImage> listadoImagenes=new HashMap<Integer,BufferedImage>();
 	private BufferedImage imagenSobel;
 	private FichaPersonal personaSimilitud;
-	private Ventana ventana;
-	private Usuario usuario;
-	public Entrenamiento(Ventana ventana,EleccionPantalla eleccion,Usuario usuario) {
-		this.ventana=ventana;
-		thisRef=this;
-		this.usuario=usuario;
+	public Entrenamiento(Ventana ventana,EleccionPantalla eleccion,Usuario usuario, BotonMov atras) {
+		//this.ventana=ventana;
+		//thisRef=this;
+		//this.usuario=usuario;
+		atras.add(this);
 		ventana.setExtendedState(JFrame.MAXIMIZED_BOTH);//Poner en ventana completa
 		setBackground(new Color(173, 169, 183));
 		GridBagLayout gridBagLayout = new GridBagLayout();
